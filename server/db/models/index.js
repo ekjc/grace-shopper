@@ -7,11 +7,12 @@ const OrderStatusCode = require('./order-status-code')
 const Order = require('./order')
 const Product = require('./product')
 const User = require('./user')
+const ProductCategory = require('./product-category')
 
 // Product model relationships
 //Product.belongsTo(OrderItem)
 Product.hasMany(Review)
-Product.belongsToMany(Category, {through: 'productCategory'})
+Product.belongsToMany(Category, {through: ProductCategory})
 Product.hasMany(Image)
 
 // Order model relationships
@@ -27,7 +28,7 @@ Review.belongsTo(Product)
 Review.belongsTo(User)
 
 // Category model relationships
-Category.belongsToMany(Product, {through: 'productCategory'})
+Category.belongsToMany(Product, {through: ProductCategory})
 
 // User model relationships
 User.belongsTo(Address)
@@ -41,5 +42,6 @@ module.exports = {
   OrderItem,
   OrderStatusCode,
   Order,
-  Product
+  Product,
+  ProductCategory
 }
