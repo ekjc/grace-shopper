@@ -4,7 +4,10 @@ const db = require('../db')
 const OrderStatusCode = db.define('orderStatusCode', {
   description: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 

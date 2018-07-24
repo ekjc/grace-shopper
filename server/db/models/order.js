@@ -12,7 +12,7 @@ const Order = db.define(
       }
     },
     phoneNumber: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false
     },
     date: {
