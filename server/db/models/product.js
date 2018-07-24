@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Products = db.define('products', {
-  title: {
+const Product = db.define('product', {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
@@ -10,7 +10,7 @@ const Products = db.define('products', {
     }
   },
   price: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
     validate: {
       notEmpty: true
@@ -27,17 +27,25 @@ const Products = db.define('products', {
       notEmpty: true
     }
   },
-  inventory: {
+  unitsInStock: {
     type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  imageUrl: {
-    type: Sequelize.STRING,
-    defaultValue: 'http://www.bluediamonds.co.uk/images/noimagesmall.png'
+  quantityPerUnit: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
+  },
+  isFeatured: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
 })
 
-module.exports = Products
+module.exports = Product
