@@ -1,6 +1,6 @@
 const User = require('./user')
-const Reviews = require('./reviews')
-const Categories = require('./categories')
+const Review = require('./review')
+const Category = require('./category')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -17,16 +17,16 @@ const Categories = require('./categories')
  */
 
 //One to many relationship between reviews and products
-Reviews.belongsTo(Products)
-Products.hasMany(Reviews)
+Review.belongsTo(Product)
+Product.hasMany(Review)
 
 // Many to many relationship between products and categories
-Products.hasMany(Categories)
-Categories.hasMany(Products)
+Products.hasMany(Category)
+Category.hasMany(Product)
 
  
 module.exports = {
   User,
-  Reviews,
-  Categories
+  Review,
+  Category
 }
