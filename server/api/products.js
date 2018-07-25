@@ -13,44 +13,20 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Get products all within a "parent" category (beer, wine, spirits)
-router.get('/:id', async (req, res, next) => {
+// Get all products by category :: /api/products/:categoryId
+router.get('/:categoryId', async (req, res, next) => {
   try {
-    // 1 = Beer, 2 = Wine, 3 = Spirits (assuming these will be stable, we can avoid an additional API call)
-    const categoryId = req.params.id
-
-    // 1st level down
-    const subCategories = await Category.findAll({
-      where: { parentId: categoryId }
+    const categoryId = req.params.categoryId
+    const matchingProductsFromJoinTable = await ProductCategory.findAll({
+      where: { categoryId: categoryId }
     })
 
-    const workingSubCategoryIds = subCategories.map(cat => cat.id)
+    const productIds = matchingProductsFromJoinTable.map(product => product.productId)
 
-    // 2nd level down (if present...right now only wine has this)
-    const types = await Category.findAll({
-      where: {
-        parentId: {
-          $or: workingSubCategoryIds
-      }}
-    })
-
-    const workingTypeIds = types.map(type => type.id)
-
-    /* Get all products that have ANY of the subCategory OR type IDs we're interested in
-    for the particular parent category requested */
-    const productCategoryData = await ProductCategory.findAll({
-      where: {
-          $or: [ {categoryId: workingSubCategoryIds}, {categoryId: workingTypeIds} ]
-      }
-    })
-
-    const workingProductIds = productCategoryData.map(product => product.productId)
-
-    //this will find ALL products if the workingProductIds array is empty -- fix that
     const products = await Product.findAll({
       where: {
         id: {
-          $or: workingProductIds
+          $or: productIds
         }
       }
     })
@@ -59,6 +35,10 @@ router.get('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+
+
+
 
 router.post('/', (req, res, next) => {
   Product.create({
