@@ -24,3 +24,23 @@ router.get('/:userId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.update({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      isAdmin: req.body.isAdmin,
+      password: req.body.password
+    }, {
+      where: { id: req.params.userId },
+      returning: true,
+      plain: true
+    })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})

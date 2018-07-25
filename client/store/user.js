@@ -92,14 +92,15 @@ export const getUser = userId => async dispatch => {
   }
 }
 
-// export const updateUser = userId => async dispatch => {
-//   try {
-//     const { data } = await axios.get(`/api/users/${userId}`)
-//     dispatch(fetchUser(data || {}))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+export const editUser = user => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/users/${user.id}`, user)
+    dispatch(updateUser(data || {}))
+    history.push('/manage/users');
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 /**
  * REDUCERS
