@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // Get all products by category :: /api/products/:categoryId
-router.get('/:categoryId', async (req, res, next) => {
+router.get('/categories/:categoryId', async (req, res, next) => {
   try {
     const categoryId = req.params.categoryId
     const matchingProductsFromJoinTable = await ProductCategory.findAll({
@@ -35,10 +35,6 @@ router.get('/:categoryId', async (req, res, next) => {
     next(err)
   }
 })
-
-
-
-
 
 router.post('/', (req, res, next) => {
   Product.create({
