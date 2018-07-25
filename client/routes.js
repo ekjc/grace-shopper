@@ -33,8 +33,16 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/products" component={ProductsList} />
-        <PrivateRoute path="/user-dashboard" component={UserDashboard} {...this.props} />
-        <PrivateRoute path="/manage/users" component={Manage} {...this.props} />
+        <PrivateRoute
+          path="/user-dashboard"
+          component={UserDashboard}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/manage/users"
+          component={Manage}
+          {...this.props}
+        />
 
         {/* isLoggedIn && (
           <Switch>
