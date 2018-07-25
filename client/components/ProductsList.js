@@ -1,27 +1,44 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import fetchProductsDB from '../store/products'
-
-const mapStateToProps = state => ({
-  products: state.products.products,
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchProductsDB: () => dispatch(fetchProductsDB()),
-});
+import { connect } from 'react-redux'
+// import fetchProductsDB from '../store/products'
+import { fetchProducts } from '../store'
 
 class ProductsList extends React.Component {
   async componentDidMount() {
-    await this.props.fetchProductsDB();
+    // await this.props.fetchProductsDB()
+    await this.props.fetchProducts()
   }
 
   render() {
+    const { products } = this.props
     return (
       <div>
-        <h1>All Products</h1>
+        <h2>All Products</h2>
+        {products.map(product => (
+          <div key={product.id} style={{ marginBottom: '15px' }}>
+            <p>
+              <strong>
+                <a href={`/products/${product.id}`}>{product.name}</a>
+              </strong>
+              <br />
+              ${product.price}
+              <br />
+              {product.unitsInStock > 0 ? 'In Stock' : 'Out of Stock!'}
+            </p>
+          </div>
+        ))}
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
+const mapState = state => ({
+  products: state.products.products
+})
+
+const mapDispatch = dispatch => ({
+  // fetchProductsDB: () => dispatch(fetchProductsDB()),
+  fetchProducts: () => dispatch(fetchProducts())
+})
+
+export default connect(mapState, mapDispatch)(ProductsList)
