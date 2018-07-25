@@ -13,7 +13,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Get all products by category :: /api/products/:categoryId
+// Find a product by its id
+// Route address /api/products/:productId
+router.get('/:productId', async (req, res, next) => {
+  try {
+    const productWithId = await Product.findById(req.params.productId)
+    res.json(productWithId)
+  } catch (err) {
+    console.error('Your error was ', err)
+    next(err)
+  }
+})
+
+// Get all products by category :: /api/categories/:categoryId
 router.get('/categories/:categoryId', async (req, res, next) => {
   try {
     const categoryId = req.params.categoryId
