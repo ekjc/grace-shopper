@@ -19,6 +19,13 @@ export const fetchProducts = () => async (dispatch) => {
   }
 }
 
+export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
+    const { data } = await axios.get(`/api/products/categories/${categoryId}`)
+    console.log(data);
+    console.log(dispatch);
+    dispatch(getProducts(data))
+}
+
 // INITIAL STATE
 const initialState = {
   products: []
