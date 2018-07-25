@@ -60,7 +60,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/addProducts', (req, res, next) => {
   Product.create({
     name: req.body.name,
     description: req.body.description,

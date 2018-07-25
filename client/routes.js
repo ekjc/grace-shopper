@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Login, Signup, UserHome, ProductsList } from './components'
+import { Manage } from './containers'
 import { me } from './store'
 
 /**
@@ -14,7 +15,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const { isLoggedIn, isAdmin } = this.props
 
     return (
       <Switch>
@@ -26,6 +27,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            {isAdmin && <Route path="/manage" component={Manage} />}
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -42,7 +44,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.isAdmin
   }
 }
 
