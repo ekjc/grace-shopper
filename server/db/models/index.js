@@ -10,13 +10,12 @@ const User = require('./user')
 const ProductCategory = require('./product-category')
 
 // Product model relationships
-//Product.belongsTo(OrderItem)
 Product.hasMany(Review)
-Product.belongsToMany(Category, {through: ProductCategory})
+Product.belongsToMany(Category, { through: ProductCategory })
 Product.hasMany(Image)
 
 // Order model relationships
-Order.belongsTo(User, {as: 'customer'})
+Order.belongsTo(User, { as: 'customer' })
 Order.hasMany(OrderItem)
 Order.belongsTo(Address)
 Order.belongsTo(OrderStatusCode)
@@ -28,7 +27,7 @@ Review.belongsTo(Product)
 Review.belongsTo(User)
 
 // Category model relationships
-Category.belongsToMany(Product, {through: ProductCategory})
+Category.belongsToMany(Product, { through: ProductCategory })
 
 // User model relationships
 User.belongsTo(Address)

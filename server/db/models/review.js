@@ -3,10 +3,10 @@ const db = require('../db')
 
 const Review = db.define('review', {
   subject: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   content: {
-    type: Sequelize.TEXT,
+    type: Sequelize.TEXT
   },
   rating: {
     type: Sequelize.INTEGER,

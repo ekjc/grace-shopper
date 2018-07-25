@@ -28,9 +28,8 @@ const seed = async () => {
         const newProduct = await Product.create(product)
         const categoryFromDB = await Category.findAll({
           where: {
-            id: {
-              $or: product.categories
-            }}
+            id: { $or: product.categories }
+          }
         })
         await newProduct.addCategory(categoryFromDB)
       })
