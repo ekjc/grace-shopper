@@ -1,13 +1,13 @@
-import React, {Component} from 'react'
-import {Field, reduxForm} from 'redux-form'
-import {createNewProduct} from '../store/newProductsForm_reducer'
+import React, { Component } from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { editProductForm } from '../store/editProductsForm_reducer'
+import { connect } from 'react-redux'
 
 class productForm extends Component {
   renderField(field) {
-    const {meta: {touched, error}} = field
+    const { meta: { touched, error } } = field
     return (
       <div className="form-group">
-        <h2>Add a New Product</h2>
         <label>{field.label}</label>
         <input
           className="form-control"
@@ -20,14 +20,14 @@ class productForm extends Component {
   }
 
   onSubmit(values) {
-    //this is where we define what we want to do with the data once it is submitted. It passes us the values out of the form so we have something to work with
-    console.log(values)
+    this.props.editProductForm(values)
   }
 
   render() {
-    const {pristine, submitting, handleSubmit, reset} = this.props
+    const { pristine, submitting, handleSubmit, reset } = this.props
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <h2>Edit Product</h2>
         <Field
           label="Name of Product"
           typeOfInput="text"
@@ -99,17 +99,5 @@ const validate = values => {
 
 export default reduxForm({
   validate,
-  form: 'newProductsForm' //this string needs to be unique so that forms don't merge
-})(productForm)
-
-//1. In combineReducers in store/index add  (wiring up redux form)
-//import { reducer as formReducer } from 'redux-form'
-//const reducer = combineReducers({
-// form: formReducer
-//})
-
-//2. Route...need to decide on a route and add the route through Link
-
-const mapDispatch = dispatch => ({
-  createNewProduct:
-})
+  form: 'editProductsForm' //this string needs to be unique so that forms don't merge
+})(connect(null, { editProductForm })(productForm))

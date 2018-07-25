@@ -1,12 +1,13 @@
-import React, {Component} from 'react'
-import {Field, reduxForm} from 'redux-form'
+import React, { Component } from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { createNewProduct } from '../store/newProductsForm_reducer'
+import { connect } from 'react-redux'
 
 class productForm extends Component {
   renderField(field) {
-    const {meta: {touched, error}} = field
+    const { meta: { touched, error } } = field
     return (
       <div className="form-group">
-        <h2>Edit Product</h2>
         <label>{field.label}</label>
         <input
           className="form-control"
@@ -19,14 +20,16 @@ class productForm extends Component {
   }
 
   onSubmit(values) {
-    //this is where we define what we want to do with the data once it is submitted. It passes us the values out of the form so we have something to work with
     console.log(values)
+    this.props.createNewProduct(values)
   }
 
   render() {
-    const {pristine, submitting, handleSubmit, reset} = this.props
+    const { pristine, submitting, handleSubmit, reset } = this.props
+    console.log('This is props', this.props)
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <h2>Add a New Product</h2>
         <Field
           label="Name of Product"
           typeOfInput="text"
@@ -43,13 +46,13 @@ class productForm extends Component {
         <Field label="SKU" name="SKU" component={this.renderField} />
         <Field
           label="Units in Stock"
-          typeOfInput="number" //double check
+          typeOfInput="number"
           name="unitsInStock"
           component={this.renderField}
         />
         <Field
           label="Quantity Per Unit"
-          typeOfInput="number" //Again double check
+          typeOfInput="number"
           name="quantityPerUnit"
           component={this.renderField}
         />
@@ -81,16 +84,16 @@ const validate = values => {
   //values corresponds to the values that the user inputs on the form itself (whole object)
   const errors = {}
 
-  if (!values.name || typeof values.name !== 'string') {
+  if (!values.name) {
     errors.name = 'Please enter a product name.'
   }
-  if (!values.price || typeof values.price !== 'number') {
+  if (!values.price) {
     errors.price = 'Please enter the price of the product.'
   }
-  if (!values.SKU || typeof values.SKU !== 'number') {
+  if (!values.SKU) {
     errors.SKU = 'Please enter the product SKU.'
   }
-  if (!values.unitsInStock || typeof values.unitsInStock !== 'number') {
+  if (!values.unitsInStock) {
     errors.unitsInStock = 'Please enter the number of units currently in stock.'
   }
   return errors
@@ -98,13 +101,5 @@ const validate = values => {
 
 export default reduxForm({
   validate,
-  form: 'newProductsForm' //this string needs to be unique so that forms don't merge
-})(productForm)
-
-//1. In combineReducers in store/index add  (wiring up redux form)
-//import { reducer as formReducer } from 'redux-form'
-//const reducer = combineReducers({
-// form: formReducer
-//})
-
-//2. Route...need to decide on a route and add the route through Link
+  form: 'newProductsForm'
+})(connect(null, { createNewProduct })(productForm))
