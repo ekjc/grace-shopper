@@ -2,46 +2,58 @@ const router = require('express').Router()
 const {Product, Category, ProductCategory} = require('../db/models')
 module.exports = router
 
-router.get('/', (req, res, next) => {
-  Product.findAll()
-    .then(products => res.json(products))
-    .catch(err => next(err))
+// Get all products :: /api/products
+router.get('/', async (req, res, next) => {
+  try {
+    const products = await Product.findAll()
+    res.json(products)
+  }
+  catch (err) {
+    next(err)
+  }
 })
 
-router.get('/:categoryName', async (req, res, next) => {
+// Get products all within a "parent" category (beer, wine, spirits)
+router.get('/:id', async (req, res, next) => {
   try {
-    const category = req.query.filter
-      ? req.query.categoryName
-      : req.params.categoryName
+    // 1 = Beer, 2 = Wine, 3 = Spirits (assuming these will be stable, we can avoid an additional API call)
+    const categoryId = req.params.id
 
-    console.log('category', category)
+    // 1st level down
+    const subCategories = await Category.findAll({
+      where: { parentId: categoryId }
+    })
 
-    const activeCategory = await Category.findOne({
+    const workingSubCategoryIds = subCategories.map(cat => cat.id)
+
+    // 2nd level down (if present...right now only wine has this)
+    const types = await Category.findAll({
       where: {
-        name: category
+        parentId: {
+          $or: workingSubCategoryIds
+      }}
+    })
+
+    const workingTypeIds = types.map(type => type.id)
+
+    /* Get all products that have ANY of the subCategory OR type IDs we're interested in
+    for the particular parent category requested */
+    const productCategoryData = await ProductCategory.findAll({
+      where: {
+          $or: [ {categoryId: workingSubCategoryIds}, {categoryId: workingTypeIds} ]
       }
     })
 
-    console.log('activeCategory', activeCategory)
-    console.log('activeCategory data', activeCategory.dataValues)
+    const workingProductIds = productCategoryData.map(product => product.productId)
 
+    //this will find ALL products if the workingProductIds array is empty -- fix that
     const products = await Product.findAll({
-      include: [
-        {
-          model: ProductCategory,
-          as: 'Category',
-          where: {
-            id: activeCategory.dataValues[0].id
-          }
+      where: {
+        id: {
+          $or: workingProductIds
         }
-      ]
+      }
     })
-
-    // const products = await Product.findAll({
-    //   where: {
-    //     categoryId: activeCategory.id
-    //   }
-    // })
     res.json(products)
   } catch (err) {
     next(err)
