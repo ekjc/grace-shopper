@@ -1,3 +1,5 @@
+const Category = require('../server/db/models/category')
+
 const addresses = [
   {
     street1: '12345 N Street Road',
@@ -33,19 +35,17 @@ const addresses = [
 
 const users = [
   {
-    firstName: 'Cody',
-    lastName: 'Cook',
-    email: 'cody@example.com',
-    password: 'abc123',
+    firstName: 'Courtney',
+    lastName: 'Collison',
+    email: 'courtney@example.com',
     phone: '5559214829',
     addressId: 2,
     isAdmin: true
   },
   {
     firstName: 'Andy',
-    lastName: 'Admin',
+    lastName: 'Anderson',
     email: 'andy@example.com',
-    password: 'abc123',
     phone: '5554207654',
     addressId: 4,
     isAdmin: true
@@ -54,7 +54,6 @@ const users = [
     firstName: 'Eric',
     lastName: 'Erickson',
     email: 'eric@example.com',
-    password: 'abc123',
     phone: '5552180920',
     addressId: 1,
     isAdmin: false
@@ -63,7 +62,6 @@ const users = [
     firstName: 'Stephanie',
     lastName: 'Stephenson',
     email: 'stephanie@example.com',
-    password: 'abc123',
     phone: '5556336719',
     addressId: 3,
     isAdmin: false
@@ -91,108 +89,87 @@ const images = [
 
 const categories = [
   {
-    name: 'Beer', // 1
-    parentId: null,
+    name: 'Beer',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Wine', // 2
-    parentId: null,
+    name: 'Wine',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Spirits', // 3
-    parentId: null,
+    name: 'Spirits',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Reds', // 4
-    parentId: 2,
+    name: 'Reds',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Whites', // 5
-    parentId: 2,
+    name: 'Whites',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'IPAs', // 6
-    parentId: 1,
+    name: 'IPAs',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Wheat Ales', // 7
-    parentId: 1,
+    name: 'Wheat Ales',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Pilsners', // 8
-    parentId: 1,
+    name: 'Pilsners',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Saisons', // 9
-    parentId: 1,
+    name: 'Saisons',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Gin', // 10
-    parentId: 3,
+    name: 'Gin',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Vodka', // 11
-    parentId: 3,
+    name: 'Vodka',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Tequila', // 12
-    parentId: 3,
+    name: 'Tequila',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Bourbon', // 13
-    parentId: 3,
+    name: 'Bourbon',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Whiskey', // 14
-    parentId: 3,
+    name: 'Whiskey',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Scotch', // 15
-    parentId: 3,
+    name: 'Scotch',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Cabernet Sauvignon', //16
-    parentId: 4,
+    name: 'Cabernet Sauvignon',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Malbec', // 17
-    parentId: 4,
+    name: 'Malbec',
     imageUrl: 'http://placehold.it/800x400'
   },
   {
     name: 'Merlot',
-    parentId: 4,
     imageUrl: 'http://placehold.it/800x400'
   },
   {
     name: 'Chardonnay',
-    parentId: 5,
     imageUrl: 'http://placehold.it/800x400'
   },
   {
     name: 'Sauvignon Blanc',
-    parentId: 5,
     imageUrl: 'http://placehold.it/800x400'
   },
   {
-    name: 'Riesling', // 21
-    parentId: 5,
+    name: 'Riesling',
     imageUrl: 'http://placehold.it/800x400'
   }
 ]
@@ -206,7 +183,7 @@ const products = [
     SKU: 811548,
     unitsInStock: 200,
     quantityPerUnit: 6,
-    categoryId: 5
+    categories: [1, 8]
   },
   {
     name: 'Goose Island 312',
@@ -216,7 +193,7 @@ const products = [
     SKU: 811555,
     unitsInStock: 400,
     quantityPerUnit: 12,
-    categoryId: 7
+    categories: [1, 6]
   },
   {
     name: 'Colome Malbec 2015',
@@ -226,7 +203,7 @@ const products = [
     SKU: 558933,
     unitsInStock: 50,
     quantityPerUnit: 1,
-    categoryId: 17
+    categories: [2, 4, 17]
   },
   {
     name: 'Charles Smith Wines Kung Fu Girl 2016',
@@ -236,7 +213,7 @@ const products = [
     SKU: 550091,
     unitsInStock: 80,
     quantityPerUnit: 1,
-    categoryId: 21
+    categories: [2, 5, 21]
   },
   {
     name: 'Grey Goose',
@@ -246,7 +223,7 @@ const products = [
     SKU: 994573,
     unitsInStock: 1000,
     quantityPerUnit: 1,
-    categoryId: 11
+    categories: [3, 11]
   },
   {
     name: `Hendrick's Gin`,
@@ -256,7 +233,7 @@ const products = [
     SKU: 994590,
     unitsInStock: 1000,
     quantityPerUnit: 1,
-    categoryId: 10
+    categories: [3, 10]
   }
 ]
 

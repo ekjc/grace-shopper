@@ -26,8 +26,10 @@ const seed = async () => {
     await Promise.all(
       products.map(async product => {
         const newProduct = await Product.create(product)
-        const categoryFromDB = await Category.findOne({
-          where: { id: product.categoryId }
+        const categoryFromDB = await Category.findAll({
+          where: {
+            id: { $or: product.categories }
+          }
         })
         await newProduct.addCategory(categoryFromDB)
       })

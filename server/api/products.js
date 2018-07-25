@@ -2,46 +2,46 @@ const router = require('express').Router()
 const { Product, Category, ProductCategory } = require('../db/models')
 module.exports = router
 
-router.get('/', (req, res, next) => {
-  Product.findAll()
-    .then(products => res.json(products))
-    .catch(err => next(err))
+// Get all products :: /api/products
+router.get('/', async (req, res, next) => {
+  try {
+    const products = await Product.findAll()
+    res.json(products)
+  }
+  catch (err) {
+    next(err)
+  }
 })
 
-router.get('/:categoryName', async (req, res, next) => {
+// Find a product by its id
+// Route address /api/products/:productId
+router.get('/:productId', async (req, res, next) => {
   try {
-    const category = req.query.filter
-      ? req.query.categoryName
-      : req.params.categoryName
+    const productWithId = await Product.findById(req.params.productId)
+    res.json(productWithId)
+  } catch (err) {
+    console.error('Your error was ', err)
+    next(err)
+  }
+})
 
-    console.log('category', category)
-
-    const activeCategory = await Category.findOne({
-      where: {
-        name: category
-      }
+// Get all products by category :: /api/categories/:categoryId
+router.get('/categories/:categoryId', async (req, res, next) => {
+  try {
+    const categoryId = req.params.categoryId
+    const matchingProductsFromJoinTable = await ProductCategory.findAll({
+      where: { categoryId: categoryId }
     })
 
-    console.log('activeCategory', activeCategory)
-    console.log('activeCategory data', activeCategory.dataValues)
+    const productIds = matchingProductsFromJoinTable.map(product => product.productId)
 
     const products = await Product.findAll({
-      include: [
-        {
-          model: ProductCategory,
-          as: 'Category',
-          where: {
-            id: activeCategory.dataValues[0].id
-          }
+      where: {
+        id: {
+          $or: productIds
         }
-      ]
+      }
     })
-
-    // const products = await Product.findAll({
-    //   where: {
-    //     categoryId: activeCategory.id
-    //   }
-    // })
     res.json(products)
   } catch (err) {
     next(err)
