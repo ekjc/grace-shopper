@@ -1,18 +1,35 @@
 import axios from 'axios'
 import history from '../history'
 
-const GET_USER = 'GET_USER'
+/**
+ * ACTION TYPES
+ */
+const FETCH_USER = 'FETCH_USER'
+const UPDATE_USER = 'UPDATE_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
-const getUser = user => ({ type: GET_USER, user })
-const removeUser = () => ({ type: REMOVE_USER })
+const FETCH_USERS = 'FETCH_USERS'
 
+/**
+ * INITIAL STATES
+ */
 const defaultUser = {}
 
+/**
+ * ACTION CREATORS
+ */
+const fetchUser = user => ({ type: FETCH_USER, user })
+const updateUser = user => ({ type: UPDATE_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
+const fetchUsers = users => ({ type: FETCH_USERS, users })
+
+/**
+ * THUNK CREATORS
+ */
 export const me = () => async dispatch => {
   try {
-    const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    const { data } = await axios.get('/auth/me')
+    dispatch(fetchUser(data || {}))
   } catch (err) {
     console.error(err)
   }
@@ -29,11 +46,11 @@ export const auth = (formData, method) => async dispatch => {
       password
     })
   } catch (authError) {
-    return dispatch(getUser({ error: authError }))
+    return dispatch(fetchUser({ error: authError }))
   }
 
   try {
-    dispatch(getUser(res.data))
+    dispatch(fetchUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -50,15 +67,38 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const getUsers = () => async dispatch => {
+  try {
+    const { data } = await axios.get('/api/users')
+    console.log()
+    dispatch(fetchUsers(data || []))
+  } catch (error) {
+    return dispatch(fetchUsers({ error }))
+  }
+}
+
 /**
- * REDUCER
+ * REDUCERS
  */
-export default function(state = defaultUser, action) {
+export const userReducer = (state = defaultUser, action) => {
+  // export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
+    case FETCH_USER:
       return action.user
+    case UPDATE_USER:
+      console.log('hello from the `userReducer` func')
+      return state
     case REMOVE_USER:
       return defaultUser
+    default:
+      return state
+  }
+}
+
+export const usersReducer = (state = [], action) => {
+  switch (action.type) {
+    case FETCH_USERS:
+      return action.users
     default:
       return state
   }
