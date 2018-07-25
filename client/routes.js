@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
 import { Login, Signup, UserDashboard, ProductsList } from './components'
-import { Manage, SingleProductView } from './containers'
+import { Manage, SingleProductView, newProduct, editProduct } from './containers'
 import { me } from './store'
 
 const PrivateRoute = ({ component: MyComponent, isLoggedIn, ...rest }) => (
@@ -43,6 +42,11 @@ class Routes extends Component {
           </Switch>
         ) */}
 
+        <Route path="/products/addProduct" component={newProduct} />
+        <Route
+          path="/products/:productId/editProduct"
+          component={editProduct}
+        />
         <Route component={Login} />
       </Switch>
     )

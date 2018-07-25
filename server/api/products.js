@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product, Category, ProductCategory} = require('../db/models')
+const { Product, Category, ProductCategory } = require('../db/models')
 module.exports = router
 
 // Get all products :: /api/products
@@ -48,30 +48,43 @@ router.get('/categories/:categoryId', async (req, res, next) => {
   }
 })
 
-router.post('/', (req, res, next) => {
-  Product.create({
-    name: req.body.name,
-    description: req.body.description,
-    sku: req.body.sku,
-    price: req.body.price,
-    unitsInStock: req.body.unitsInStock,
-    quantityPerUnit: req.body.quantityPerUnit,
-    isFeatured: req.body.isFeatured,
-    isActive: req.body.isActive
-  })
-    .then(product =>
-      res.json({
-        message: 'Created successfully',
-        body: product
-      })
-    )
-    .catch(err => {
-      const errTitle = 'Unable to create product'
-      res.status(500).json({error: err, title: errTitle})
-    })
+router.post('/addProduct', async (req, res, next) => {
+  const newProduct = await Product.create(req.body).catch(next)
+  res.json(newProduct)
 })
 
-router.put('/:productId', (req, res, next) => {
+//The route below does not post to the database, but I didn't want to delete without consensus...new simple route above
+
+// router.post('/addProduct', (req, res, next) => {
+//   Product.create({
+//     name: req.body.name,
+//     description: req.body.description,
+//     sku: req.body.sku,
+//     price: req.body.price,
+//     unitsInStock: req.body.unitsInStock,
+//     quantityPerUnit: req.body.quantityPerUnit,
+//     isFeatured: req.body.isFeatured,
+//     isActive: req.body.isActive
+//   })
+//     .then(product =>
+//       res.json({
+//         message: 'Created successfully',
+//         body: product
+//       })
+//     )
+//     .catch(err => {
+//       const errTitle = 'Unable to create product'
+//       res.status(500).json({ error: err, title: errTitle })
+//     })
+// })
+
+// router.put("/:productId/editProduct", async (req, res, next) => {
+//   const product = await Product.findById(req.params.productId).catch(next);
+//   await product.update(req.body).catch(next);
+//   res.status(204).end();
+// });
+
+router.put('/:productId/editProduct', (req, res, next) => {
   Product.update(
     {
       name: req.body.name,
@@ -84,15 +97,15 @@ router.put('/:productId', (req, res, next) => {
       isActive: req.body.isActive
     },
     {
-      where: {id: req.params.productId},
+      where: { id: req.params.productId },
       returning: true,
       plain: true
     }
   )
     .spread((numAffected, product) => {
-      res.json({message: 'Updated successfully', body: product})
+      res.json({ message: 'Updated successfully', body: product })
     })
-    .catch(err => res.status(500).json({error: err}))
+    .catch(err => res.status(500).json({ error: err }))
 })
 
 router.delete('/:productId', (req, res, next) => {
