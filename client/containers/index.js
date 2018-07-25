@@ -1,1 +1,3 @@
-export { default as Manage } from './Manage'
+export { default as Manage } from './manage'
+export { default as SingleProductView } from './SingleProductView'
+

@@ -1,42 +1,35 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
-const VIEW_SINGLE_PRODUCT = 'VIEW_SINGLE_PRODUCT'
+// ACTION TYPES
+const FETCH_PRODUCT_BY_ID = 'FETCH_SINGLE_PRODUCT_BY_ID'
 
-/**
- * INITIAL STATE
- */
-const selectedProduct = {}
+// ACTION CREATORS
+const fetchProductById = (product) => ({
+  type: FETCH_PRODUCT_BY_ID, 
+  product
+})
 
-/**
- * ACTION CREATORS
- */
-const gotProductWithIdFromServer = (singleProduct) => (
-    {type: VIEW_SINGLE_PRODUCT, singleProduct}
-  )
-
-/**
- * THUNK CREATORS
- */
+// THUNK CREATORS
 export const getProductById = (id) => async dispatch => {
   try {
     const res = await axios.get(`/api/products/${id}`)
-    dispatch(gotProductWithIdFromServer(res.data))
+    console.log('res.data', res.data)
+    dispatch(fetchProductById(res.data))
   } catch (err) {
-    console.error(err)
+    console.error('Your error was ', err)
   }
 }
 
-/**
- * REDUCER
- */
-export default function(state = selectedProduct, action) {
+// INITIAL STATE
+const initialState = {}
+
+// REDUCER
+export default function(state = initialState, action) {
   switch (action.type) {
-    case VIEW_SINGLE_PRODUCT:
-      return action.selectedProduct
+    case FETCH_PRODUCT_BY_ID:
+      console.log('action.product', action.product)
+      return action.product
     default:
       return state
   }
