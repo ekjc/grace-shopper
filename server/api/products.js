@@ -26,13 +26,15 @@ router.get('/:categoryName', async (req, res, next) => {
     console.log('activeCategory data', activeCategory.dataValues)
 
     const products = await Product.findAll({
-      include: [{
-        model: ProductCategory,
-        as: 'Category',
-        where: {
-          id: activeCategory.dataValues[0].id
+      include: [
+        {
+          model: ProductCategory,
+          as: 'Category',
+          where: {
+            id: activeCategory.dataValues[0].id
+          }
         }
-      }]
+      ]
     })
 
     // const products = await Product.findAll({
@@ -46,7 +48,7 @@ router.get('/:categoryName', async (req, res, next) => {
   }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/addProducts', (req, res, next) => {
   Product.create({
     name: req.body.name,
     description: req.body.description,
