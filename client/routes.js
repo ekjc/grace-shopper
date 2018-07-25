@@ -31,7 +31,7 @@ class Routes extends Component {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/products" component={ProductsList} />
+        <Route exact path="/products" component={ProductsList} />
         <Route path='/products/:productId' component={SingleProductView} />
         <PrivateRoute path="/home" component={UserDashboard} {...this.props} />
         <PrivateRoute path="/manage" component={Manage} {...this.props} />
