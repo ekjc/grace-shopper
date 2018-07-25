@@ -3,13 +3,13 @@ import axios from 'axios'
 const EDIT_PRODUCT = 'EDIT_PRODUCT'
 
 export function editProduct(values) {
-  const action = {type: EDIT_PRODUCT, values}
+  const action = { type: EDIT_PRODUCT, values }
   return action
 }
 
-export const editExistingProduct = () => {
+export const editExistingProduct = product => {
   return async dispatch => {
-    const res = await axios.put('/api/products/editProduct')
+    const res = await axios.put('/api/products/editProduct', product)
     const editedProduct = res.data
     dispatch(editProduct(editedProduct))
   }

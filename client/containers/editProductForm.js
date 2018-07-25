@@ -44,13 +44,13 @@ class productForm extends Component {
         <Field label="SKU" name="SKU" component={this.renderField} />
         <Field
           label="Units in Stock"
-          typeOfInput="number" //double check
+          typeOfInput="number"
           name="unitsInStock"
           component={this.renderField}
         />
         <Field
           label="Quantity Per Unit"
-          typeOfInput="number" //Again double check
+          typeOfInput="number"
           name="quantityPerUnit"
           component={this.renderField}
         />
@@ -79,19 +79,18 @@ class productForm extends Component {
 }
 
 const validate = values => {
-  //values corresponds to the values that the user inputs on the form itself (whole object)
   const errors = {}
 
-  if (!values.name || typeof values.name !== 'string') {
+  if (!values.name) {
     errors.name = 'Please enter a product name.'
   }
-  if (!values.price || typeof values.price !== 'number') {
+  if (!values.price) {
     errors.price = 'Please enter the price of the product.'
   }
-  if (!values.SKU || typeof values.SKU !== 'number') {
+  if (!values.SKU) {
     errors.SKU = 'Please enter the product SKU.'
   }
-  if (!values.unitsInStock || typeof values.unitsInStock !== 'number') {
+  if (!values.unitsInStock) {
     errors.unitsInStock = 'Please enter the number of units currently in stock.'
   }
   return errors
@@ -99,5 +98,5 @@ const validate = values => {
 
 export default reduxForm({
   validate,
-  form: 'editProductsForm' //this string needs to be unique so that forms don't merge
+  form: 'editProductsForm'
 })(connect(null, { editProductForm })(productForm))

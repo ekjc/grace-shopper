@@ -20,13 +20,11 @@ class productForm extends Component {
   }
 
   onSubmit(values) {
-    console.log(values)
     this.props.createNewProduct(values)
   }
 
   render() {
     const { pristine, submitting, handleSubmit, reset } = this.props
-    console.log('This is props', this.props)
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h2>Add a New Product</h2>
@@ -81,7 +79,6 @@ class productForm extends Component {
 }
 
 const validate = values => {
-  //values corresponds to the values that the user inputs on the form itself (whole object)
   const errors = {}
 
   if (!values.name) {
