@@ -20,10 +20,12 @@ export const fetchProducts = () => async (dispatch) => {
 }
 
 export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
+  try {
     const { data } = await axios.get(`/api/products/categories/${categoryId}`)
-    console.log(data);
-    console.log(dispatch);
     dispatch(getProducts(data))
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 // INITIAL STATE
