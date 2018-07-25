@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
 import { getUsers } from '../store'
+import { UserList } from '../components'
 
 /**
  * COMPONENT
@@ -16,19 +18,9 @@ export class Manage extends Component {
     console.log('users', users)
     return (
       <div>
-        <h3>Manage page</h3>
-        <h4>Users</h4>
-        <ul>
-          {users.map(user => (
-            <li key={user.id} style={{ marginBottom: '15px' }}>
-              <strong>
-                {user.firstName} {user.lastName}
-              </strong>
-              <br />Email: {user.email}
-              <br />Admin: {user.isAdmin.toString()}
-            </li>
-          ))}
-        </ul>
+        <h2>Manage page</h2>
+        <h3>Users</h3>
+        <UserList users={users} />
       </div>
     )
   }
