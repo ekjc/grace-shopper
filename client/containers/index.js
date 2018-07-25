@@ -1,1 +1,1 @@
-export { default as Manage } from './manage'
+export { default as Manage } from './Manage'

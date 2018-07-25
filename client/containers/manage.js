@@ -15,7 +15,6 @@ export class Manage extends Component {
 
   render() {
     const { email, isAdmin, users } = this.props
-    console.log('users', users)
     return (
       <div>
         <h2>Manage page</h2>

@@ -70,7 +70,6 @@ export const logout = () => async dispatch => {
 export const getUsers = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/users')
-    console.log()
     dispatch(fetchUsers(data || []))
   } catch (error) {
     return dispatch(fetchUsers({ error }))
