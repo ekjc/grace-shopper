@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { editProductForm } from '../store/editProductsForm_reducer'
+import { editProductForm } from '../store/editForm'
 import { connect } from 'react-redux'
 
 class productForm extends Component {

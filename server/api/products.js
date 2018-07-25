@@ -54,6 +54,7 @@ router.post('/addProduct', async (req, res, next) => {
 })
 
 //The route below does not post to the database, but I didn't want to delete without consensus...new simple route above
+
 // router.post('/addProduct', (req, res, next) => {
 //   Product.create({
 //     name: req.body.name,
@@ -77,7 +78,13 @@ router.post('/addProduct', async (req, res, next) => {
 //     })
 // })
 
-router.put('/:productId', (req, res, next) => {
+// router.put("/:productId/editProduct", async (req, res, next) => {
+//   const product = await Product.findById(req.params.productId).catch(next);
+//   await product.update(req.body).catch(next);
+//   res.status(204).end();
+// });
+
+router.put('/:productId/editProduct', (req, res, next) => {
   Product.update(
     {
       name: req.body.name,
