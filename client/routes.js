@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserDashboard, ProductsList } from './components'
+import { Login, Signup, ProductsList } from './components'
+import { Home, UserDashboard } from './containers'
 import { Manage } from './containers'
 import { me } from './store'
 
@@ -28,11 +29,12 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/products" component={ProductsList} />
-        <PrivateRoute path="/home" component={UserDashboard} {...this.props} />
-        <PrivateRoute path="/manage" component={Manage} {...this.props} />
+        <PrivateRoute path="/user-dashboard" component={UserDashboard} {...this.props} />
+        <PrivateRoute path="/manage/users" component={Manage} {...this.props} />
 
         {/* isLoggedIn && (
           <Switch>
@@ -41,7 +43,7 @@ class Routes extends Component {
           </Switch>
         ) */}
 
-        <Route component={Login} />
+        <Route component={Home} />
       </Switch>
     )
   }
