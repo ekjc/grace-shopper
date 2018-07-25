@@ -6,6 +6,7 @@ class productForm extends Component {
     const {meta: {touched, error}} = field
     return (
       <div className="form-group">
+        <h2>Edit Product</h2>
         <label>{field.label}</label>
         <input
           className="form-control"
@@ -105,3 +106,5 @@ export default reduxForm({
 //const reducer = combineReducers({
 // form: formReducer
 //})
+
+//2. Route...need to decide on a route and add the route through Link
