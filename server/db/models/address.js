@@ -28,4 +28,4 @@ const Address = db.define('address', {
   }
 })
 
-module.exports = Address;
+module.exports = Address
