@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Login, Signup, ProductsList } from './components'
-import { Home, UserDashboard } from './containers'
+import { Home, UserDashboard, EditUser } from './containers'
 import { Manage } from './containers'
 import { me } from './store'
 
@@ -39,8 +39,13 @@ class Routes extends Component {
           {...this.props}
         />
         <PrivateRoute
-          path="/manage/users"
+          exact path="/manage/users"
           component={Manage}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/manage/users/:userId"
+          component={EditUser}
           {...this.props}
         />
 
@@ -60,20 +65,14 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id,
-    isAdmin: !!state.user.isAdmin
-  }
-}
+const mapState = state => ({
+    isLoggedIn: !!state.me.id,
+    isAdmin: !!state.me.isAdmin
+})
 
-const mapDispatch = dispatch => {
-  return {
-    loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me())
+})
 
 // `withRouter` makes sure updates are not blocked when url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))

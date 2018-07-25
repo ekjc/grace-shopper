@@ -9,7 +9,7 @@ import { UserList } from '../components'
  */
 class UserDashboard extends Component {
   render() {
-    const { firstName, lastName, email, isAdmin } = this.props.user
+    const { firstName, lastName, email, isAdmin } = this.props.me
     return (
       <div>
         <h3>Welcome, {firstName}!</h3>
@@ -32,13 +32,11 @@ class UserDashboard extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    user: state.user,
-    email: state.user.email,
-    isAdmin: state.user.isAdmin
-  }
-}
+const mapState = state => ({
+  me: state.me,
+  email: state.me.email,
+  isAdmin: state.me.isAdmin
+})
 
 export default connect(mapState)(UserDashboard)
 

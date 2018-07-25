@@ -1,14 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const UserList = ({ users }) => (
   <ul>
     {users.map(user => (
       <li key={user.id} style={{ marginBottom: '15px' }}>
-        <a href={`/manage/users/${user.id}`}>
+        <Link to={`/manage/users/${user.id}`}>
           <strong>
             {user.firstName} {user.lastName}
           </strong>
-        </a>
+        </Link>
         <br />Email: {user.email}
         <br />Admin: {user.isAdmin.toString()}
       </li>
