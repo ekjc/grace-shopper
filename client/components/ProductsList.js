@@ -1,11 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import fetchProductsDB from '../store/products'
 import { fetchProducts } from '../store'
 
 class ProductsList extends React.Component {
   async componentDidMount() {
-    // await this.props.fetchProductsDB()
     await this.props.fetchProducts()
   }
 
@@ -37,7 +35,6 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  // fetchProductsDB: () => dispatch(fetchProductsDB()),
   fetchProducts: () => dispatch(fetchProducts())
 })
 

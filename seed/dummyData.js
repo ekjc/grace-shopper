@@ -203,7 +203,7 @@ const addresses = [
       SKU: 811548,
       unitsInStock: 200,
       quantityPerUnit: 6,
-      categoryId: 5
+      categoryId: 6
     },
     {
       name: 'Goose Island 312',
