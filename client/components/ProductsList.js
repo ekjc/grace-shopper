@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../store'
+import ProductNav from './ProductNav'
 
 class ProductsList extends React.Component {
   async componentDidMount() {
@@ -12,6 +13,7 @@ class ProductsList extends React.Component {
     return (
       <div>
         <h2>All Products</h2>
+        <ProductNav />
         {products.map(product => (
           <div key={product.id} style={{ marginBottom: '15px' }}>
             <p>
