@@ -2,11 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import {
-  meReducer as me,
-  userReducer as user,
-  usersReducer as users
-} from './user'
+import { meReducer as me, usersReducer as users } from './user'
 import { reducer as form } from 'redux-form'
 import products from './products'
 import singleProduct from './singleProduct'
@@ -15,7 +11,6 @@ import { editForm } from './editForm'
 
 const reducer = combineReducers({
   me,
-  user,
   users,
   form,
   products,
