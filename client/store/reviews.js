@@ -5,16 +5,16 @@ import history from '../history'
 const FETCH_REVIEWS_BY_PRODUCT_ID = 'FETCH_REVIEWS_BY_PRODUCT_ID'
 
 // ACTION CREATORS
-const fetchReviewsByProductId = (reviews) => ({
-  type: FETCH_REVIEWS_BY_PRODUCT_ID, 
+const fetchReviewsByProductId = reviews => ({
+  type: FETCH_REVIEWS_BY_PRODUCT_ID,
   reviews
 })
 
 // THUNK CREATORS
-export const getReviewsByProductId = (productId) => async dispatch => {
+export const getReviewsByProductId = productId => async dispatch => {
   try {
     console.log('We made it to getReviewsByProductId')
-    const res = await axios.get(`/api/products/reviews/${productId}`)
+    const res = await axios.get(`/api/products/${productId}/reviews`)
     console.log('res.data', res.data)
     dispatch(fetchReviewsByProductId(res.data))
   } catch (err) {

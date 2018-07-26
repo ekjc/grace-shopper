@@ -10,7 +10,7 @@ const getProducts = products => ({
 })
 
 // THUNK CREATORS
-export const fetchProducts = () => async (dispatch) => {
+export const fetchProducts = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/products')
     dispatch(getProducts(data))
@@ -19,7 +19,7 @@ export const fetchProducts = () => async (dispatch) => {
   }
 }
 
-export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
+export const fetchProductsByCategory = categoryId => async dispatch => {
   try {
     const { data } = await axios.get(`/api/products/categories/${categoryId}`)
     dispatch(getProducts(data))

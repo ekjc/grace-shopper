@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getReviewsByProductId } from '../store'
+import {Link} from 'react-router-dom' 
 
 class Reviews extends React.Component {
-
   componentDidMount() {
     const productId = this.props.productId
     this.props.getReviewsByProductId(productId)
@@ -13,16 +13,18 @@ class Reviews extends React.Component {
     console.log('this.props.reviews', this.props.reviews)
     const reviews = this.props.reviews
     return (
-        <div>
-            <h1>Product Reviews</h1>
-            {reviews.map(review => {
-             return <div key={review.id}>
-                <h3>Subject: {review.subject}</h3>
-                <h3>Content: {review.content}</h3>
-                <h3>Rating: {review.rating}</h3>
-            </div>   
-            })}
-        </div>
+      <div>
+        <h1>Product Reviews</h1>
+        {reviews.map(review => {
+          return (
+            <div key={review.id}>
+              <h3>Subject: {review.subject}</h3>
+              <h3>Content: {review.content}</h3>
+              <h3>Rating: {review.rating}</h3>
+            </div>
+          )
+        })}
+      </div>
     )
   }
 }
@@ -35,7 +37,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getReviewsByProductId: (productId) => {
+    getReviewsByProductId: productId => {
       dispatch(getReviewsByProductId(productId))
     }
   }

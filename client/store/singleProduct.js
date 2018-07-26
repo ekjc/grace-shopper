@@ -5,13 +5,13 @@ import axios from 'axios'
 const FETCH_PRODUCT_BY_ID = 'FETCH_SINGLE_PRODUCT_BY_ID'
 
 // ACTION CREATORS
-const fetchProductById = (product) => ({
-  type: FETCH_PRODUCT_BY_ID, 
+const fetchProductById = product => ({
+  type: FETCH_PRODUCT_BY_ID,
   product
 })
 
 // THUNK CREATORS
-export const getProductById = (id) => async dispatch => {
+export const getProductById = id => async dispatch => {
   try {
     const res = await axios.get(`/api/products/${id}`)
     dispatch(fetchProductById(res.data))

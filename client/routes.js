@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+
 import { Login, Signup, ProductsList } from './components'
 import {
   Home,
@@ -10,7 +11,8 @@ import {
   editProduct,
   UserDashboard,
   EditUser,
-  Manage
+  Manage,
+  ReviewForm
 } from './containers'
 import { me } from './store'
 
@@ -36,10 +38,12 @@ class Routes extends Component {
 
     return (
       <Switch>
+
         <Route
           path="/products/:productId/editProduct"
           component={editProduct}
         />
+        <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
         <Route path="/products/addProduct" component={newProduct} />
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />

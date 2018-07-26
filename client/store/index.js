@@ -13,6 +13,7 @@ import singleProduct from './singleProduct'
 import reviews from './reviews'
 import { addProduct } from './addForm'
 import { editForm } from './editForm'
+import { reviewForm } from './reviewForm'
 import { cartReducer as cart } from './cart'
 
 const reducer = combineReducers({
@@ -25,7 +26,8 @@ const reducer = combineReducers({
   addProduct,
   editForm,
   cart,
-  reviews
+  reviews,
+  reviewForm
 })
 
 const middleware = composeWithDevTools(
@@ -40,3 +42,5 @@ export * from './singleProduct'
 export * from './editForm'
 export * from './cart'
 export * from './reviews'
+export * from './reviewForm'
+
