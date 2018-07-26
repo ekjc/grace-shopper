@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form'
 import { getUser, editUser, loadUserData } from '../store'
 
 class EditUser extends Component {
@@ -29,7 +29,9 @@ class EditUser extends Component {
         <h3>Edit User</h3>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
           <div className="field">
-            <label htmlFor="firstName" className="label">First Name</label>
+            <label htmlFor="firstName" className="label">
+              First Name
+            </label>
             <Field
               className="input"
               name="firstName"
@@ -38,7 +40,9 @@ class EditUser extends Component {
             />
           </div>
           <div className="field">
-            <label htmlFor="lastName" className="label">Last Name</label>
+            <label htmlFor="lastName" className="label">
+              Last Name
+            </label>
             <Field
               className="input"
               name="lastName"
@@ -47,7 +51,9 @@ class EditUser extends Component {
             />
           </div>
           <div className="field">
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="email" className="label">
+              Email
+            </label>
             <Field
               className="input"
               name="email"
@@ -56,7 +62,9 @@ class EditUser extends Component {
             />
           </div>
           <div className="field">
-            <label htmlFor="isAdmin" className="label">Admin</label>
+            <label htmlFor="isAdmin" className="label">
+              Admin
+            </label>
             <Field
               className="input"
               name="isAdmin"
@@ -82,7 +90,11 @@ class EditUser extends Component {
               </button>
             </div>
             <div className="control">
-              <button type="button" className="button is-light" onClick={this.goBack}>
+              <button
+                type="button"
+                className="button is-light"
+                onClick={this.goBack}
+              >
                 Cancel
               </button>
             </div>
@@ -118,7 +130,7 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(EditUser)
 
-EditUser.propTypes ={
+EditUser.propTypes = {
   getUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired
 }
