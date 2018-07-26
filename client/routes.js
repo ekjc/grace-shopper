@@ -11,19 +11,32 @@ import {
   editProduct,
   UserDashboard,
   EditUser,
-  Manage,
+  ManageUsers
   ReviewForm
 } from './containers'
 import { me } from './store'
 
-const PrivateRoute = ({ component: MyComponent, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
-    }
-  />
-)
+const PrivateRoute = ({
+  component: MyComponent,
+  isLoading,
+  isLoggedIn,
+  ...rest
+}) => {
+
+  if (!isLoading) {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          // isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
+          <MyComponent {...props} />
+        }
+      />
+    )
+  }
+
+  return null
+}
 
 /**
  * COMPONENT
@@ -57,7 +70,7 @@ class Routes extends Component {
         />
         <PrivateRoute
           exact path="/manage/users"
-          component={Manage}
+          component={ManageUsers}
           {...this.props}
         />
         <PrivateRoute
@@ -83,8 +96,9 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => ({
-  isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin
+    isLoading: !!state.me.isLoading,
+    isLoggedIn: !!state.me.id,
+    isAdmin: !!state.me.isAdmin
 })
 
 const mapDispatch = dispatch => ({

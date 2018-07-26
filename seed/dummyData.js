@@ -33,9 +33,10 @@ const addresses = [
 
 const users = [
   {
-    firstName: 'Courtney',
-    lastName: 'Collison',
-    email: 'courtney@example.com',
+    firstName: 'Cody',
+    lastName: 'Cook',
+    email: 'cody@example.com',
+    password: 'abc123',
     phone: '5559214829',
     addressId: 2,
     isAdmin: true
@@ -44,6 +45,7 @@ const users = [
     firstName: 'Andy',
     lastName: 'Anderson',
     email: 'andy@example.com',
+    password: 'abc123',
     phone: '5554207654',
     addressId: 4,
     isAdmin: true
@@ -52,6 +54,7 @@ const users = [
     firstName: 'Eric',
     lastName: 'Erickson',
     email: 'eric@example.com',
+    password: 'abc123',
     phone: '5552180920',
     addressId: 1,
     isAdmin: false
@@ -60,8 +63,36 @@ const users = [
     firstName: 'Stephanie',
     lastName: 'Stephenson',
     email: 'stephanie@example.com',
+    password: 'abc123',
     phone: '5556336719',
     addressId: 3,
+    isAdmin: false
+  },
+  {
+    firstName: 'Blake',
+    lastName: 'Black',
+    email: 'blake@example.com',
+    password: 'abc123',
+    phone: '5559081127',
+    addressId: 1,
+    isAdmin: false
+  },
+  {
+    firstName: 'Mary',
+    lastName: 'Meyers',
+    email: 'mary@example.com',
+    password: 'abc123',
+    phone: '5558828346',
+    addressId: 4,
+    isAdmin: true
+  },
+  {
+    firstName: 'Jerry',
+    lastName: 'Johnson',
+    email: 'jerry@example.com',
+    password: 'abc123',
+    phone: '5554109921',
+    addressId: 2,
     isAdmin: false
   }
 ]

@@ -4,45 +4,52 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const FETCH_ME = 'FETCH_ME'
+const REQUEST_ME = 'REQUEST_ME'
+const RECEIVE_ME = 'RECEIVE_ME'
 const REMOVE_ME = 'REMOVE_ME'
 
-const FETCH_USER = 'FETCH_USER'
-const UPDATE_USER = 'UPDATE_USER'
-const REMOVE_USER = 'REMOVE_USER'
+const REQUEST_USERS = 'REQUEST_USERS'
+const RECEIVE_USERS = 'RECEIVE_USERS'
 
-const FETCH_USERS = 'FETCH_USERS'
+const REQUEST_USER = 'REQUEST_USER'
+const RECEIVE_USER = 'RECEIVE_USER'
 
-/**
- * INITIAL STATES
- */
-const defaultUser = {}
+const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS'
+const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS'
+const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS'
 
 /**
  * ACTION CREATORS
  */
-const fetchMe = me => ({ type: FETCH_ME, me })
+const requestMe = () => ({ type: REQUEST_ME })
+const receiveMe = me => ({ type: RECEIVE_ME, me })
 const removeMe = () => ({ type: REMOVE_ME })
 
-const fetchUser = user => ({ type: FETCH_USER, user })
-const updateUser = user => ({ type: UPDATE_USER, user })
-const removeUser = () => ({ type: REMOVE_USER })
+const requestUsers = () => ({ type: REQUEST_USERS })
+const receiveUsers = users => ({ type: RECEIVE_USERS, users })
 
-const fetchUsers = users => ({ type: FETCH_USERS, users })
+const requestUser = () => ({ type: REQUEST_USER })
+const receiveUser = user => ({ type: RECEIVE_USER, user })
+
+const createUserSuccess = user => ({ type: CREATE_USER_SUCCESS, user })
+const updateUserSuccess = user => ({ type: UPDATE_USER_SUCCESS, user })
+const deleteUserSuccess = userId => ({ type: DELETE_USER_SUCCESS, userId })
 
 /**
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
+  dispatch(requestMe())
   try {
     const { data } = await axios.get('/auth/me')
-    dispatch(fetchMe(data || {}))
+    dispatch(receiveMe(data || {}))
   } catch (err) {
     console.error(err)
   }
 }
 
 export const auth = (formData, method) => async dispatch => {
+  dispatch(requestMe())
   let res
   try {
     const { firstName, lastName, email, password } = formData
@@ -53,11 +60,11 @@ export const auth = (formData, method) => async dispatch => {
       password
     })
   } catch (authError) {
-    return dispatch(fetchMe({ error: authError }))
+    return dispatch(receiveMe({ error: authError }))
   }
 
   try {
-    dispatch(fetchMe(res.data))
+    dispatch(receiveMe(res.data))
     history.push('/user-dashboard')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -74,66 +81,131 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const getUsers = () => async dispatch => {
+export const fetchUsers = () => async dispatch => {
+  dispatch(requestUsers())
   try {
     const { data } = await axios.get('/api/users')
-    dispatch(fetchUsers(data || []))
+    dispatch(receiveUsers(data || []))
   } catch (error) {
-    return dispatch(fetchUsers({ error }))
+    return dispatch(receiveUsers({ error }))
   }
 }
 
-export const getUser = userId => async dispatch => {
+export const fetchUser = userId => async dispatch => {
+  dispatch(requestUser())
   try {
     const { data } = await axios.get(`/api/users/${userId}`)
-    dispatch(fetchUser(data || {}))
+    dispatch(receiveUser(data || {}))
   } catch (err) {
     console.error(err)
   }
 }
 
-export const editUser = user => async dispatch => {
+export const createUser = user => async dispatch => {
+  try {
+    const { data } = await axios.post(`/api/users`, user)
+    dispatch(createUserSuccess(data || {}))
+    history.push(`/manage/users/${data.id}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUser = user => async dispatch => {
   try {
     const { data } = await axios.put(`/api/users/${user.id}`, user)
-    dispatch(updateUser(data || {}))
+    dispatch(updateUserSuccess(data || {}))
     history.push('/manage/users');
   } catch (err) {
     console.error(err)
   }
 }
 
+export const deleteUser = user => async dispatch => {
+  try {
+    const { data } = await axios.delete(`/api/users/${user.id}`)
+    dispatch(deleteUserSuccess(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/**
+ * INITIAL STATES
+ */
+const initialMe = {}
+
+const initialUsers = {
+  isLoading: false,
+  active: {},
+  all: []
+}
+
 /**
  * REDUCERS
  */
-export const meReducer = (state = defaultUser, action) => {
+export const meReducer = (state = initialMe, action) => {
   switch (action.type) {
-    case FETCH_ME:
-      return action.me
+    case REQUEST_ME:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case RECEIVE_ME:
+      return {
+        ...state,
+        ...action.me,
+        isLoading: false,
+      }
     case REMOVE_ME:
-      return defaultUser
+      return initialMe
     default:
       return state
   }
 }
 
-export const userReducer = (state = defaultUser, action) => {
+export const usersReducer = (state = initialUsers, action) => {
   switch (action.type) {
-    case FETCH_USER:
-      return action.user
-    case UPDATE_USER:
-      return state
-    case REMOVE_USER:
-      return defaultUser
-    default:
-      return state
-  }
-}
+    case REQUEST_USERS:
+    case REQUEST_USER:
+      return {
+        ...state,
+        isLoading: true
+      }
 
-export const usersReducer = (state = [], action) => {
-  switch (action.type) {
-    case FETCH_USERS:
-      return action.users
+    case RECEIVE_USERS:
+      return {
+        ...state,
+        isLoading: false,
+        all: action.users
+      }
+
+    case RECEIVE_USER:
+      return {
+        ...state,
+        isLoading: false,
+        active: action.user
+      }
+
+    case CREATE_USER_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all, action.user]
+      }
+
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all]
+      }
+
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all].filter(item => item.id !== action.userId)
+      }
+
     default:
-      return state
+      return state;
   }
 }
