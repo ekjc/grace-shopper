@@ -31,6 +31,8 @@ router.get('/reviews/:userId', async (req, res, next) => {
     res.json(reviewsMadeByUser)
   } catch (err) {
     console.error('Your error was ', err)
+  }
+})
 
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -60,7 +62,7 @@ router.put('/:userId', async (req, res, next) => {
     next(err)
   }
 })
-    
+
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
