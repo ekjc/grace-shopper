@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const { User } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -11,6 +11,35 @@ router.get('/', async (req, res, next) => {
       // attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.update({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      isAdmin: req.body.isAdmin,
+      password: req.body.password
+    }, {
+      where: { id: req.params.userId },
+      returning: true,
+      plain: true
+    })
+    res.json(user)
   } catch (err) {
     next(err)
   }
