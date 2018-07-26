@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, OrderStatusCode, OrderItem } = require('../db/models')
+const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
 module.exports = router
 
 
@@ -10,6 +10,27 @@ router.get('/', async (req, res, next) => {
     res.json(orders)
   }
   catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
+// Get items on a specific cart/order instance :: /api/orders/:orderId/items
+router.get('/:orderId/items', async (req, res, next) => {
+  try {
+    const orderItems = await OrderItem.findAll({
+      where: { orderId: req.params.orderId },
+    })
+    const productIdArr = orderItems.map(item => item.productId)
+    const products = await Product.findAll({
+      where: {
+        id: {
+          $or: productIdArr
+        }
+      }
+    })
+    res.json(products)
+  } catch (err) {
     console.error(err)
     next(err)
   }

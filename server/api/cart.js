@@ -3,8 +3,8 @@ const { Order, OrderStatusCode, OrderItem } = require('../db/models')
 module.exports = router
 
 
-// Create new "order" e.g. cart instance :: /api/cart/newCart
-router.post('/newCart', async (req, res, next) => {
+// Create new "order" e.g. cart instance :: /api/cart
+router.post('/', async (req, res, next) => {
   try {
     const newOrder = await Order.create({
       email: req.body.email,
@@ -20,8 +20,8 @@ router.post('/newCart', async (req, res, next) => {
   }
 })
 
-// Destroy cart instance (user has removed all items) :: /api/cart/:orderId/destroyCart'
-router.delete('/:orderId/destroyCart', async (req, res, next) => {
+// Destroy cart instance (user has removed all items) :: /api/cart/:orderId
+router.delete('/:orderId', async (req, res, next) => {
   const cartId = +req.params.orderId
   try {
     await Order.destroy({where: { id: cartId }})
@@ -33,9 +33,9 @@ router.delete('/:orderId/destroyCart', async (req, res, next) => {
   }
 })
 
-//Adding item to cart :: /api/cart/addToCart/:orderId/:productId
+//Adding item to cart :: /api/cart/:orderId/:productId
 //This creates a new instance on the OrderItem join table btwn product & order ids
-router.post('/addToCart/:orderId/:productId', async (req, res, next) => {
+router.post('/:orderId/:productId', async (req, res, next) => {
   try {
     const newItemInCart = await OrderItem.create({
       orderId: req.params.orderId,
@@ -50,13 +50,18 @@ router.post('/addToCart/:orderId/:productId', async (req, res, next) => {
   }
 })
 
-//Editing item in cart :: /api/cart/editCart/:orderId/:productId
+//Editing item in cart :: /api/cart/:orderId/:productId
 //Editing OrderItem table -- NOT Order table
-router.put('/addToCart/:orderId/:productId', async (req, res, next) => {
+router.put('/:orderId/:productId', async (req, res, next) => {
   try {
-    const updatedItem = await OrderItem.update({
-     //....
-    })
+    const [rows, updatedItem] = await OrderItem.update({
+      quantity: req.body.quantity,
+      price: req.body.price
+    },
+      { where:{
+        productId: req.params.productId,
+        orderId: req.params.orderId,
+      }})
     res.json(updatedItem)
   } catch (err) {
     console.error(err)
@@ -65,14 +70,15 @@ router.put('/addToCart/:orderId/:productId', async (req, res, next) => {
 })
 
 
-//Deleting item from cart :: /api/cart/deleteItem/:orderId/:productId
+//Deleting item from cart :: /api/cart/:orderId/:productId
 //Deleting OrderItem table instance -- NOT the whole Order
-router.delete('/addToCart/:orderId/:productId', async (req, res, next) => {
+router.delete('/:orderId/:productId', async (req, res, next) => {
+  const productId = +req.params.productId
   try {
-    const updatedItem = await OrderItem.destroy({
-      //...
+    await OrderItem.destroy({
+      where: { productId }
     })
-    res.json(updatedItem)
+    res.json(productId)
   } catch (err) {
     console.error(err)
     next(err)
