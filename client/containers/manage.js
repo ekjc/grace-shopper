@@ -28,13 +28,11 @@ export class Manage extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    email: state.user.email,
-    isAdmin: state.user.isAdmin,
-    users: state.users
-  }
-}
+const mapState = state => ({
+  email: state.me.email,
+  isAdmin: state.me.isAdmin,
+  users: state.users
+})
 
 const mapDispatch = dispatch => ({
   getUsers: () => dispatch(getUsers())

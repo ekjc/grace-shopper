@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserDashboard, ProductsList } from './components'
+
+import { Login, Signup, ProductsList } from './components'
 import {
-  Manage,
+  Home,
   SingleProductView,
   newProduct,
   editProduct,
+  UserDashboard,
+  EditUser,
+  Manage,
   ReviewForm
 } from './containers'
 import { me } from './store'
@@ -34,13 +38,33 @@ class Routes extends Component {
 
     return (
       <Switch>
+
+        <Route
+          path="/products/:productId/editProduct"
+          component={editProduct}
+        />
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
+        <Route path="/products/addProduct" component={newProduct} />
+        <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={ProductsList} />
-        <Route exact path="/products/:productId" component={SingleProductView} />
-        <PrivateRoute path="/home" component={UserDashboard} {...this.props} />
-        <PrivateRoute path="/manage" component={Manage} {...this.props} />
+        <Route path="/products/:productId" component={SingleProductView} />
+        <PrivateRoute
+          path="/user-dashboard"
+          component={UserDashboard}
+          {...this.props}
+        />
+        <PrivateRoute
+          exact path="/manage/users"
+          component={Manage}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/manage/users/:userId"
+          component={EditUser}
+          {...this.props}
+        />
 
         {/* isLoggedIn && (
           <Switch>
@@ -49,12 +73,7 @@ class Routes extends Component {
           </Switch>
         ) */}
 
-        <Route path="/products/addProduct" component={newProduct} />
-        <Route
-          path="/products/:productId/editProduct"
-          component={editProduct}
-        />
-        <Route component={Login} />
+        <Route component={Home} />
       </Switch>
     )
   }
@@ -63,20 +82,14 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id,
-    isAdmin: !!state.user.isAdmin
-  }
-}
+const mapState = state => ({
+  isLoggedIn: !!state.me.id,
+  isAdmin: !!state.me.isAdmin
+})
 
-const mapDispatch = dispatch => {
-  return {
-    loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me())
+})
 
 // `withRouter` makes sure updates are not blocked when url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))

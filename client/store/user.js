@@ -4,6 +4,9 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
+const FETCH_ME = 'FETCH_ME'
+const REMOVE_ME = 'REMOVE_ME'
+
 const FETCH_USER = 'FETCH_USER'
 const UPDATE_USER = 'UPDATE_USER'
 const REMOVE_USER = 'REMOVE_USER'
@@ -18,9 +21,13 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
+const fetchMe = me => ({ type: FETCH_ME, me })
+const removeMe = () => ({ type: REMOVE_ME })
+
 const fetchUser = user => ({ type: FETCH_USER, user })
 const updateUser = user => ({ type: UPDATE_USER, user })
 const removeUser = () => ({ type: REMOVE_USER })
+
 const fetchUsers = users => ({ type: FETCH_USERS, users })
 
 /**
@@ -29,7 +36,7 @@ const fetchUsers = users => ({ type: FETCH_USERS, users })
 export const me = () => async dispatch => {
   try {
     const { data } = await axios.get('/auth/me')
-    dispatch(fetchUser(data || {}))
+    dispatch(fetchMe(data || {}))
   } catch (err) {
     console.error(err)
   }
@@ -46,12 +53,12 @@ export const auth = (formData, method) => async dispatch => {
       password
     })
   } catch (authError) {
-    return dispatch(fetchUser({ error: authError }))
+    return dispatch(fetchMe({ error: authError }))
   }
 
   try {
-    dispatch(fetchUser(res.data))
-    history.push('/home')
+    dispatch(fetchMe(res.data))
+    history.push('/user-dashboard')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -60,8 +67,8 @@ export const auth = (formData, method) => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
-    dispatch(removeUser())
-    history.push('/login')
+    dispatch(removeMe())
+    history.push('/')
   } catch (err) {
     console.error(err)
   }
@@ -76,16 +83,44 @@ export const getUsers = () => async dispatch => {
   }
 }
 
+export const getUser = userId => async dispatch => {
+  try {
+    const { data } = await axios.get(`/api/users/${userId}`)
+    dispatch(fetchUser(data || {}))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const editUser = user => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/users/${user.id}`, user)
+    dispatch(updateUser(data || {}))
+    history.push('/manage/users');
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCERS
  */
+export const meReducer = (state = defaultUser, action) => {
+  switch (action.type) {
+    case FETCH_ME:
+      return action.me
+    case REMOVE_ME:
+      return defaultUser
+    default:
+      return state
+  }
+}
+
 export const userReducer = (state = defaultUser, action) => {
-  // export default function(state = defaultUser, action) {
   switch (action.type) {
     case FETCH_USER:
       return action.user
     case UPDATE_USER:
-      console.log('hello from the `userReducer` func')
       return state
     case REMOVE_USER:
       return defaultUser

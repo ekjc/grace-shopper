@@ -36,16 +36,17 @@ class SingleProductView extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    singleProduct: state.singleProduct
+
+const mapStateToProps = (state) => {
+    return {
+      singleProduct: state.singleProduct
+    }
   }
-}
 
 const mapDispatchToProps = dispatch => {
   return {
     getProductById: productId => {
-      dispatch(getProductById(productId))
+      dispatch(getProductById(productId))     
     }
   }
 }
