@@ -10,6 +10,8 @@ import {
 import { reducer as form } from 'redux-form'
 import products from './products'
 import singleProduct from './singleProduct'
+import { addProduct } from './addForm'
+import { editForm } from './editForm'
 
 const reducer = combineReducers({
   me,
@@ -17,7 +19,9 @@ const reducer = combineReducers({
   users,
   form,
   products,
-  singleProduct
+  singleProduct,
+  addProduct,
+  editForm
 })
 
 const middleware = composeWithDevTools(
