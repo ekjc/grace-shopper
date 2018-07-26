@@ -52,8 +52,7 @@ class Routes extends Component {
           {...this.props}
         />
         <PrivateRoute
-          exact
-          path="/manage/users"
+          exact path="/manage/users"
           component={Manage}
           {...this.props}
         />

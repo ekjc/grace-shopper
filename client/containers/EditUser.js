@@ -10,13 +10,10 @@ class EditUser extends Component {
   }
 
   handleSubmit = data => {
-    const { firstName, lastName, email, isAdmin } = data
+    const { firstName, lastName, email, isAdmin } = data;
     this.props.updateUser({
       id: this.props.match.params.userId,
-      firstName,
-      lastName,
-      email,
-      isAdmin
+      firstName, lastName, email, isAdmin
     })
   }
 
@@ -73,7 +70,7 @@ class EditUser extends Component {
               name="isAdmin"
               component="input"
               type="checkbox"
-            />
+            />{' '}
             Yes
           </div>
 
