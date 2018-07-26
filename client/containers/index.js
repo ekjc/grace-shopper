@@ -6,4 +6,4 @@ export { default as editProduct } from './editProductForm'
 
 export { default as UserDashboard } from './UserDashboard'
 export { default as EditUser } from './EditUser'
-export { default as Manage } from './Manage'
+export { default as ManageUsers } from './ManageUsers'

@@ -45,5 +45,5 @@ export default connect(mapState)(UserDashboard)
  */
 UserDashboard.propTypes = {
   email: PropTypes.string,
-  isAdmin: PropTypes.bool.isRequired
+  isAdmin: PropTypes.bool
 }

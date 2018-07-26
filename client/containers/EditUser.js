@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
-import { getUser, editUser, loadUserData } from '../store'
+import { fetchUser, updateUser } from '../store'
 
 class EditUser extends Component {
   componentDidMount() {
@@ -23,7 +23,6 @@ class EditUser extends Component {
 
   render() {
     const { user, pristine, reset, submitting } = this.props
-    console.log('all props', this.props)
     return (
       <div>
         <h3>Edit User</h3>
@@ -99,7 +98,8 @@ EditUser = reduxForm({
   keepDirtyOnReinitialize: true
 })(EditUser)
 
-const mapState = ({ user }) => {
+const mapState = ({ users }) => {
+  const { active: user } = users;
   return {
     user: user,
     initialValues: {
@@ -112,8 +112,8 @@ const mapState = ({ user }) => {
 }
 
 const mapDispatch = dispatch => ({
-  getUser: userId => dispatch(getUser(userId)),
-  updateUser: user => dispatch(editUser(user))
+  getUser: userId => dispatch(fetchUser(userId)),
+  updateUser: user => dispatch(updateUser(user))
 })
 
 export default connect(mapState, mapDispatch)(EditUser)

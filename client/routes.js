@@ -3,17 +3,38 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Login, Signup, ProductsList } from './components'
-import { Home, SingleProductView, newProduct, editProduct, UserDashboard, EditUser, Manage } from './containers'
+import {
+  Home,
+  SingleProductView,
+  newProduct,
+  editProduct,
+  UserDashboard,
+  EditUser,
+  ManageUsers
+} from './containers'
 import { me } from './store'
 
-const PrivateRoute = ({ component: MyComponent, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
-    }
-  />
-)
+const PrivateRoute = ({
+  component: MyComponent,
+  isLoading,
+  isLoggedIn,
+  ...rest
+}) => {
+
+  if (!isLoading) {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          // isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
+          <MyComponent {...props} />
+        }
+      />
+    )
+  }
+
+  return null
+}
 
 /**
  * COMPONENT
@@ -40,7 +61,7 @@ class Routes extends Component {
         />
         <PrivateRoute
           exact path="/manage/users"
-          component={Manage}
+          component={ManageUsers}
           {...this.props}
         />
         <PrivateRoute
@@ -71,6 +92,7 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => ({
+    isLoading: !!state.me.isLoading,
     isLoggedIn: !!state.me.id,
     isAdmin: !!state.me.isAdmin
 })
