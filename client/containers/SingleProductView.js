@@ -21,32 +21,31 @@ class SingleProductView extends Component {
         <h3>SKU: {product.SKU}</h3>
         <h3>Units In Stock: {product.unitsInStock}</h3>
         <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>        
+        <br />
+        <br />
+        <br />
+        <Link to={`/products/${product.id}/editProduct`}>
+          <button type="button">Edit Product</button>
+        </Link>
         <Link to={`/products/${product.id}/reviewForm`}>
-        <button type='button'>Add A Review</button>
+          <button type="button">Add A Review</button>
         </Link>
         <Reviews productId={this.props.match.params.productId} />
-        
       </div>
     )
   }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-      singleProduct: state.singleProduct
-    }
+const mapStateToProps = state => {
+  return {
+    singleProduct: state.singleProduct
   }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     getProductById: productId => {
-      dispatch(getProductById(productId))     
+      dispatch(getProductById(productId))
     }
   }
 }
