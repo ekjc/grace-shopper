@@ -12,7 +12,8 @@ const {
   users,
   categories,
   images,
-  products
+  products,
+  reviews
 } = require('./dummyData')
 const db = require('../server/db')
 
@@ -34,6 +35,7 @@ const seed = async () => {
         await newProduct.addCategory(categoryFromDB)
       })
     )
+    await Promise.all(reviews.map(review => Review.create(review)))
   } catch (error) {
     console.error('*** seed failed!', error)
   } finally {

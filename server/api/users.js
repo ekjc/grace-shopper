@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const { User } = require('../db/models')
+const { Review } = require('../db/models')
+
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -12,6 +14,23 @@ router.get('/', async (req, res, next) => {
     })
     res.json(users)
   } catch (err) {
+    next(err)
+  }
+})
+
+// Fetch all reviews written by a specific user
+// Route address /api/users/reviews/:userId
+router.get('/reviews/:userId', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const reviewsMadeByUser = await Review.findAll({
+      where: {
+        userId: userId
+      }
+    })
+    res.json(reviewsMadeByUser)
+  } catch (err) {
+    console.error('Your error was ', err)
     next(err)
   }
 })
