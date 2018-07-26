@@ -13,13 +13,15 @@ const {
   categories,
   images,
   products,
-  reviews
+  reviews,
+  orders,
+  orderStatusCodes
 } = require('./dummyData')
 const db = require('../server/db')
 
 const seed = async () => {
   try {
-    await db.sync({ force: true })
+    await db.sync({force: true})
     await Promise.all(addresses.map(address => Address.create(address)))
     await Promise.all(users.map(user => User.create(user)))
     await Promise.all(images.map(image => Image.create(image)))
@@ -34,6 +36,18 @@ const seed = async () => {
           }
         })
         await newProduct.addCategory(categoryFromDB)
+      })
+    )
+    await Promise.all(orderStatusCodes.map(code => OrderStatusCode.create(code)))
+    await Promise.all(
+      orders.map(async order => {
+        const newOrder = await Order.create(order)
+        const productFromDB = await Product.findAll({
+          where: {
+            id: { $or: order.products }
+          }
+        })
+        await newOrder.addProduct(productFromDB)
       })
     )
   } catch (error) {
