@@ -4,27 +4,38 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 
+// const Navbar = (props) => {
+//   console.log('Navbar props', props);
+
+//   const { handleClick, isLoggedIn, isAdmin } = props;
+
+//   return (
+//     <div>
+//       <h1>Dichotomy Engine</h1>
+//       <nav>
+//         <Link to="/">Home</Link>
+//         <Link to="/products">Products</Link>
+//         <Link to="/">TESSSSSSST ME</Link>
+//         {isLoggedIn && <Link to="/user-dashboard">My Account</Link>}
+//         {isLoggedIn && <a href="#" onClick={handleClick}>Logout</a>}
+//         {!isLoggedIn && <Link to="/login">Login</Link>}
+//         {!isLoggedIn && <Link to="/signup">Signup</Link>}
+//       </nav>
+//       <hr />
+//     </div>
+//   )
+// }
+
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div>
     <h1>Dichotomy Engine</h1>
     <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          {isAdmin && <Link to="/manage">Manage</Link>}
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-          <Link to="/products">Products</Link>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
+      <Link to="/">Home</Link>
+      <Link to="/products">Products</Link>
+      {isLoggedIn && <Link to="/user-dashboard">My Account</Link>}
+      {isLoggedIn && <a href="#" onClick={handleClick}>Logout</a>}
+      {!isLoggedIn && <Link to="/login">Login</Link>}
+      {!isLoggedIn && <Link to="/signup">Signup</Link>}
     </nav>
     <hr />
   </div>
@@ -33,20 +44,14 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id,
-    isAdmin: !!state.user.isAdmin
-  }
-}
+const mapState = state => ({
+  isLoggedIn: !!state.me.id,
+  isAdmin: !!state.me.isAdmin
+})
 
-const mapDispatch = dispatch => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  handleClick: () => dispatch(logout())
+})
 
 export default connect(mapState, mapDispatch)(Navbar)
 
