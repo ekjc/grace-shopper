@@ -9,28 +9,25 @@ class SingleProductView extends Component {
     const productId = this.props.match.params.productId
     this.props.getProductById(productId)
   }
-
-  render() {
-    console.log('this.props.singleProduct', this.props.singleProduct)
-    const product = this.props.singleProduct
-    return (
-      <div>
-        <h3>Name: {product.name}</h3>
-        <br />
-        <h3>Price: {product.price}</h3>
-        <br />
-        <h3>Desciption: {product.description}</h3>
-        <br />
-        <h3>SKU: {product.SKU}</h3>
-        <br />
-        <h3>Units In Stock: {product.unitsInStock}</h3>
-        <br />
-        <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>
-        <Link to={`/products/${product.id}/editProduct`}>
-          <button type="button">Edit Product</button>
-        </Link>
-      </div>
-    )
+  
+    render () {
+      const product = this.props.singleProduct
+      return (
+        <div>
+            <h3>Name: {product.name}</h3>
+            <br/>
+            <h3>Price: {product.price}</h3>
+            <br/>
+            <h3>Desciption: {product.description}</h3>
+            <br/>
+            <h3>SKU: {product.SKU}</h3>
+            <br/>
+            <h3>Units In Stock: {product.unitsInStock}</h3>
+            <br/>
+            <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>            
+        </div>
+      )
+    }
   }
 }
 

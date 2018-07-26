@@ -1,5 +1,3 @@
-const Category = require('../server/db/models/category')
-
 const addresses = [
   {
     street1: '12345 N Street Road',
@@ -237,6 +235,29 @@ const products = [
   }
 ]
 
+const reviews = [
+  {
+    subject: 'It SUCKED',
+    content: 'Kinda lame. Sorta hated it',
+    rating: 1,
+  },
+  {
+    subject: 'Mehhhhh',
+    content: 'Ok i guess.',
+    rating: 3,
+  },
+  {
+    subject: 'Bow Chicka Wow',
+    content: 'Amazing! Would tell friend about this product.',
+    rating: 5,
+  },
+  {
+    subject: 'Howdy',
+    content: 'Generic product review',
+    rating: 4,
+  }
+]
+
 const orderStatusCodes = [
   {
     description: 'in-cart'
@@ -284,5 +305,6 @@ module.exports = {
   users,
   categories,
   images,
-  products
+  products,
+  reviews
 }
