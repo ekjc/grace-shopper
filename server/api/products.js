@@ -24,7 +24,7 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-// Get all products by category :: /api/categories/:categoryId
+// Get all products by category :: /api/products/categories/:categoryId
 router.get('/categories/:categoryId', async (req, res, next) => {
   try {
     const categoryId = req.params.categoryId
