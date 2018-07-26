@@ -8,8 +8,9 @@ import products from './products'
 import singleProduct from './singleProduct'
 import { addProduct } from './addForm'
 import { editForm } from './editForm'
+import { cartReducer as cart } from './cart'
 
-const reducer = combineReducers({ user, users, form: formReducer, addProduct, editForm, products, singleProduct})
+const reducer = combineReducers({ user, users, form: formReducer, addProduct, editForm, products, singleProduct, cart })
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -20,3 +21,4 @@ export default store
 export * from './user'
 export * from './products'
 export * from './singleProduct'
+export * from './cart'
