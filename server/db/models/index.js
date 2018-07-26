@@ -13,14 +13,14 @@ const ProductCategory = require('./product-category')
 Product.hasMany(Review)
 Product.belongsToMany(Category, { through: ProductCategory })
 Product.hasMany(Image)
+Product.belongsToMany(Order, {through: OrderItem}) /* added for associations -ev */
 
 // Order model relationships
 Order.belongsTo(User, { as: 'customer' })
-Order.hasMany(OrderItem)
+Order.belongsToMany(Product, {through: OrderItem}) /* added for associations -ev */
 Order.belongsTo(Address)
 Order.belongsTo(OrderStatusCode)
 
-OrderItem.belongsTo(Product)
 
 // Review model relationships
 Review.belongsTo(Product)

@@ -27,13 +27,14 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-// Create new order :: /api/orders/newOrder
+// Create new "order" e.g. cart instance :: /api/orders/newOrder
 router.post('/newOrder', async (req, res, next) => {
   try {
     const newOrder = await Order.create({
       email: req.body.email,
       phoneNumber: req.body.email,
       date: req.body.date,
+      //etc. products
     })
     res.json(newOrder)
   }
@@ -50,6 +51,7 @@ router.put('/:orderId', async (req, res, next) => {
       email: req.body.email,
       phoneNumber: req.body.email,
       date: req.body.date,
+      //etc. products
     },
     {
       where: { id: req.params.productId },
@@ -81,6 +83,23 @@ router.put('/:orderId', async (req, res, next) => {
     res.json(processedOrder)
   }
   catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
+
+//Adding item to cart :: /api/orders/addToCart/:orderId/:productId
+router.post('/addToCart/:orderId/:productId', async (req, res, next) => {
+  try {
+    const newItemInCart = await OrderItem.create({
+      orderId: req.params.orderId,
+      productId: req.params.productId,
+      quantity: req.body.quantity,
+      price: req.body.price
+    })
+    res.json(newItemInCart)
+  } catch (err) {
     console.error(err)
     next(err)
   }

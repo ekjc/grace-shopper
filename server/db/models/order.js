@@ -24,9 +24,9 @@ const Order = db.define('order', {
   },
   {
     hooks: {
-      beforeCreate: (order, options) => {
-        order.phoneNumber = order.phoneNumber.replace(/[^0-9]/g, '')
-      }
+      // beforeCreate: (order, options) => {
+      //   order.phoneNumber = order.phoneNumber.replace(/[^0-9]/g, '')
+      // }
     }
   }
 )
