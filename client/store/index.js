@@ -12,6 +12,7 @@ import products from './products'
 import singleProduct from './singleProduct'
 import { addProduct } from './addForm'
 import { editForm } from './editForm'
+import { cartReducer as cart } from './cart'
 
 const reducer = combineReducers({
   me,
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   products,
   singleProduct,
   addProduct,
-  editForm
+  editForm,
+  cart
 })
 
 const middleware = composeWithDevTools(
@@ -33,3 +35,4 @@ export default store
 export * from './user'
 export * from './products'
 export * from './singleProduct'
+export * from './cart'
