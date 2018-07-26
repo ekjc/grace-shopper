@@ -12,7 +12,6 @@ class SingleProductView extends Component {
   }
   
     render () {
-      console.log('this.props.singleProduct', this.props.singleProduct)
       const product = this.props.singleProduct
       return (
         <div>
