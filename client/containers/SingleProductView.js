@@ -1,15 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
-import { Router, Route, Link } from 'react-router-dom';
-import {connect} from 'react-redux'
+import { Router, Route, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { getProductById } from '../store'
 import Reviews from './Reviews'
 
 class SingleProductView extends Component {
-
-   componentDidMount() {
-       const productId = this.props.match.params.productId
-       this.props.getProductById(productId)
+  componentDidMount() {
+    const productId = this.props.match.params.productId
+    this.props.getProductById(productId)
   }
   
     render () {
@@ -27,18 +26,20 @@ class SingleProductView extends Component {
       )
     }
   }
+}
 
-  const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
       singleProduct: state.singleProduct
     }
   }
+}
 
-  const mapDispatchToProps = (dispatch) => {
-    return {
-     getProductById: (id) => {
-        dispatch(getProductById(id))
-     }
+const mapDispatchToProps = dispatch => {
+  return {
+    getProductById: id => {
+      dispatch(getProductById(id))
+    }
   }
 }
 
