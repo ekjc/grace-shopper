@@ -81,18 +81,17 @@ class EditProduct extends Component {
           Clear Values
         </button>
         {/* <Field
-            label="Would you like this to be the featured product?"
-            type="radio"
-            name="featuredProduct"
-            component={this.renderField}
-          />
-          <Field
-            label="Would you like this product to be labeled as active?"
-            type="radio"
-            name="activeStatus"
-            component={this.renderField}
-          />
-*/}
+          label="Featured Product"
+          type="checkbox"
+          name="featuredProduct"
+          component="input"
+        />
+        <Field
+          label="Would you like this product to be labeled as active?"
+          type="radio"
+          name="activeStatus"
+          component={this.renderField}
+        /> */}
       </form>
     )
   }
