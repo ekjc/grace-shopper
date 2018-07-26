@@ -3,7 +3,7 @@ const { Order, OrderStatusCode, OrderItem } = require('../db/models')
 module.exports = router
 
 
-// Get all orders :: /api/orders
+// Get all orders/cart instances :: /api/orders
 router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll()
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Get order by id :: /api/orders/:orderId
+// Get order/cart instance by id :: /api/orders/:orderId
 router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.orderId)
@@ -27,16 +27,20 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-// Create new "order" e.g. cart instance :: /api/orders/newOrder
-router.post('/newOrder', async (req, res, next) => {
+
+//Process a "cart" instance into an "order" instance :: /api/order/:orderId/processOrder
+router.put('/:orderId', async (req, res, next) => {
   try {
-    const newOrder = await Order.create({
-      email: req.body.email,
-      phoneNumber: req.body.email,
-      date: req.body.date,
-      //etc. products
+    const processedOrder = await Order.update({
+      orderNumber: Order.generateOrderNumber(), //this will prob need to be changed
+      //...
+    },
+    {
+      where: { id: req.params.productId },
+      returning: true,
+      plain: true
     })
-    res.json(newOrder)
+    res.json(processedOrder)
   }
   catch (err) {
     console.error(err)
@@ -44,7 +48,8 @@ router.post('/newOrder', async (req, res, next) => {
   }
 })
 
-// Edit order :: /api/orders/:orderId/editOrder
+
+// Edit order (for admin?) :: /api/orders/:orderId/editOrder
 router.put('/:orderId', async (req, res, next) => {
   try {
     const updatedOrder = await Order.update({
@@ -61,45 +66,6 @@ router.put('/:orderId', async (req, res, next) => {
     res.json(updatedOrder)
   }
   catch (err) {
-    console.error(err)
-    next(err)
-  }
-})
-
-//Process from "cart" to "order" :: /api/orders/:orderId/processOrder
-router.put('/:orderId', async (req, res, next) => {
-  try {
-    const processedOrder = await Order.update({
-      orderNumber: Order.generateOrderNumber(),
-      email: req.body.email,
-      phoneNumber: req.body.email,
-      date: req.body.date,
-    },
-    {
-      where: { id: req.params.productId },
-      returning: true,
-      plain: true
-    })
-    res.json(processedOrder)
-  }
-  catch (err) {
-    console.error(err)
-    next(err)
-  }
-})
-
-
-//Adding item to cart :: /api/orders/addToCart/:orderId/:productId
-router.post('/addToCart/:orderId/:productId', async (req, res, next) => {
-  try {
-    const newItemInCart = await OrderItem.create({
-      orderId: req.params.orderId,
-      productId: req.params.productId,
-      quantity: req.body.quantity,
-      price: req.body.price
-    })
-    res.json(newItemInCart)
-  } catch (err) {
     console.error(err)
     next(err)
   }
