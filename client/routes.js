@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserDashboard, ProductsList } from './components'
-import { Manage, SingleProductView, newProduct, editProduct } from './containers'
+import { Login, Signup, ProductsList } from './components'
+import { Home, SingleProductView, newProduct, editProduct, UserDashboard, EditUser, Manage } from './containers'
 import { me } from './store'
 
 const PrivateRoute = ({ component: MyComponent, isLoggedIn, ...rest }) => (
@@ -28,12 +28,26 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={ProductsList} />
         <Route path='/products/:productId' component={SingleProductView} />
-        <PrivateRoute path="/home" component={UserDashboard} {...this.props} />
-        <PrivateRoute path="/manage" component={Manage} {...this.props} />
+        <PrivateRoute
+          path="/user-dashboard"
+          component={UserDashboard}
+          {...this.props}
+        />
+        <PrivateRoute
+          exact path="/manage/users"
+          component={Manage}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/manage/users/:userId"
+          component={EditUser}
+          {...this.props}
+        />
 
         {/* isLoggedIn && (
           <Switch>
@@ -47,7 +61,7 @@ class Routes extends Component {
           path="/products/:productId/editProduct"
           component={editProduct}
         />
-        <Route component={Login} />
+        <Route component={Home} />
       </Switch>
     )
   }
@@ -56,20 +70,14 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id,
-    isAdmin: !!state.user.isAdmin
-  }
-}
+const mapState = state => ({
+    isLoggedIn: !!state.me.id,
+    isAdmin: !!state.me.isAdmin
+})
 
-const mapDispatch = dispatch => {
-  return {
-    loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me())
+})
 
 // `withRouter` makes sure updates are not blocked when url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
