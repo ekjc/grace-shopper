@@ -35,4 +35,5 @@ export default store
 export * from './user'
 export * from './products'
 export * from './singleProduct'
+export * from './editForm'
 export * from './cart'

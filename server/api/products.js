@@ -7,8 +7,7 @@ router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll()
     res.json(products)
-  }
-  catch (err) {
+  } catch (err) {
     next(err)
   }
 })
@@ -33,7 +32,9 @@ router.get('/categories/:categoryId', async (req, res, next) => {
       where: { categoryId: categoryId }
     })
 
-    const productIds = matchingProductsFromJoinTable.map(product => product.productId)
+    const productIds = matchingProductsFromJoinTable.map(
+      product => product.productId
+    )
 
     const products = await Product.findAll({
       where: {
@@ -78,11 +79,11 @@ router.post('/addProduct', async (req, res, next) => {
 //     })
 // })
 
-// router.put("/:productId/editProduct", async (req, res, next) => {
-//   const product = await Product.findById(req.params.productId).catch(next);
-//   await product.update(req.body).catch(next);
-//   res.status(204).end();
-// });
+// router.put('/:productId/editProduct', async (req, res, next) => {
+//   const product = await Product.findById(req.params.productId).catch(next)
+//   await product.update(req.body).catch(next)
+//   res.status(204).end()
+// })
 
 router.put('/:productId/editProduct', (req, res, next) => {
   Product.update(
