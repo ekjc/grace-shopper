@@ -11,7 +11,7 @@ import {
   editProduct,
   UserDashboard,
   EditUser,
-  ManageUsers
+  ManageUsers,
   ReviewForm
 } from './containers'
 import { me } from './store'
@@ -22,7 +22,6 @@ const PrivateRoute = ({
   isLoggedIn,
   ...rest
 }) => {
-
   if (!isLoading) {
     return (
       <Route
