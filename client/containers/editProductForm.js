@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { editProductForm } from '../store/editForm'
 import { connect } from 'react-redux'
+import { getProduct, editExistingProduct } from '../store'
 
-class productForm extends Component {
+class EditProduct extends Component {
+  componentDidMount() {
+    this.props.getProduct(this.props.match.params.productId)
+  }
+
   renderField(field) {
     const { meta: { touched, error } } = field
     return (
@@ -20,7 +24,19 @@ class productForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.editProductForm(values)
+    const { name, price, SKU, unitsInStock, quantityPerUnit } = values
+    this.props.editExistingProduct({
+      id: this.props.match.params.productId,
+      name,
+      price,
+      SKU,
+      unitsInStock,
+      quantityPerUnit
+    })
+  }
+
+  goBack = () => {
+    this.props.history.goBack()
   }
 
   render() {
@@ -54,7 +70,11 @@ class productForm extends Component {
           name="quantityPerUnit"
           component={this.renderField}
         />
-        <button type="submit" disabled={pristine || submitting}>
+        <button
+          type="submit"
+          disabled={pristine || submitting}
+          onClick={this.goBack}
+        >
           Submit
         </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
@@ -96,7 +116,30 @@ const validate = values => {
   return errors
 }
 
-export default reduxForm({
+EditProduct = reduxForm({
   validate,
-  form: 'editProductsForm'
-})(connect(null, { editProductForm })(productForm))
+  form: 'editProductsForm',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
+})(EditProduct)
+
+const mapState = ({ singleProduct: product }) => {
+  return {
+    product: product,
+    initialValues: {
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      SKU: product.SKU,
+      unitsInStock: product.unitsInStock,
+      quantityPerUnit: product.quantityPerUnit
+    }
+  }
+}
+
+const mapDispatch = dispatch => ({
+  getProduct: productId => dispatch(getProduct(productId)),
+  editExistingProduct: product => dispatch(editExistingProduct(product))
+})
+
+export default connect(mapState, mapDispatch)(EditProduct)
