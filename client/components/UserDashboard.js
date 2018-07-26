@@ -11,7 +11,9 @@ export const UserHome = props => {
   return (
     <div>
       <h3>Welcome, {email}</h3>
-      {isAdmin && <h4>You are an admin. With great power comes great responsibility.</h4>}
+      {isAdmin && (
+        <h4>You are an admin. With great power comes great responsibility.</h4>
+      )}
     </div>
   )
 }

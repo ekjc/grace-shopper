@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
-const {Review} = require('../db/models')
+const { User } = require('../db/models')
+const { Review } = require('../db/models')
 
 module.exports = router
 
@@ -28,7 +28,7 @@ router.get('/reviews/:userId', async (req, res, next) => {
         userId: userId
       }
     })
-    res.json(reviewsMadeByUser)    
+    res.json(reviewsMadeByUser)
   } catch (err) {
     console.error('Your error was ', err)
     next(err)

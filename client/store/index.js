@@ -9,8 +9,19 @@ import singleProduct from './singleProduct'
 import reviews from './reviews'
 import { addProduct } from './addForm'
 import { editForm } from './editForm'
+import { reviewForm } from './reviewForm'
 
-const reducer = combineReducers({ user, users, form: formReducer, addProduct, editForm, products, singleProduct, reviews })
+const reducer = combineReducers({
+  user,
+  users,
+  form: formReducer,
+  addProduct,
+  editForm,
+  products,
+  singleProduct,
+  reviews,
+  reviewForm
+})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -22,3 +33,4 @@ export * from './user'
 export * from './products'
 export * from './singleProduct'
 export * from './reviews'
+export * from './reviewForm'

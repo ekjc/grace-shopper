@@ -7,8 +7,7 @@ router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll()
     res.json(products)
-  }
-  catch (err) {
+  } catch (err) {
     next(err)
   }
 })
@@ -33,7 +32,9 @@ router.get('/categories/:categoryId', async (req, res, next) => {
       where: { categoryId: categoryId }
     })
 
-    const productIds = matchingProductsFromJoinTable.map(product => product.productId)
+    const productIds = matchingProductsFromJoinTable.map(
+      product => product.productId
+    )
 
     const products = await Product.findAll({
       where: {
@@ -49,19 +50,36 @@ router.get('/categories/:categoryId', async (req, res, next) => {
 })
 
 // Get all reviews related to a certain productId
-// Route address /api/products/reviews/:productId
-router.get('/reviews/:productId', async (req, res, next) => {
+// Route address /api/products/:productId/reviews
+router.get('/:productId/reviews', async (req, res, next) => {
   try {
     const productId = req.params.productId
     const reviewsForProduct = await Review.findAll({
       where: {
         productId: productId
       }
-    }) 
-   res.json(reviewsForProduct) 
+    })
+    res.json(reviewsForProduct)
   } catch (err) {
     console.error('Your error was', err)
     next(err)
+  }
+})
+
+router.post('/:productId/reviewForm', async (req, res, next) => {
+  try {
+    console.log(('req.body', req.body))
+    const productId = req.params.productId
+    const review = await Review.create({
+      subject: req.body.subject,
+      content: req.body.content,
+      rating: req.body.rating,
+      productId: productId
+    })
+    res.json(review)
+  } catch (error) {
+    console.error('Your error was', error)
+    next(error)
   }
 })
 
