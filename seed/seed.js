@@ -26,7 +26,6 @@ const seed = async () => {
     await Promise.all(users.map(user => User.create(user)))
     await Promise.all(images.map(image => Image.create(image)))
     await Promise.all(categories.map(category => Category.create(category)))
-    await Promise.all(reviews.map(review => Review.create(review)))
     await Promise.all(
       products.map(async product => {
         const newProduct = await Product.create(product)
@@ -38,6 +37,7 @@ const seed = async () => {
         await newProduct.addCategory(categoryFromDB)
       })
     )
+    await Promise.all(reviews.map(review => Review.create(review)))
     await Promise.all(orderStatusCodes.map(code => OrderStatusCode.create(code)))
     await Promise.all(
       orders.map(async order => {

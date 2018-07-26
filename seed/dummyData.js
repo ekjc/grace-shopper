@@ -240,21 +240,29 @@ const reviews = [
     subject: 'It SUCKED',
     content: 'Kinda lame. Sorta hated it',
     rating: 1,
+    productId: 1,
+    userId: 1
   },
   {
     subject: 'Mehhhhh',
     content: 'Ok i guess.',
     rating: 3,
+    productId: 2,
+    userId: 2
   },
   {
     subject: 'Bow Chicka Wow',
     content: 'Amazing! Would tell friend about this product.',
     rating: 5,
+    productId: 3,
+    userId: 3
   },
   {
     subject: 'Howdy',
     content: 'Generic product review',
     rating: 4,
+    productId: 4,
+    userId: 4
   }
 ]
 

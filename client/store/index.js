@@ -10,6 +10,7 @@ import {
 import { reducer as form } from 'redux-form'
 import products from './products'
 import singleProduct from './singleProduct'
+import reviews from './reviews'
 import { addProduct } from './addForm'
 import { editForm } from './editForm'
 import { cartReducer as cart } from './cart'
@@ -23,7 +24,8 @@ const reducer = combineReducers({
   singleProduct,
   addProduct,
   editForm,
-  cart
+  cart,
+  reviews
 })
 
 const middleware = composeWithDevTools(
@@ -37,3 +39,4 @@ export * from './products'
 export * from './singleProduct'
 export * from './editForm'
 export * from './cart'
+export * from './reviews'
