@@ -20,6 +20,19 @@ router.post('/newCart', async (req, res, next) => {
   }
 })
 
+// Destroy cart instance (user has removed all items) :: /api/cart/:orderId/destroyCart'
+router.delete('/:orderId/destroyCart', async (req, res, next) => {
+  const cartId = +req.params.orderId
+  try {
+    await Order.destroy({where: { id: cartId }})
+    res.json(cartId)
+  }
+  catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
 //Adding item to cart :: /api/cart/addToCart/:orderId/:productId
 //This creates a new instance on the OrderItem join table btwn product & order ids
 router.post('/addToCart/:orderId/:productId', async (req, res, next) => {
