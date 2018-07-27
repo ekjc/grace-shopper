@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getReviewsByProductId } from '../store'
-import {Link} from 'react-router-dom' 
+import { fetchReviewsForProduct } from '../store'
+import { Link } from 'react-router-dom'
 
-class Reviews extends React.Component {
+class Reviews extends Component {
   componentDidMount() {
-    const productId = this.props.productId
-    this.props.getReviewsByProductId(productId)
+    this.props.getReviews(this.props.productId)
   }
 
   render() {
-    console.log('this.props.reviews', this.props.reviews)
     const reviews = this.props.reviews
     return (
       <div>
@@ -29,18 +27,12 @@ class Reviews extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    reviews: state.reviews
-  }
-}
+const mapState = state => ({
+  reviews: state.reviews.all
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getReviewsByProductId: productId => {
-      dispatch(getReviewsByProductId(productId))
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  getReviews: productId => dispatch(fetchReviewsForProduct(productId))
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
+export default connect(mapState, mapDispatch)(Reviews)

@@ -132,7 +132,7 @@ const initialCart = {
 /**
  * REDUCERS
  */
-export const cartReducer = (state = initialCart, action) => {
+export default (state = initialCart, action) => {
   switch (action.type) {
     case REQUEST_CART:
     case  REQUEST_CART_ITEMS:

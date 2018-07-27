@@ -6,8 +6,7 @@ import { meReducer as me, usersReducer as users } from './user'
 import { reducer as form } from 'redux-form'
 import products from './products'
 import reviews from './reviews'
-import { reviewForm } from './reviewForm'
-import { cartReducer as cart } from './cart'
+import cart from './cart'
 
 const reducer = combineReducers({
   me,
@@ -15,8 +14,7 @@ const reducer = combineReducers({
   form,
   products,
   cart,
-  reviews,
-  reviewForm
+  reviews
 })
 
 const middleware = composeWithDevTools(
@@ -29,5 +27,3 @@ export * from './user'
 export * from './products'
 export * from './cart'
 export * from './reviews'
-export * from './reviewForm'
-

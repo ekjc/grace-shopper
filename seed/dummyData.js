@@ -33,6 +33,15 @@ const addresses = [
 
 const users = [
   {
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@example.com',
+    password: 'test',
+    phone: '5559214829',
+    addressId: 1,
+    isAdmin: true
+  },
+  {
     firstName: 'Cody',
     lastName: 'Cook',
     email: 'cody@example.com',
@@ -60,9 +69,9 @@ const users = [
     isAdmin: false
   },
   {
-    firstName: 'Stephanie',
+    firstName: 'Sara',
     lastName: 'Stephenson',
-    email: 'stephanie@example.com',
+    email: 'sara@example.com',
     password: 'abc123',
     phone: '5556336719',
     addressId: 3,
@@ -88,7 +97,7 @@ const users = [
   },
   {
     firstName: 'Jerry',
-    lastName: 'Johnson',
+    lastName: 'Jones',
     email: 'jerry@example.com',
     password: 'abc123',
     phone: '5554109921',
