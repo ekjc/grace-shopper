@@ -269,11 +269,13 @@ const orders = [
   },
   {
     orderStatusCodeId: 1,
-    products: [2, 3, 5]
+    products: [2, 3, 5],
+    customerId: 1
   },
   {
     orderStatusCodeId: 1,
-    products: [4, 1]
+    products: [4, 1],
+    customerId: 2
   }
 ]
 

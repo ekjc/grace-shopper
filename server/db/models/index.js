@@ -13,16 +13,17 @@ const ProductCategory = require('./product-category')
 Product.hasMany(Review)
 Product.belongsToMany(Category, {through: ProductCategory })
 Product.hasMany(Image)
-Product.belongsToMany(Order, {through: OrderItem}) /* added for associations -ev */
+Product.belongsToMany(Order, {through: OrderItem})
 
 // Order model relationships
 Order.belongsTo(User, { as: 'customer' })
-Order.belongsToMany(Product, {through: OrderItem}) /* added for associations -ev */
+Order.belongsToMany(Product, {through: OrderItem})
 Order.belongsTo(Address)
 Order.belongsTo(OrderStatusCode)
 
-OrderItem.hasMany(Product, {foreignKey: 'productId'})
-OrderItem.hasMany(Order, {foreignKey: 'orderId'})
+//Order Item relationships (these allow eager-loading on the join table)
+OrderItem.belongsTo(Order)
+OrderItem.belongsTo(Product)
 
 
 // Review model relationships
