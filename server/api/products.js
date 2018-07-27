@@ -12,8 +12,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Find a product by its id
-// Route address /api/products/:productId
+// Find a product by its id :: /api/products/:productId
 router.get('/:productId', async (req, res, next) => {
   try {
     const productWithId = await Product.findById(req.params.productId)
@@ -83,7 +82,7 @@ router.post('/:productId/reviewForm', async (req, res, next) => {
   }
 })
 
-router.post('/addProduct', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const newProduct = await Product.create(req.body).catch(next)
   res.json(newProduct)
 })
@@ -113,13 +112,13 @@ router.post('/addProduct', async (req, res, next) => {
 //     })
 // })
 
-// router.put('/:productId/editProduct', async (req, res, next) => {
+// router.put('/:productId/edit', async (req, res, next) => {
 //   const product = await Product.findById(req.params.productId).catch(next)
 //   await product.update(req.body).catch(next)
 //   res.status(204).end()
 // })
 
-router.put('/:productId/editProduct', (req, res, next) => {
+router.put('/:productId/edit', (req, res, next) => {
   Product.update(
     {
       name: req.body.name,

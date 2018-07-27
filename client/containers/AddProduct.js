@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { createNewProduct } from '../store/addForm'
+import { createProduct } from '../store'
 import { connect } from 'react-redux'
 
-class productForm extends Component {
+class AddProduct extends Component {
   renderField(field) {
     const { meta: { touched, error } } = field
     return (
@@ -19,15 +19,19 @@ class productForm extends Component {
     )
   }
 
-  onSubmit(values) {
-    this.props.createNewProduct(values)
+  handleSubmit = (values) => {
+    this.props.createProduct(values)
+  }
+
+  goBack = () => {
+    this.props.history.goBack()
   }
 
   render() {
-    const { pristine, submitting, handleSubmit, reset } = this.props
+    const { pristine, submitting, reset } = this.props
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <h2>Add a New Product</h2>
+      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <h1 className="title is-2">Add a Product</h1>
         <Field
           label="Name of Product"
           typeOfInput="text"
@@ -60,6 +64,13 @@ class productForm extends Component {
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>
+        <button
+          type="button"
+          onClick={this.goBack}
+        >
+          Cancel
+        </button>
+
         {/* <Field
             label="Would you like this to be the featured product?"
             type="radio"
@@ -72,7 +83,8 @@ class productForm extends Component {
             name="activeStatus"
             component={this.renderField}
           />
-*/}
+        */}
+
       </form>
     )
   }
@@ -99,4 +111,4 @@ const validate = values => {
 export default reduxForm({
   validate,
   form: 'newProductsForm'
-})(connect(null, { createNewProduct })(productForm))
+})(connect(null, { createProduct })(AddProduct))
