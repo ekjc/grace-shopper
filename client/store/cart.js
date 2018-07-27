@@ -89,12 +89,12 @@ export const createCartItem = (orderId, productId, qty, price) => async dispatch
   }
 }
 
-export const updateCartItem = (orderId, productId, qty, price) => async dispatch => {
+/* NOTE: removed price from this thunk, not sure is needed since it's on the product model */
+export const updateCartItem = (orderId, productId, qty) => async dispatch => {
+  console.log('updateCartItem fired in store');
   try {
-    const { data } = await axios.put(
-      `/api/cart/${orderId}/${productId}`,
-      { quantity, price }
-    )
+    const { data } = await axios.put( `/api/cart/${orderId}/${productId}`, {qty})
+    console.log('updateCartItem got back data, here it is: ', data);
     dispatch(updateCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
@@ -151,7 +151,7 @@ export const cartReducer = (state = initialCart, action) => {
     case RECEIVE_CART_ITEMS:
       return {
         ...state,
-        items: [...state.items, action.items],
+        items: action.items,
         isLoading: false
       }
 
