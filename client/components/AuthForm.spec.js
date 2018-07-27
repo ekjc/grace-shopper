@@ -11,17 +11,13 @@ import { AuthForm } from './AuthForm'
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-describe.only('AuthForm', () => {
+describe('AuthForm', () => {
   let authForm, submitSpy
 
   beforeEach(() => {
     submitSpy = sinon.spy()
     authForm = shallow(
-      <AuthForm
-        displayName="Login"
-        name="Test Name"
-        handleSubmit={submitSpy}
-      />
+      <AuthForm displayName="Login" name="Test Name" handleSubmit={submitSpy} />
     )
   })
 
