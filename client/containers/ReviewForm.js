@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { createNewReview } from '../store'
+import { createReview } from '../store'
 
 class ReviewForm extends Component {
-
-  renderField(field) {
+  renderField = field => {
     const { meta: { touched, error } } = field
     return (
       <div className="form-group">
@@ -22,7 +21,7 @@ class ReviewForm extends Component {
 
   handleSubmit = values => {
     const { subject, content, rating } = values
-    this.props.createNewReview({
+    this.props.createReview({
       id: this.props.match.params.productId,
       subject, content, rating
     })
@@ -33,7 +32,7 @@ class ReviewForm extends Component {
   }
 
   render() {
-      const {pristine, submitting, reset} = this.props
+      const { pristine, submitting, reset } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <Field
@@ -76,21 +75,27 @@ class ReviewForm extends Component {
 }
 
 const validate = values => {
-    const errors = {}
+  const errors = {}
 
-    if (!values.subject) {
-      errors.name = 'Please enter a subject.'
-    }
-    if (!values.content) {
-      errors.price = 'Please enter your content.'
-    }
-    if (!values.rating) {
-      errors.rating = 'Please enter a value between 1 and 5'
-    }
-    return errors
+  if (!values.subject) {
+    errors.name = 'Please enter a subject.'
   }
+  if (!values.content) {
+    errors.price = 'Please enter your content.'
+  }
+  if (!values.rating) {
+    errors.rating = 'Please enter a value between 1 and 5'
+  }
+  return errors
+}
 
-export default reduxForm({
-    validate,
-    form: 'newReviewForm'
-})(connect(null, { createNewReview })(ReviewForm))
+ReviewForm = reduxForm({
+  form: 'addReview',
+  validate
+})(ReviewForm)
+
+const mapDispatch = dispatch => ({
+  addReview: () => dispatch(createReview())
+})
+
+export default connect(null, mapDispatch)(ReviewForm)
