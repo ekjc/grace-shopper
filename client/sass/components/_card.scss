@@ -1,0 +1,120 @@
+// .card {
+//   display: flex;
+
+//   // make cards inside columns be equal height
+//   .column & {
+//     height: 100%;
+//   }
+// }
+
+
+// // Content
+
+// .card-content {
+//   flex-grow: 1;
+// }
+
+// a.card-content {
+//   color: inherit;
+
+//   .title {
+//     color: inherit;
+//     transition: all $speed $easing;
+//   }
+
+//   &:hover {
+//     .title {
+//       color: $link;
+//     }
+//   }
+// }
+
+
+// // Footer
+
+// a.card-footer-item {
+//   color: $text-light;
+//   font-size: .875rem;
+
+//   &:hover {
+//     background-color: rgba($link, .08);
+//     color: $link;
+//   }
+
+//   &.is-danger {
+
+//     &:hover {
+//       background-color: rgba($danger, .1);
+//       color: $danger;
+//     }
+//   }
+// }
+
+//   // object-fit: cover;
+//   // height: 100%;
+//   // max-width: 100%;
+
+// //
+// // Campus Card
+// // ===========
+
+// .card.is-campus {
+//   flex-direction: row;
+
+//   .card-body {
+//     display: flex;
+//     flex-direction: column;
+//     flex-grow: 1;
+//   }
+
+//   .card-content {
+//     padding: 1rem;
+
+//     @include tablet {
+//       padding: 3rem;
+//     }
+//     @include widescreen {
+//       padding: 1.5rem;
+//     }
+//   }
+
+//   .card-image {
+//     display: flex;
+//     max-width: 50%;
+//     max-height: 340px;
+//     overflow: hidden;
+//   }
+
+//   .image {
+//     height: 100%;
+
+//     img {
+//       height: 100%;
+//       object-fit: cover;
+//     }
+//   }
+// }
+
+
+
+// //
+// // Student Card
+// // ============
+
+// .card.is-student {
+//   flex-direction: column;
+
+//   .card-content {
+//     padding: 1rem;
+
+//     .title {
+//       transition: all $speed $easing;
+//     }
+
+//     &:hover {
+//       .title {
+//         color: $link;
+//       }
+//     }
+//   }
+// }

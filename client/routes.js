@@ -50,6 +50,7 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/" component={Home} />
 
         <Route
           path="/products/:productId/editProduct"
@@ -57,11 +58,9 @@ class Routes extends Component {
         />
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
         <Route path="/products/addProduct" component={newProduct} />
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={ProductsList} />
         <Route path="/products/:productId" component={SingleProductView} />
+
         <PrivateRoute
           path="/user-dashboard"
           component={UserDashboard}
@@ -85,6 +84,8 @@ class Routes extends Component {
           </Switch>
         ) */}
 
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
         <Route component={Home} />
       </Switch>
     )

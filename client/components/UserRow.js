@@ -9,19 +9,16 @@ const UserRow = ({ user, deleteUser }) => (
         {user.firstName} {user.lastName}
       </Link>
     </td>
-    <td>
-      {user.email}
-    </td>
-    <td>
-      {new Date(user.createdAt).toLocaleDateString()}
-    </td>
-    <td>
-      {user.isAdmin ? 'Admin' : 'Customer'}
-    </td>
+    <td>{user.email}</td>
+    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+    <td>{user.isAdmin ? 'Admin' : 'Customer'}</td>
     <td>
       <div className="field is-grouped">
         <p className="control">
-          <Link to={`/manage/users/${user.id}`} className="button is-info">
+          <Link
+            to={`/manage/users/${user.id}`}
+            className="button is-link is-small"
+          >
             Edit
           </Link>
         </p>
@@ -29,7 +26,7 @@ const UserRow = ({ user, deleteUser }) => (
           <a
             href="#"
             onClick={event => deleteUser(event, user)}
-            className="button is-danger"
+            className="button is-danger is-small"
           >
             Delete
           </a>

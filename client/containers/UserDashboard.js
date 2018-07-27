@@ -12,7 +12,8 @@ class UserDashboard extends Component {
     const { firstName, lastName, email, isAdmin } = this.props.me
     return (
       <div>
-        <h3>Welcome, {firstName}!</h3>
+        <h1 className="title is-2">My Account</h1>
+        <p className="subtitle is-4">Welcome, {firstName}!</p>
         {isAdmin && (
           <div>
             <h4>
