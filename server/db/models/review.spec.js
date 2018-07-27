@@ -3,6 +3,9 @@ const db = require('../index')
 const Review = db.model('review')
 
 describe('Review Model', () => {
+  beforeEach(() => {
+    return db.sync({ force: true })
+  })
   describe('Correctly add object and object type to the database', () => {
     it('responds with the object that was created', done => {
       Review.create({
