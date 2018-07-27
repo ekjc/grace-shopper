@@ -1,37 +1,165 @@
 import axios from 'axios'
 import history from '../history'
 
-// ACTION TYPES
-const FETCH_REVIEWS_BY_PRODUCT_ID = 'FETCH_REVIEWS_BY_PRODUCT_ID'
+/**
+ * ACTION TYPES
+ */
+const REQUEST_REVIEWS = 'REQUEST_REVIEWS'
+const RECEIVE_REVIEWS_BY_PRODUCT = 'RECEIVE_REVIEWS_BY_PRODUCT'
+const RECEIVE_REVIEWS_BY_USER = 'RECEIVE_REVIEWS_BY_USER'
 
-// ACTION CREATORS
-const fetchReviewsByProductId = reviews => ({
-  type: FETCH_REVIEWS_BY_PRODUCT_ID,
-  reviews
+const REQUEST_REVIEW = 'REQUEST_REVIEW'
+const RECEIVE_REVIEW = 'RECEIVE_REVIEW'
+
+const CREATE_REVIEW_SUCCESS = 'CREATE_REVIEW_SUCCESS'
+const UPDATE_REVIEW_SUCCESS = 'UPDATE_REVIEW_SUCCESS'
+const DELETE_REVIEW_SUCCESS = 'DELETE_REVIEW_SUCCESS'
+
+/**
+ * ACTION CREATORS
+ */
+const requestReviews = () => ({ type: REQUEST_REVIEWS })
+const receiveReviewsForProduct = reviews => ({
+  type: RECEIVE_REVIEWS_BY_PRODUCT, reviews
+})
+const receiveReviewsByUser = reviews => ({
+  type: RECEIVE_REVIEWS_BY_USER, reviews
 })
 
-// THUNK CREATORS
-export const getReviewsByProductId = productId => async dispatch => {
+const requestReview = () => ({ type: REQUEST_REVIEW })
+const receiveReview = review => ({ type: RECEIVE_REVIEW, review })
+
+const createReviewSuccess = review => ({
+  type: CREATE_REVIEW_SUCCESS,
+  review
+})
+const updateReviewSuccess = review => ({
+  type: UPDATE_REVIEW_SUCCESS,
+  review
+})
+const deleteReviewSuccess = reviewId => ({
+  type: DELETE_REVIEW_SUCCESS,
+  reviewId
+})
+
+/**
+ * THUNK CREATORS
+ */
+ // TODO - Set up `get` route :: /api/reviews/product/:productId
+export const fetchReviewsForProduct = productId => async dispatch => {
+  dispatch(requestReviews())
   try {
-    console.log('We made it to getReviewsByProductId')
-    const res = await axios.get(`/api/products/${productId}/reviews`)
-    console.log('res.data', res.data)
-    dispatch(fetchReviewsByProductId(res.data))
-  } catch (err) {
-    console.error('Your error was ', err)
+    const { data } = await axios.get(`/api/reviews/product/${productId}`)
+    dispatch(receiveReviewsForProduct(data || []))
+  } catch (error) {
+    console.error(error)
   }
 }
 
-// INITIAL STATE
-const initialState = []
+// TODO - Set up `get` route :: /api/reviews/user/:userId
+export const fetchReviewsByUser = userId => async dispatch => {
+  dispatch(requestReviews())
+  try {
+    const { data } = await axios.get(`/api/reviews/user/${userId}`)
+    dispatch(receiveReviewsByUser(data || []))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-// REDUCER
-export default function(state = initialState, action) {
+// TODO - Set up `post` route :: /api/reviews
+export const createReview = product => async dispatch => {
+  try {
+    const { data } = await axios.post(`/api/reviews/add`, product)
+    dispatch(createReviewSuccess(data || {}))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// TODO - Reviews need their own API?
+// TODO - Set up `put` route :: /api/reviews/:reviewId
+export const updateReview = review => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/reviews/${review.id}/`, review)
+    dispatch(updateReviewSuccess(data || {}))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// TODO - Reviews need their own API?
+// TODO - Set up `delete` route :: /api/reviews/:reviewId
+export const deleteReview = review => async dispatch => {
+  try {
+    const { data } = await axios.delete(`/api/reviews/${review.id}`)
+    dispatch(deleteReviewSuccess(data || {}))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/**
+ * INITIAL STATE
+ */
+const initialState = {
+  isLoading: false,
+  active: {},
+  all: []
+}
+
+/**
+ * REDUCERS
+ */
+export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_REVIEWS_BY_PRODUCT_ID:
-      console.log('action.reviews', action.reviews)
-      return action.reviews
+    case REQUEST_REVIEWS:
+    case REQUEST_REVIEW:
+      return {
+        ...state,
+        isLoading: true
+      }
+
+    case RECEIVE_REVIEWS_BY_PRODUCT:
+      return {
+        ...state,
+        isLoading: false,
+        all: action.reviews
+      }
+
+    case RECEIVE_REVIEWS_BY_USER:
+      return {
+        ...state,
+        isLoading: false,
+        all: action.reviews
+      }
+
+    case RECEIVE_REVIEW:
+      return {
+        ...state,
+        isLoading: false,
+        active: action.review
+      }
+
+    case CREATE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all, action.review]
+      }
+
+    case UPDATE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all]
+      }
+
+    case DELETE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        all: [...state.all].filter(item => item.id !== action.reviewId)
+      }
+
     default:
-      return state
+      return state;
   }
 }
