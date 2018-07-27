@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { editProductForm } from '../store/editForm'
 import { connect } from 'react-redux'
+import { fetchProduct, updateProduct } from '../store'
 
-class productForm extends Component {
+class EditProduct extends Component {
+  componentDidMount() {
+    this.props.getProduct(this.props.match.params.productId)
+  }
+
   renderField(field) {
     const { meta: { touched, error } } = field
     return (
@@ -19,14 +23,22 @@ class productForm extends Component {
     )
   }
 
-  onSubmit(values) {
-    this.props.editProductForm(values)
+  handleSubmit = values => {
+    const { name, price, SKU, unitsInStock, quantityPerUnit } = values
+    this.props.updateProduct({
+      id: this.props.match.params.productId,
+      name, price, SKU, unitsInStock, quantityPerUnit
+    })
+  }
+
+  goBack = () => {
+    this.props.history.goBack()
   }
 
   render() {
-    const { pristine, submitting, handleSubmit, reset } = this.props
+    const { pristine, submitting, reset } = this.props
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <h2>Edit Product</h2>
         <Field
           label="Name of Product"
@@ -54,25 +66,36 @@ class productForm extends Component {
           name="quantityPerUnit"
           component={this.renderField}
         />
-        <button type="submit" disabled={pristine || submitting}>
+        <button
+          type="submit"
+          disabled={pristine || submitting}
+          onClick={this.goBack}
+        >
           Submit
         </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>
+        <button
+          type="button"
+          onClick={this.goBack}
+        >
+          Cancel
+        </button>
+
         {/* <Field
-            label="Would you like this to be the featured product?"
-            type="radio"
-            name="featuredProduct"
-            component={this.renderField}
-          />
-          <Field
-            label="Would you like this product to be labeled as active?"
-            type="radio"
-            name="activeStatus"
-            component={this.renderField}
-          />
-*/}
+          label="Featured Product"
+          type="checkbox"
+          name="featuredProduct"
+          component="input"
+        />
+        <Field
+          label="Would you like this product to be labeled as active?"
+          type="radio"
+          name="activeStatus"
+          component={this.renderField}
+        /> */}
+
       </form>
     )
   }
@@ -96,7 +119,28 @@ const validate = values => {
   return errors
 }
 
-export default reduxForm({
+EditProduct = reduxForm({
   validate,
-  form: 'editProductsForm'
-})(connect(null, { editProductForm })(productForm))
+  form: 'editProductsForm',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
+})(EditProduct)
+
+const mapState = state => ({
+  product: state.products.active,
+  initialValues: {
+    name: state.products.active.name,
+    price: state.products.active.price,
+    description: state.products.active.description,
+    SKU: state.products.active.SKU,
+    unitsInStock: state.products.active.unitsInStock,
+    quantityPerUnit: state.products.active.quantityPerUnit
+  }
+})
+
+const mapDispatch = dispatch => ({
+  getProduct: productId => dispatch(fetchProduct(productId)),
+  updateProduct: product => dispatch(updateProduct(product))
+})
+
+export default connect(mapState, mapDispatch)(EditProduct)

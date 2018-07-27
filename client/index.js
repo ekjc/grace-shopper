@@ -1,15 +1,30 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
+import Routes from './routes'
 import history from './history'
 import store from './store'
-import App from './app'
+import { Navbar } from './components'
+import './sass/index.scss'
 
 // establishes socket connection
 import './socket'
 
-ReactDOM.render(
+// Using `<Route />` to display Navbar here because of update blocking.
+// See: https://reacttraining.com/react-router/core/guides/dealing-with-update-blocking
+const App = () => (
+  <div>
+    <Route component={Navbar} />
+    <div className="section">
+      <div className="container">
+        <Routes />
+      </div>
+    </div>
+  </div>
+)
+
+render(
   <Provider store={store}>
     <Router history={history}>
       <App />

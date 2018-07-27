@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form';
-import { getUser, editUser, loadUserData } from '../store'
+import { Field, reduxForm } from 'redux-form'
+import { fetchUser, updateUser } from '../store'
 
 class EditUser extends Component {
   componentDidMount() {
@@ -23,13 +23,15 @@ class EditUser extends Component {
 
   render() {
     const { user, pristine, reset, submitting } = this.props
-    console.log('all props', this.props)
     return (
       <div>
-        <h3>Edit User</h3>
+        <h1 className="title is-2">Edit User</h1>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+
           <div className="field">
-            <label htmlFor="firstName" className="label">First Name</label>
+            <label htmlFor="firstName" className="label">
+              First Name
+            </label>
             <Field
               className="input"
               name="firstName"
@@ -37,8 +39,11 @@ class EditUser extends Component {
               type="text"
             />
           </div>
+
           <div className="field">
-            <label htmlFor="lastName" className="label">Last Name</label>
+            <label htmlFor="lastName" className="label">
+              Last Name
+            </label>
             <Field
               className="input"
               name="lastName"
@@ -46,8 +51,11 @@ class EditUser extends Component {
               type="text"
             />
           </div>
+
           <div className="field">
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="email" className="label">
+              Email
+            </label>
             <Field
               className="input"
               name="email"
@@ -55,15 +63,17 @@ class EditUser extends Component {
               type="email"
             />
           </div>
+
           <div className="field">
-            <label htmlFor="isAdmin" className="label">Admin</label>
+            <label className="label">User Role</label>
             <Field
-              className="input"
+              className="switch is-rounded"
               name="isAdmin"
+              id="isAdmin"
               component="input"
               type="checkbox"
-            />{' '}
-            Yes
+            />
+            <label htmlFor="isAdmin">Admin</label>
           </div>
 
           <div className="field is-grouped">
@@ -82,7 +92,11 @@ class EditUser extends Component {
               </button>
             </div>
             <div className="control">
-              <button type="button" className="button is-light" onClick={this.goBack}>
+              <button
+                type="button"
+                className="button is-light"
+                onClick={this.goBack}
+              >
                 Cancel
               </button>
             </div>
@@ -99,7 +113,8 @@ EditUser = reduxForm({
   keepDirtyOnReinitialize: true
 })(EditUser)
 
-const mapState = ({ user }) => {
+const mapState = ({ users }) => {
+  const { active: user } = users;
   return {
     user: user,
     initialValues: {
@@ -112,13 +127,13 @@ const mapState = ({ user }) => {
 }
 
 const mapDispatch = dispatch => ({
-  getUser: userId => dispatch(getUser(userId)),
-  updateUser: user => dispatch(editUser(user))
+  getUser: userId => dispatch(fetchUser(userId)),
+  updateUser: user => dispatch(updateUser(user))
 })
 
 export default connect(mapState, mapDispatch)(EditUser)
 
-EditUser.propTypes ={
+EditUser.propTypes = {
   getUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired
 }

@@ -13,6 +13,7 @@ const {
   categories,
   images,
   products,
+  reviews,
   orders,
   orderStatusCodes
 } = require('./dummyData')
@@ -36,6 +37,7 @@ const seed = async () => {
         await newProduct.addCategory(categoryFromDB)
       })
     )
+    await Promise.all(reviews.map(review => Review.create(review)))
     await Promise.all(orderStatusCodes.map(code => OrderStatusCode.create(code)))
     await Promise.all(
       orders.map(async order => {

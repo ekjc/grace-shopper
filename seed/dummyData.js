@@ -1,5 +1,3 @@
-const Category = require('../server/db/models/category')
-
 const addresses = [
   {
     street1: '12345 N Street Road',
@@ -35,9 +33,19 @@ const addresses = [
 
 const users = [
   {
-    firstName: 'Courtney',
-    lastName: 'Collison',
-    email: 'courtney@example.com',
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@example.com',
+    password: 'test',
+    phone: '5559214829',
+    addressId: 1,
+    isAdmin: true
+  },
+  {
+    firstName: 'Cody',
+    lastName: 'Cook',
+    email: 'cody@example.com',
+    password: 'abc123',
     phone: '5559214829',
     addressId: 2,
     isAdmin: true
@@ -46,6 +54,7 @@ const users = [
     firstName: 'Andy',
     lastName: 'Anderson',
     email: 'andy@example.com',
+    password: 'abc123',
     phone: '5554207654',
     addressId: 4,
     isAdmin: true
@@ -54,16 +63,45 @@ const users = [
     firstName: 'Eric',
     lastName: 'Erickson',
     email: 'eric@example.com',
+    password: 'abc123',
     phone: '5552180920',
     addressId: 1,
     isAdmin: false
   },
   {
-    firstName: 'Stephanie',
+    firstName: 'Sara',
     lastName: 'Stephenson',
-    email: 'stephanie@example.com',
+    email: 'sara@example.com',
+    password: 'abc123',
     phone: '5556336719',
     addressId: 3,
+    isAdmin: false
+  },
+  {
+    firstName: 'Blake',
+    lastName: 'Black',
+    email: 'blake@example.com',
+    password: 'abc123',
+    phone: '5559081127',
+    addressId: 1,
+    isAdmin: false
+  },
+  {
+    firstName: 'Mary',
+    lastName: 'Meyers',
+    email: 'mary@example.com',
+    password: 'abc123',
+    phone: '5558828346',
+    addressId: 4,
+    isAdmin: true
+  },
+  {
+    firstName: 'Jerry',
+    lastName: 'Jones',
+    email: 'jerry@example.com',
+    password: 'abc123',
+    phone: '5554109921',
+    addressId: 2,
     isAdmin: false
   }
 ]
@@ -237,6 +275,37 @@ const products = [
   }
 ]
 
+const reviews = [
+  {
+    subject: 'It SUCKED',
+    content: 'Kinda lame. Sorta hated it',
+    rating: 1,
+    productId: 1,
+    userId: 1
+  },
+  {
+    subject: 'Mehhhhh',
+    content: 'Ok i guess.',
+    rating: 3,
+    productId: 2,
+    userId: 2
+  },
+  {
+    subject: 'Bow Chicka Wow',
+    content: 'Amazing! Would tell friend about this product.',
+    rating: 5,
+    productId: 3,
+    userId: 3
+  },
+  {
+    subject: 'Howdy',
+    content: 'Generic product review',
+    rating: 4,
+    productId: 4,
+    userId: 4
+  }
+]
+
 const orderStatusCodes = [
   {
     description: 'in-cart'
@@ -286,5 +355,6 @@ module.exports = {
   users,
   categories,
   images,
-  products
+  products,
+  reviews
 }

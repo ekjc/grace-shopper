@@ -1,49 +1,66 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { logout } from '../store'
 
-// const Navbar = (props) => {
-//   console.log('Navbar props', props);
-
-//   const { handleClick, isLoggedIn, isAdmin } = props;
-
-//   return (
-//     <div>
-//       <h1>Dichotomy Engine</h1>
-//       <nav>
-//         <Link to="/">Home</Link>
-//         <Link to="/products">Products</Link>
-//         <Link to="/">TESSSSSSST ME</Link>
-//         {isLoggedIn && <Link to="/user-dashboard">My Account</Link>}
-//         {isLoggedIn && <a href="#" onClick={handleClick}>Logout</a>}
-//         {!isLoggedIn && <Link to="/login">Login</Link>}
-//         {!isLoggedIn && <Link to="/signup">Signup</Link>}
-//       </nav>
-//       <hr />
-//     </div>
-//   )
-// }
-
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
-  <div>
-    <h1>Dichotomy Engine</h1>
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/products">Products</Link>
-      {isLoggedIn && <Link to="/user-dashboard">My Account</Link>}
-      {isLoggedIn && <a href="#" onClick={handleClick}>Logout</a>}
-      {!isLoggedIn && <Link to="/login">Login</Link>}
-      {!isLoggedIn && <Link to="/signup">Signup</Link>}
-    </nav>
-    <hr />
-  </div>
+  <nav className="navbar is-primary">
+    <div className="container">
+      <div className="navbar-brand">
+        <Link to="/" className="navbar-item">
+          LOGO
+        </Link>
+        <div className="navbar-burger burger" data-target="navPrimary">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="navPrimary" className="navbar-menu">
+        <div className="navbar-start">
+          <NavLink to="/products" className="navbar-item" activeClassName="is-active">
+            Products
+          </NavLink>
+        </div>
+
+        <div className="navbar-end">
+          {isLoggedIn && (
+            <NavLink
+              to="/user-dashboard"
+              className="navbar-item"
+              activeClassName="is-active"
+            >
+              My Account
+            </NavLink>
+          )}
+          {isLoggedIn && (
+            <a href="#" onClick={handleClick} className="navbar-item">
+              Logout
+            </a>
+          )}
+          {!isLoggedIn && (
+            <NavLink to="/login" className="navbar-item" activeClassName="is-active">
+              Login
+            </NavLink>
+          )}
+          {!isLoggedIn && (
+            <NavLink to="/signup" className="navbar-item" activeClassName="is-active">
+              Sign Up
+            </NavLink>
+          )}
+          <a className="navbar-item">
+            <span className="icon">
+              <i className="fas fa-shopping-cart" />
+            </span>
+            <span className="is-hidden">Cart</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
 )
 
-/**
- * CONTAINER
- */
 const mapState = state => ({
   isLoggedIn: !!state.me.id,
   isAdmin: !!state.me.isAdmin
@@ -55,9 +72,6 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(Navbar)
 
-/**
- * PROP TYPES
- */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
