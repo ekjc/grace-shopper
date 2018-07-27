@@ -1,12 +1,14 @@
 const router = require('express').Router()
-const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
+const { Order, OrderStatusCode, OrderItem, Product, User } = require('../db/models')
 module.exports = router
 
 
 // Get all orders/cart instances :: /api/orders
 router.get('/', async (req, res, next) => {
   try {
-    const orders = await Order.findAll()
+    const orders = await Order.findAll({
+      include: [ {model: OrderStatusCode, attributes: ['description']}, {model: User, as: 'customer'}]
+    })
     res.json(orders)
   }
   catch (err) {
@@ -20,16 +22,9 @@ router.get('/:orderId/items', async (req, res, next) => {
   try {
     const orderItems = await OrderItem.findAll({
       where: { orderId: req.params.orderId },
+      include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
     })
-    const productIdArr = orderItems.map(item => item.productId)
-    const products = await Product.findAll({
-      where: {
-        id: {
-          $or: productIdArr
-        }
-      }
-    })
-    res.json(products)
+    res.json(orderItems)
   } catch (err) {
     console.error(err)
     next(err)
@@ -39,7 +34,8 @@ router.get('/:orderId/items', async (req, res, next) => {
 // Get order/cart instance by id :: /api/orders/:orderId
 router.get('/:orderId', async (req, res, next) => {
   try {
-    const order = await Order.findById(req.params.orderId)
+    const order = await Order.findById(req.params.orderId,
+    {include: [ {model: OrderStatusCode, attributes: ['description']}, {model: User, as: 'customer'} ]})
     res.json(order)
   }
   catch (err) {

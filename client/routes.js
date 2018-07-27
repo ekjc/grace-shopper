@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
-import { Login, Signup } from './components'
+import { Login, Signup, CartView } from './components'
 import {
   Home,
   Product,
@@ -59,6 +58,9 @@ class Routes extends Component {
         <Route path="/products/:productId/edit" component={EditProduct} />
 
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
+      
+        {/* temporarily putting cart here for dev work */}
+        <Route path="/cart/:orderId" component={CartView} />
 
         <PrivateRoute
           path="/user-dashboard"

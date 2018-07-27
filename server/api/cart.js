@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, OrderStatusCode, OrderItem } = require('../db/models')
+const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
 module.exports = router
 
 
@@ -54,15 +54,24 @@ router.post('/:orderId/:productId', async (req, res, next) => {
 //Editing OrderItem table -- NOT Order table
 router.put('/:orderId/:productId', async (req, res, next) => {
   try {
-    const [rows, updatedItem] = await OrderItem.update({
-      quantity: req.body.quantity,
-      price: req.body.price
-    },
-      { where:{
-        productId: req.params.productId,
-        orderId: req.params.orderId,
-      }})
-    res.json(updatedItem)
+    console.log( req.params.orderId, req.params.productId, req.body.qty);
+    const [num, updatedItem] = await OrderItem.update({
+      quantity: req.body.qty,
+      productId: req.params.productId,
+      orderId: req.params.orderId,
+      price: null /* we have price from the product, not sure we need it on the OrderItem model */
+    },{
+      where: { productId: req.params.productId, orderId: req.params.orderId },
+      returning: true,
+      plain: true
+    })
+    //can't send back the OrderItem instance, need to send back the order??
+    const dataRequired = await OrderItem.findOne({
+      where: { orderId: req.params.orderId, productId: req.params.productId },
+      include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
+    })
+    console.log('^^^^^^^^^^^UPDATED ITEM^^^^^^^^^^^^^', dataRequired);
+    res.json(dataRequired)
   } catch (err) {
     console.error(err)
     next(err)
