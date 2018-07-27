@@ -3,15 +3,16 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Login, Signup, ProductsList } from './components'
+import { Login, Signup } from './components'
 import {
   Home,
-  SingleProductView,
-  newProduct,
-  editProduct,
+  Product,
+  ProductList,
+  AddProduct,
+  EditProduct,
   UserDashboard,
-  EditUser,
   ManageUsers,
+  EditUser,
   ReviewForm
 } from './containers'
 import { me } from './store'
@@ -52,14 +53,12 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={Home} />
 
-        <Route
-          path="/products/:productId/editProduct"
-          component={editProduct}
-        />
+        <Route exact path="/products" component={ProductList} />
+        <Route exact path="/products/:productId" component={Product} />
+        <Route path="/products/add" component={AddProduct} />
+        <Route path="/products/:productId/edit" component={EditProduct} />
+
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
-        <Route path="/products/addProduct" component={newProduct} />
-        <Route exact path="/products" component={ProductsList} />
-        <Route path="/products/:productId" component={SingleProductView} />
 
         <PrivateRoute
           path="/user-dashboard"

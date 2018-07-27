@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../store'
-import ProductNav from './ProductNav'
+import { ProductNav, ProductCard } from '../components'
 
-class ProductsList extends React.Component {
+class ProductList extends React.Component {
   async componentDidMount() {
-    await this.props.fetchProducts()
+    await this.props.getProducts()
   }
 
   render() {
@@ -14,11 +15,12 @@ class ProductsList extends React.Component {
       <div>
         <h2>All Products</h2>
         <ProductNav />
+        <ProductCard />
         {products.map(product => (
           <div key={product.id} style={{ marginBottom: '15px' }}>
             <p>
               <strong>
-                <a href={`/products/${product.id}`}>{product.name}</a>
+                <Link to={`/products/${product.id}`}>{product.name}</Link>
               </strong>
               <br />
               ${product.price}
@@ -33,11 +35,11 @@ class ProductsList extends React.Component {
 }
 
 const mapState = state => ({
-  products: state.products.products
+  products: state.products.all
 })
 
 const mapDispatch = dispatch => ({
-  fetchProducts: () => dispatch(fetchProducts())
+  getProducts: () => dispatch(fetchProducts())
 })
 
-export default connect(mapState, mapDispatch)(ProductsList)
+export default connect(mapState, mapDispatch)(ProductList)

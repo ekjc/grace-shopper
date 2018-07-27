@@ -19,9 +19,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       </div>
       <div id="navPrimary" className="navbar-menu">
         <div className="navbar-start">
-          <NavLink to="/" className="navbar-item" activeClassName="is-active">
-            Home
-          </NavLink>
           <NavLink to="/products" className="navbar-item" activeClassName="is-active">
             Products
           </NavLink>

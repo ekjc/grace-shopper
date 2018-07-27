@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { getProduct, editExistingProduct } from '../store'
+import { fetchProduct, updateProduct } from '../store'
 
 class EditProduct extends Component {
   componentDidMount() {
@@ -23,15 +23,11 @@ class EditProduct extends Component {
     )
   }
 
-  onSubmit(values) {
+  handleSubmit = values => {
     const { name, price, SKU, unitsInStock, quantityPerUnit } = values
-    this.props.editExistingProduct({
+    this.props.updateProduct({
       id: this.props.match.params.productId,
-      name,
-      price,
-      SKU,
-      unitsInStock,
-      quantityPerUnit
+      name, price, SKU, unitsInStock, quantityPerUnit
     })
   }
 
@@ -40,9 +36,9 @@ class EditProduct extends Component {
   }
 
   render() {
-    const { pristine, submitting, handleSubmit, reset } = this.props
+    const { pristine, submitting, reset } = this.props
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <h2>Edit Product</h2>
         <Field
           label="Name of Product"
@@ -80,6 +76,13 @@ class EditProduct extends Component {
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>
+        <button
+          type="button"
+          onClick={this.goBack}
+        >
+          Cancel
+        </button>
+
         {/* <Field
           label="Featured Product"
           type="checkbox"
@@ -92,6 +95,7 @@ class EditProduct extends Component {
           name="activeStatus"
           component={this.renderField}
         /> */}
+
       </form>
     )
   }
@@ -122,23 +126,21 @@ EditProduct = reduxForm({
   keepDirtyOnReinitialize: true
 })(EditProduct)
 
-const mapState = ({ singleProduct: product }) => {
-  return {
-    product: product,
-    initialValues: {
-      name: product.name,
-      price: product.price,
-      description: product.description,
-      SKU: product.SKU,
-      unitsInStock: product.unitsInStock,
-      quantityPerUnit: product.quantityPerUnit
-    }
+const mapState = state => ({
+  product: state.products.active,
+  initialValues: {
+    name: state.products.active.name,
+    price: state.products.active.price,
+    description: state.products.active.description,
+    SKU: state.products.active.SKU,
+    unitsInStock: state.products.active.unitsInStock,
+    quantityPerUnit: state.products.active.quantityPerUnit
   }
-}
+})
 
 const mapDispatch = dispatch => ({
-  getProduct: productId => dispatch(getProduct(productId)),
-  editExistingProduct: product => dispatch(editExistingProduct(product))
+  getProduct: productId => dispatch(fetchProduct(productId)),
+  updateProduct: product => dispatch(updateProduct(product))
 })
 
 export default connect(mapState, mapDispatch)(EditProduct)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import {createNewReview} from '../store'
+import { createNewReview } from '../store'
 
 class ReviewForm extends Component {
 
@@ -20,24 +20,22 @@ class ReviewForm extends Component {
     )
   }
 
-  onSubmit(values) {
-      const {subject, content, rating} = values
-      this.props.createNewReview({
-          id: this.props.match.params.productId,
-          subject,
-          content,
-          rating
-      })
+  handleSubmit = values => {
+    const { subject, content, rating } = values
+    this.props.createNewReview({
+      id: this.props.match.params.productId,
+      subject, content, rating
+    })
   }
 
   goBack = () => {
-      this.props.history.goBack()
+    this.props.history.goBack()
   }
 
   render() {
-      const {pristine, submitting, handleSubmit, reset} = this.props
+      const {pristine, submitting, reset} = this.props
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <Field
           label="Subject"
           typeOfInput="text"
@@ -63,10 +61,15 @@ class ReviewForm extends Component {
         >
           Submit
         </button>
-        <button type="button" disabled={pristine ||           submitting} onClick={reset}>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>
-        <br/>
+        <button
+          type="button"
+          onClick={this.goBack}
+        >
+          Cancel
+        </button>
       </form>
     )
   }
@@ -74,7 +77,7 @@ class ReviewForm extends Component {
 
 const validate = values => {
     const errors = {}
-  
+
     if (!values.subject) {
       errors.name = 'Please enter a subject.'
     }

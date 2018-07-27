@@ -25,7 +25,7 @@ class ProductNav extends React.Component {
           name="selectedCategory"
           value="all"
           onClick={event => {
-            this.props.fetchProducts()
+            this.props.getProducts()
             this.handleNavTabs(event)
           }}
         >
@@ -37,7 +37,7 @@ class ProductNav extends React.Component {
           name="selectedCategory"
           value="beer"
           onClick={event => {
-            this.props.fetchLocalProducts(1)
+            this.props.getProductsByCategory(1)
             this.handleNavTabs(event)
           }}
         >
@@ -49,7 +49,7 @@ class ProductNav extends React.Component {
           name="selectedCategory"
           value="wine"
           onClick={event => {
-            this.props.fetchLocalProducts(2)
+            this.props.getProductsByCategory(2)
             this.handleNavTabs(event)
           }}
         >
@@ -61,7 +61,7 @@ class ProductNav extends React.Component {
           name="selectedCategory"
           value="spirits"
           onClick={event => {
-            this.props.fetchLocalProducts(3)
+            this.props.getProductsByCategory(3)
             this.handleNavTabs(event)
           }}
         >
@@ -74,14 +74,14 @@ class ProductNav extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  products: state.products.products
+const mapState = state => ({
+  products: state.products.all
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchLocalProducts: categoryId =>
+const mapDispatch = dispatch => ({
+  getProductsByCategory: categoryId =>
     dispatch(fetchProductsByCategory(categoryId)),
-  fetchProducts: () => dispatch(fetchProducts())
+  getProducts: () => dispatch(fetchProducts())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductNav)
+export default connect(mapState, mapDispatch)(ProductNav)
