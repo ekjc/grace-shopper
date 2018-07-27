@@ -170,7 +170,7 @@ export default (state = initialCart, action) => {
     case UPDATE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        items: [...state.items, action.item]
+        items: [...state.items.filter(item => item.product.id !== action.item.product.id), action.item]
       }
 
     case DELETE_CART_SUCCESS:

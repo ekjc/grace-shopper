@@ -30,7 +30,7 @@ class CartView extends Component {
              {`Quantity: ${item.quantity} metric alcohol units`}
              <span style={{'margin':'10px'}}>
                <button type='button'
-                 onClick={() => this.props.updateCartItem(orderId, item.product.id, 6)}> + </button>
+                 onClick={() => this.props.updateCartItem(orderId, item.product.id, 8)}> + </button>
              </span>
            </a>
            <a style={{'margin':'5px', display: 'block'}}>

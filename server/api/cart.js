@@ -65,12 +65,10 @@ router.put('/:orderId/:productId', async (req, res, next) => {
       returning: true,
       plain: true
     })
-    //can't send back the OrderItem instance, need to send back the order??
     const dataRequired = await OrderItem.findOne({
       where: { orderId: req.params.orderId, productId: req.params.productId },
       include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
     })
-    console.log('^^^^^^^^^^^UPDATED ITEM^^^^^^^^^^^^^', dataRequired);
     res.json(dataRequired)
   } catch (err) {
     console.error(err)
