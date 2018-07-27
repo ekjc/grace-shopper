@@ -25,8 +25,9 @@ class EditUser extends Component {
     const { user, pristine, reset, submitting } = this.props
     return (
       <div>
-        <h3>Edit User</h3>
+        <h1 className="title is-2">Edit User</h1>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+
           <div className="field">
             <label htmlFor="firstName" className="label">
               First Name
@@ -38,6 +39,7 @@ class EditUser extends Component {
               type="text"
             />
           </div>
+
           <div className="field">
             <label htmlFor="lastName" className="label">
               Last Name
@@ -49,6 +51,7 @@ class EditUser extends Component {
               type="text"
             />
           </div>
+
           <div className="field">
             <label htmlFor="email" className="label">
               Email
@@ -60,17 +63,17 @@ class EditUser extends Component {
               type="email"
             />
           </div>
+
           <div className="field">
-            <label htmlFor="isAdmin" className="label">
-              Admin
-            </label>
+            <label className="label">User Role</label>
             <Field
-              className="input"
+              className="switch is-rounded"
               name="isAdmin"
+              id="isAdmin"
               component="input"
               type="checkbox"
-            />{' '}
-            Yes
+            />
+            <label htmlFor="isAdmin">Admin</label>
           </div>
 
           <div className="field is-grouped">

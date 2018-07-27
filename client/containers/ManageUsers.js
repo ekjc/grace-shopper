@@ -22,8 +22,8 @@ class ManageUsers extends Component {
 
     return (
       <div>
-        <h2>Manage Users</h2>
-        <table className="table">
+        <h1 className="title is-2">Manage Users</h1>
+        <table className="table is-fullwidth is-striped">
           <thead>
             <tr>
               <th>Name</th>
