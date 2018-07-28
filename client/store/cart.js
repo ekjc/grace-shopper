@@ -94,7 +94,6 @@ export const updateCartItem = (orderId, productId, qty) => async dispatch => {
   console.log('updateCartItem fired in store');
   try {
     const { data } = await axios.put( `/api/cart/${orderId}/${productId}`, {qty})
-    console.log('updateCartItem got back data, here it is: ', data);
     dispatch(updateCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
@@ -114,6 +113,7 @@ export const deleteCart = orderId => async dispatch => {
 export const deleteCartItem = (orderId, productId) => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/cart/${orderId}/${productId}`)
+    console.log('DATA RETURNED FROM DELETE_CART_ITEM', data);
     dispatch(deleteCartItemSuccess(data))
   } catch (err) {
     console.error(err)
@@ -132,6 +132,7 @@ const initialCart = {
 /**
  * REDUCERS
  */
+ /* eslint-disable */
 export default (state = initialCart, action) => {
   switch (action.type) {
     case REQUEST_CART:
@@ -177,9 +178,10 @@ export default (state = initialCart, action) => {
       return initialCart
 
     case DELETE_CART_ITEM_SUCCESS:
+    console.log(action.item);
       return {
         ...state,
-        items: [...state.items].filter(item => item.id !== action.itemId)
+        items: [...state.items.filter(item => Number(item.productId) !== Number(action.item))]
       }
 
     default:

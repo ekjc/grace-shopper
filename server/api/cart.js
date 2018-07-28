@@ -54,7 +54,6 @@ router.post('/:orderId/:productId', async (req, res, next) => {
 //Editing OrderItem table -- NOT Order table
 router.put('/:orderId/:productId', async (req, res, next) => {
   try {
-    console.log( req.params.orderId, req.params.productId, req.body.qty);
     const [num, updatedItem] = await OrderItem.update({
       quantity: req.body.qty,
       productId: req.params.productId,
@@ -80,12 +79,12 @@ router.put('/:orderId/:productId', async (req, res, next) => {
 //Deleting item from cart :: /api/cart/:orderId/:productId
 //Deleting OrderItem table instance -- NOT the whole Order
 router.delete('/:orderId/:productId', async (req, res, next) => {
-  const productId = +req.params.productId
+  // const productId = +req.params.productId
   try {
     await OrderItem.destroy({
-      where: { productId }
+      where: { productId: req.params.productId, orderId: req.params.orderId },
     })
-    res.json(productId)
+    res.json(req.params.productId)
   } catch (err) {
     console.error(err)
     next(err)
