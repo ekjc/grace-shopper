@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-
-import { Login, Signup, PageNotFound } from './components'
+import { Login, Signup, CartView, PageNotFound } from './components'
 import {
   Home,
   Auth,
@@ -57,10 +56,12 @@ class Routes extends Component {
         <Route exact path="/products" component={ProductList} />
         <Route exact path="/products/:productId" component={Product} />
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
+      
+        {/* temporarily putting cart here for dev work */}
+        <Route path="/cart/:orderId" component={CartView} />
 
         {/* isLoggedIn-only routes */}
         <PrivateRoute
-          permission="user"
           path="/user-dashboard"
           component={UserDashboard}
           {...this.props}
@@ -68,19 +69,16 @@ class Routes extends Component {
 
         {/* isAdmin-only routes */}
         <PrivateRoute
-          permission="admin"
           path="/products/add"
           component={AddProduct}
           {...this.props}
         />
         <PrivateRoute
-          permission="admin"
           path="/products/:productId/edit"
           component={EditProduct}
           {...this.props}
         />
         <PrivateRoute
-          permission="admin"
           exact path="/manage/users"
           component={ManageUsers}
           {...this.props}
@@ -92,18 +90,12 @@ class Routes extends Component {
         />
 
         <Route path='/(login|signup)' component={Auth} />
-{/*
-        <Route path="/login" component={Auth} />
-        <Route path="/signup" component={Signup} />*/}
         <Route component={PageNotFound} />
       </Switch>
     )
   }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => ({
     isLoading: !!state.me.isLoading,
     isLoggedIn: !!state.me.id,
@@ -117,9 +109,6 @@ const mapDispatch = dispatch => ({
 // `withRouter` makes sure updates are not blocked when url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
 
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,

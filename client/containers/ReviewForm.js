@@ -22,9 +22,9 @@ class ReviewForm extends Component {
   handleSubmit = values => {
     const { subject, content, rating } = values
     this.props.createReview({
-      id: this.props.match.params.productId,
+      // id: this.props.match.params.productId,
       subject, content, rating
-    })
+    }, this.props.match.params.productId)
   }
 
   goBack = () => {
@@ -96,7 +96,7 @@ ReviewForm = reduxForm({
 })(ReviewForm)
 
 const mapDispatch = dispatch => ({
-  addReview: () => dispatch(createReview())
+  createReview: (review, productId) => dispatch(createReview(review, productId))
 })
 
 export default connect(null, mapDispatch)(ReviewForm)
