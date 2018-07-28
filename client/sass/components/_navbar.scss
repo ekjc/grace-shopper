@@ -1,16 +1,7 @@
-// .navbar {
-//   background-color: transparent;
-//   font-size: .875rem;
-// }
+.navbar {}
 
-// a.navbar-item {
-
-//   &.is-active::after {
-//     border-bottom: 3px solid rgba($white, .1);
-//     content: '';
-//     position: absolute;
-//       right: .75rem;
-//       bottom: .25rem;
-//       left: .75rem;
-//   }
-// }
+div.navbar-item {
+  a {
+    color: $white
+  }
+}

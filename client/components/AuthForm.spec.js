@@ -18,7 +18,7 @@ describe.only('AuthForm', () => {
     submitSpy = sinon.spy()
     authForm = shallow(
       <AuthForm
-        displayName="Login"
+        displayName="Sign in"
         name="Test Name"
         handleSubmit={submitSpy}
       />
