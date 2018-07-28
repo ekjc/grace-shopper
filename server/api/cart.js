@@ -33,17 +33,28 @@ router.delete('/:orderId', async (req, res, next) => {
   }
 })
 
-//Adding item to cart :: /api/cart/:orderId/:productId
-//This creates a new instance on the OrderItem join table btwn product & order ids
+// Adding item to cart :: /api/cart/:orderId/:productId
+// This creates a new instance on the OrderItem join table btwn product & order ids
+// If there already is one, it updates the quantity
 router.post('/:orderId/:productId', async (req, res, next) => {
   try {
-    const newItemInCart = await OrderItem.create({
-      orderId: req.params.orderId,
-      productId: req.params.productId,
-      quantity: req.body.quantity,
-      price: req.body.price
+    const [item, wasCreated] = await OrderItem.findOrCreate({
+      where: { productId: req.params.productId, orderId: req.params.orderId },
+      defaults: { quantity: req.body.qty }
     })
-    res.json(newItemInCart)
+    if (!wasCreated) {
+        await OrderItem.update({
+        quantity: req.body.qty + item.quantity, // if already exists, add to current quantity in cart
+        productId: req.params.productId,
+        orderId: req.params.orderId
+      }, {
+        where: { productId: req.params.productId, orderId: req.params.orderId },
+        returning: true,
+        plain: true
+      })
+    }
+    console.log(item.quantity);
+    res.json(item)
   } catch (err) {
     console.error(err)
     next(err)

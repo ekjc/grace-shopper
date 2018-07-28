@@ -76,12 +76,9 @@ export const createCart = cart => async dispatch => {
   }
 }
 
-export const createCartItem = (orderId, productId, qty, price) => async dispatch => {
+export const createCartItem = (orderId, productId, qty) => async dispatch => {
   try {
-    const { data } = await axios.post(
-      `/api/cart/${orderId}/${productId}`,
-      { quantity, price }
-    )
+    const { data } = await axios.post(`/api/cart/${orderId}/${productId}`, {qty})
     dispatch(createCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
