@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { fetchUser, updateUser } from '../store'
+import { fetchUser, updateUser, resetActiveUser } from '../store'
 
 class EditUser extends Component {
   componentDidMount() {
@@ -18,6 +18,7 @@ class EditUser extends Component {
   }
 
   goBack = () => {
+    this.props.resetActiveUser()
     this.props.history.goBack()
   }
 
@@ -128,7 +129,8 @@ const mapState = ({ users }) => {
 
 const mapDispatch = dispatch => ({
   getUser: userId => dispatch(fetchUser(userId)),
-  updateUser: user => dispatch(updateUser(user))
+  updateUser: user => dispatch(updateUser(user)),
+  resetActiveUser: () => dispatch(resetActiveUser())
 })
 
 export default connect(mapState, mapDispatch)(EditUser)

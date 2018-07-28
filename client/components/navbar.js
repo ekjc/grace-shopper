@@ -39,15 +39,28 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               Logout
             </a>
           )}
+          {/*!isLoggedIn && (
+            <div className="navbar-item">
+              <span>
+                <Link to="/login">
+                  Sign in
+                </Link>
+                <span className="has-text-weight-normal" style={{ margin: '0 .25rem' }}>or</span>
+                <Link to="/signup">
+                  Sign up
+                </Link>
+              </span>
+            </div>
+          )*/}
           {!isLoggedIn && (
-            <NavLink to="/login" className="navbar-item" activeClassName="is-active">
+            <Link to="/login" className="navbar-item">
               Login
-            </NavLink>
+            </Link>
           )}
           {!isLoggedIn && (
-            <NavLink to="/signup" className="navbar-item" activeClassName="is-active">
-              Sign Up
-            </NavLink>
+            <Link to="/signup" className="navbar-item">
+              Sign up
+            </Link>
           )}
           <a className="navbar-item">
             <span className="icon">

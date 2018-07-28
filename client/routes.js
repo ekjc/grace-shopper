@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Login, Signup } from './components'
+import { Login, Signup, PageNotFound } from './components'
 import {
   Home,
+  Auth,
   Product,
   ProductList,
   AddProduct,
@@ -19,31 +20,31 @@ import { me } from './store'
 
 const PrivateRoute = ({
   component: MyComponent,
+  isAdmin,
   isLoading,
   isLoggedIn,
   ...rest
 }) => {
-  if (!isLoading) {
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          // isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
-          <MyComponent {...props} />
-        }
-      />
-    )
-  }
+  if (isLoading || !isLoggedIn) return null;
 
-  return null
+  return (
+    <Route
+      {...rest}
+      render={
+        props =>
+          isAdmin ? <MyComponent {...props} /> : <Redirect to="/login" />
+          // <MyComponent {...props} />
+      }
+    />
+  )
 }
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
   }
 
   render() {
@@ -55,17 +56,31 @@ class Routes extends Component {
 
         <Route exact path="/products" component={ProductList} />
         <Route exact path="/products/:productId" component={Product} />
-        <Route path="/products/add" component={AddProduct} />
-        <Route path="/products/:productId/edit" component={EditProduct} />
-
         <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
 
+        {/* isLoggedIn-only routes */}
         <PrivateRoute
+          permission="user"
           path="/user-dashboard"
           component={UserDashboard}
           {...this.props}
         />
+
+        {/* isAdmin-only routes */}
         <PrivateRoute
+          permission="admin"
+          path="/products/add"
+          component={AddProduct}
+          {...this.props}
+        />
+        <PrivateRoute
+          permission="admin"
+          path="/products/:productId/edit"
+          component={EditProduct}
+          {...this.props}
+        />
+        <PrivateRoute
+          permission="admin"
           exact path="/manage/users"
           component={ManageUsers}
           {...this.props}
@@ -76,16 +91,11 @@ class Routes extends Component {
           {...this.props}
         />
 
-        {/* isLoggedIn && (
-          <Switch>
-            <Route path="/home" component={UserDashboard} />
-            {isAdmin && <Route path="/manage" component={Manage} />}
-          </Switch>
-        ) */}
-
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route component={Home} />
+        <Route path='/(login|signup)' component={Auth} />
+{/*
+        <Route path="/login" component={Auth} />
+        <Route path="/signup" component={Signup} />*/}
+        <Route component={PageNotFound} />
       </Switch>
     )
   }
