@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchUsers, deleteUser } from '../store'
+import { fetchUsers, deleteUser, logout } from '../store'
 import { UserRow } from '../components'
 
 class ManageUsers extends Component {
@@ -12,7 +12,17 @@ class ManageUsers extends Component {
 
   handleDelete = (event, user) => {
     event.preventDefault()
-    this.props.deleteUser(user)
+
+    const { myId, deleteUser } = this.props
+
+    if (user.id === myId) {
+      if (confirm('You are about to delete yourself! Are you sure?')) {
+        deleteUser(user)
+      }
+      return null;
+    }
+
+    deleteUser(user)
   }
 
   render() {
@@ -24,12 +34,19 @@ class ManageUsers extends Component {
       <div>
         <h1 className="title is-2">Manage Users</h1>
         <table className="table is-fullwidth is-striped">
+          <colgroup>
+            <col style={{ width: '25%' }} />
+            <col style={{ width: '25%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col />
+          </colgroup>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Joined</th>
-              <th>Role</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Joined</th>
+              <th scope="col">Role</th>
               <th />
             </tr>
           </thead>
@@ -54,12 +71,14 @@ class ManageUsers extends Component {
 const mapState = state => ({
   isLoading: state.me.isLoading,
   isAdmin: state.me.isAdmin,
-  users: state.users.all
+  users: state.users.all,
+  myId: state.me.id
 })
 
 const mapDispatch = dispatch => ({
   getUsers: () => dispatch(fetchUsers()),
-  deleteUser: user => dispatch(deleteUser(user))
+  deleteUser: user => dispatch(deleteUser(user)),
+  handleClick: () => dispatch(logout())
 })
 
 export default connect(mapState, mapDispatch)(ManageUsers)

@@ -18,6 +18,11 @@ describe('AuthForm', () => {
     submitSpy = sinon.spy()
     authForm = shallow(
       <AuthForm displayName="Login" name="Test Name" handleSubmit={submitSpy} />
+//       <AuthForm
+//         displayName="Sign in"
+//         name="Test Name"
+//         handleSubmit={submitSpy}
+//       />
     )
   })
 

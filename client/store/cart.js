@@ -76,12 +76,9 @@ export const createCart = cart => async dispatch => {
   }
 }
 
-export const createCartItem = (orderId, productId, qty, price) => async dispatch => {
+export const createCartItem = (orderId, productId, qty) => async dispatch => {
   try {
-    const { data } = await axios.post(
-      `/api/cart/${orderId}/${productId}`,
-      { quantity, price }
-    )
+    const { data } = await axios.post(`/api/cart/${orderId}/${productId}`, {qty})
     dispatch(createCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
@@ -89,12 +86,11 @@ export const createCartItem = (orderId, productId, qty, price) => async dispatch
   }
 }
 
-export const updateCartItem = (orderId, productId, qty, price) => async dispatch => {
+/* NOTE: removed price from this thunk, not sure is needed since it's on the product model */
+export const updateCartItem = (orderId, productId, qty) => async dispatch => {
+  console.log('updateCartItem fired in store');
   try {
-    const { data } = await axios.put(
-      `/api/cart/${orderId}/${productId}`,
-      { quantity, price }
-    )
+    const { data } = await axios.put( `/api/cart/${orderId}/${productId}`, {qty})
     dispatch(updateCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
@@ -114,6 +110,7 @@ export const deleteCart = orderId => async dispatch => {
 export const deleteCartItem = (orderId, productId) => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/cart/${orderId}/${productId}`)
+    console.log('DATA RETURNED FROM DELETE_CART_ITEM', data);
     dispatch(deleteCartItemSuccess(data))
   } catch (err) {
     console.error(err)
@@ -132,7 +129,8 @@ const initialCart = {
 /**
  * REDUCERS
  */
-export const cartReducer = (state = initialCart, action) => {
+ /* eslint-disable */
+export default (state = initialCart, action) => {
   switch (action.type) {
     case REQUEST_CART:
     case  REQUEST_CART_ITEMS:
@@ -151,7 +149,7 @@ export const cartReducer = (state = initialCart, action) => {
     case RECEIVE_CART_ITEMS:
       return {
         ...state,
-        items: [...state.items, action.items],
+        items: action.items,
         isLoading: false
       }
 
@@ -170,7 +168,7 @@ export const cartReducer = (state = initialCart, action) => {
     case UPDATE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        items: [...state.items, action.item]
+        items: [...state.items.filter(item => item.product.id !== action.item.product.id), action.item]
       }
 
     case DELETE_CART_SUCCESS:
@@ -179,7 +177,7 @@ export const cartReducer = (state = initialCart, action) => {
     case DELETE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        items: [...state.items].filter(item => item.id !== action.itemId)
+        items: [...state.items.filter(item => Number(item.productId) !== Number(action.item))]
       }
 
     default:

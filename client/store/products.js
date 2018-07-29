@@ -44,20 +44,23 @@ export const fetchProducts = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/products')
     dispatch(receiveProducts(data || []))
-  } catch (err) {
+  } catch (error) {
     // return dispatch(receiveProducts({ error }))
-    console.error(err)
+    console.error(error)
   }
 }
 
 export const fetchProductsByCategory = categoryId => async dispatch => {
   dispatch(requestProducts())
   try {
-    const { data } = await axios.get(`/api/products/categories/${categoryId}`)
+    const { data } = await axios.get(
+      `/api/products/${categoryId ? `categories/${categoryId}` : ''}`
+    )
+    console.log('*** fetchProductsByCategory data', data)
     dispatch(receiveProducts(data || []))
-  } catch (err) {
+  } catch (error) {
     // return dispatch(receiveProducts({ error }))
-    console.error(err)
+    console.error(error)
   }
 }
 
@@ -66,9 +69,9 @@ export const fetchProduct = productId => async dispatch => {
   try {
     const { data } = await axios.get(`/api/products/${productId}`)
     dispatch(receiveProduct(data || {}))
-  } catch (err) {
+  } catch (error) {
     // return dispatch(receiveProduct({ error }))
-    console.error(err)
+    console.error(error)
   }
 }
 
@@ -77,8 +80,8 @@ export const createProduct = product => async dispatch => {
     const { data } = await axios.post(`/api/products`, product)
     dispatch(createProductSuccess(data || {}))
     // history.push(`/manage/users/${data.id}`)
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -87,8 +90,8 @@ export const updateProduct = product => async dispatch => {
     const { data } = await axios.put(`/api/products/${product.id}`, product)
     dispatch(updateProductSuccess(data || {}))
     // history.push('/manage/users');
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -96,8 +99,8 @@ export const deleteProduct = product => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/products/${product.id}`)
     dispatch(deleteProductSuccess(data || {}))
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -113,7 +116,7 @@ const initialState = {
 /**
  * REDUCERS
  */
-export default function(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_PRODUCTS:
     case REQUEST_PRODUCT:

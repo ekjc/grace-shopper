@@ -1,0 +1,13 @@
+.table {
+  tr > td a {
+    color: inherit;
+
+    &:hover {
+      color: $link;
+    }
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
