@@ -715,29 +715,29 @@ const reviews = [
     subject: 'It SUCKED',
     content: 'Kinda lame. Sorta hated it',
     rating: 1,
-    productId: 1,
-    userId: 1
+    userId: 1,
+    product: ['Lord Hobo Boom Sauce']
   },
   {
     subject: 'Mehhhhh',
     content: 'Ok i guess.',
     rating: 3,
-    productId: 2,
-    userId: 2
+    userId: 2,
+    product: ['Modelo Especial']
   },
   {
     subject: 'Bow Chicka Wow',
     content: 'Amazing! Would tell friend about this product.',
     rating: 5,
-    productId: 3,
-    userId: 3
+    userId: 1,
+    product: ['Yuengling']
   },
   {
     subject: 'Howdy',
     content: 'Generic product review',
     rating: 4,
-    productId: 4,
-    userId: 4
+    userId: 1,
+    product: ['Cloudy Bay Sauvignon Blanc']
   }
 ]
 
