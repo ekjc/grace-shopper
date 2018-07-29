@@ -19,6 +19,26 @@ router.post('/login', async (req, res, next) => {
   }
 })
 
+router.put('/login', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+        password: req.body.password
+      }
+    })
+    if (user) {
+      req.login(user, (err) => err ? next(err) : res.json(user))
+    } else {
+      const err = new Error('Incorrect email or password!')
+      err.status = 401
+      throw err
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body)
@@ -39,6 +59,9 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
+  if(!req.user) {
+    res.sendStatus(404)
+  }
   res.json(req.user)
 })
 
