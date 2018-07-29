@@ -175,7 +175,6 @@ export default (state = initialCart, action) => {
       return initialCart
 
     case DELETE_CART_ITEM_SUCCESS:
-    console.log(action.item);
       return {
         ...state,
         items: [...state.items.filter(item => Number(item.productId) !== Number(action.item))]

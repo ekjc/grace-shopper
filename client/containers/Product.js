@@ -38,7 +38,7 @@ class Product extends Component {
           value={this.state.quantityToAdd}
           name="quantityToAdd"
           min="1" max="200"/>
-        {/* hardcoded orderId in createCartItem(), will need to be tied to user/session */}
+        {/* hardcoded orderId in createCartItem() as first arg, will need to be tied to user/session */}
         <button type="submit"
           onClick={() => this.props.createCartItem(1, productId, this.state.quantityToAdd)}>
              Add to Cart

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Checkout } from './Checkout'
 import { connect } from 'react-redux'
-import { fetchCart, fetchCartItems, updateCartItem, deleteCartItem} from '../store'
+import { fetchCart, fetchCartItems, updateCartItem, deleteCartItem, processOrder} from '../store'
 
 class CartView extends Component {
   async componentDidMount() {
@@ -10,10 +11,9 @@ class CartView extends Component {
   }
 
   render() {
-    const { cart, cartItems } = this.props
+    const { cart, cartItems, sendOrder } = this.props
     cartItems.sort((a , b) => (a.productId - b.productId));  //must be sorted to stay in place upon quantity update
     const orderId = this.props.match.params.orderId
-    console.log('cart & cartItems from state in Cart View COMPONENT', cart, cartItems);
     const orderTotal = cartItems.reduce((acc, val) => {
       return acc + (val.quantity*val.product.price)
     }, 0)
@@ -46,10 +46,10 @@ class CartView extends Component {
          </div>
        ))}
       <div>
-        {`Total: $${orderTotal.toFixed(2)} `}
+      <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
+      <Checkout sendOrder={sendOrder} cart={cart}/>
       </div>
       </div>
-
     );
   }
 }
@@ -63,7 +63,8 @@ const mapDispatch = dispatch => ({
   getCart: cartId => dispatch(fetchCart(cartId)),
   getCartItems: cartId => dispatch(fetchCartItems(cartId)),
   updateCartItem: (orderId, productId, qty) => dispatch(updateCartItem(orderId, productId, qty)),
-  deleteCartItem: (orderId, productId) => dispatch(deleteCartItem(orderId, productId))
+  deleteCartItem: (orderId, productId) => dispatch(deleteCartItem(orderId, productId)),
+  sendOrder: (orderId, statusCode) => dispatch(processOrder(orderId, statusCode))
 })
 
 export default connect(mapState, mapDispatch)(CartView)
