@@ -5,6 +5,9 @@ import history from '../history'
  * ACTION TYPES
  */
 const REQUEST_REVIEWS = 'REQUEST_REVIEWS'
+const RECEIVE_REVIEWS = 'RECEIVE_REVIEWS'
+
+// TODO -- delete these??
 const RECEIVE_REVIEWS_BY_PRODUCT = 'RECEIVE_REVIEWS_BY_PRODUCT'
 const RECEIVE_REVIEWS_BY_USER = 'RECEIVE_REVIEWS_BY_USER'
 
@@ -19,6 +22,9 @@ const DELETE_REVIEW_SUCCESS = 'DELETE_REVIEW_SUCCESS'
  * ACTION CREATORS
  */
 const requestReviews = () => ({ type: REQUEST_REVIEWS })
+const receiveReviews = reviews => ({ type: RECEIVE_REVIEWS, reviews })
+
+// TODO -- delete these?
 const receiveReviewsForProduct = reviews => ({
   type: RECEIVE_REVIEWS_BY_PRODUCT, reviews
 })
@@ -45,29 +51,36 @@ const deleteReviewSuccess = reviewId => ({
 /**
  * THUNK CREATORS
  */
- // TODO - Set up `get` route :: /api/reviews/product/:productId
+export const fetchReviews = () => async dispatch => {
+  dispatch(requestReviews())
+  try {
+    const { data } = await axios.get('/api/reviews')
+    dispatch(receiveReviews(data || []))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const fetchReviewsForProduct = productId => async dispatch => {
   dispatch(requestReviews())
   try {
     const { data } = await axios.get(`/api/reviews/product/${productId}`)
-    dispatch(receiveReviewsForProduct(data || []))
+    dispatch(receiveReviews(data || []))
   } catch (error) {
     console.error(error)
   }
 }
 
-// TODO - Set up `get` route :: /api/reviews/user/:userId
 export const fetchReviewsByUser = userId => async dispatch => {
   dispatch(requestReviews())
   try {
     const { data } = await axios.get(`/api/reviews/user/${userId}`)
-    dispatch(receiveReviewsByUser(data || []))
+    dispatch(receiveReviews(data || []))
   } catch (error) {
     console.error(error)
   }
 }
 
-// TODO - Set up `post` route :: /api/reviews
 export const createReview = (review, productId) => async dispatch => {
   try {
     const { data } = await axios.post(`/api/reviews`, {review, productId})
@@ -77,8 +90,6 @@ export const createReview = (review, productId) => async dispatch => {
   }
 }
 
-// TODO - Reviews need their own API?
-// TODO - Set up `put` route :: /api/reviews/:reviewId
 export const updateReview = review => async dispatch => {
   try {
     const { data } = await axios.put(`/api/reviews/${review.id}/`, review)
@@ -88,8 +99,6 @@ export const updateReview = review => async dispatch => {
   }
 }
 
-// TODO - Reviews need their own API?
-// TODO - Set up `delete` route :: /api/reviews/:reviewId
 export const deleteReview = review => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/reviews/${review.id}`)
@@ -120,6 +129,7 @@ export default (state = initialState, action) => {
         isLoading: true
       }
 
+    case RECEIVE_REVIEWS:
     case RECEIVE_REVIEWS_BY_PRODUCT:
       return {
         ...state,
