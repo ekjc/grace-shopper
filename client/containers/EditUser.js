@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { fetchUser, updateUser } from '../store'
+import { fetchUser, updateUser, resetActiveUser } from '../store'
+import { ValidateField, validateUser } from '../components';
 
 class EditUser extends Component {
   componentDidMount() {
     this.props.getUser(this.props.match.params.userId)
   }
 
-  handleSubmit = data => {
-    const { firstName, lastName, email, isAdmin } = data;
+  handleSubmit = values => {
+    const { firstName, lastName, email, isAdmin } = values;
     this.props.updateUser({
       id: this.props.match.params.userId,
       firstName, lastName, email, isAdmin
@@ -18,6 +19,7 @@ class EditUser extends Component {
   }
 
   goBack = () => {
+    this.props.resetActiveUser()
     this.props.history.goBack()
   }
 
@@ -28,41 +30,26 @@ class EditUser extends Component {
         <h1 className="title is-2">Edit User</h1>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
-          <div className="field">
-            <label htmlFor="firstName" className="label">
-              First Name
-            </label>
-            <Field
-              className="input"
-              name="firstName"
-              component="input"
-              type="text"
-            />
-          </div>
+          <Field
+            label="First name"
+            name="firstName"
+            type="text"
+            component={ValidateField}
+          />
 
-          <div className="field">
-            <label htmlFor="lastName" className="label">
-              Last Name
-            </label>
-            <Field
-              className="input"
-              name="lastName"
-              component="input"
-              type="text"
-            />
-          </div>
+          <Field
+            label="Last name"
+            name="lastName"
+            type="text"
+            component={ValidateField}
+          />
 
-          <div className="field">
-            <label htmlFor="email" className="label">
-              Email
-            </label>
-            <Field
-              className="input"
-              name="email"
-              component="input"
-              type="email"
-            />
-          </div>
+          <Field
+            label="Email"
+            name="email"
+            type="email"
+            component={ValidateField}
+          />
 
           <div className="field">
             <label className="label">User Role</label>
@@ -110,7 +97,8 @@ class EditUser extends Component {
 EditUser = reduxForm({
   form: 'editUser',
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true
+  keepDirtyOnReinitialize: true,
+  validate: validateUser
 })(EditUser)
 
 const mapState = ({ users }) => {
@@ -128,7 +116,8 @@ const mapState = ({ users }) => {
 
 const mapDispatch = dispatch => ({
   getUser: userId => dispatch(fetchUser(userId)),
-  updateUser: user => dispatch(updateUser(user))
+  updateUser: user => dispatch(updateUser(user)),
+  resetActiveUser: () => dispatch(resetActiveUser())
 })
 
 export default connect(mapState, mapDispatch)(EditUser)

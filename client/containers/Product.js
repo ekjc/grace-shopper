@@ -44,13 +44,19 @@ class Product extends Component {
              Add to Cart
            </button>
         </div>
+
         <br />
         <br />
         <br />
-        <Link to={`/products/${product.id}/edit`}>
+        <Link to={`/product/${product.id}/edit`}>
           <button type="button">Edit Product</button>
         </Link>
-        <Link to={`/products/${product.id}/reviewForm`}>
+        <Link
+          to={{
+            pathname: '/review/add',
+            state: { product: product }
+          }}
+        >
           <button type="button">Add A Review</button>
         </Link>
         <Reviews productId={this.props.match.params.productId} />

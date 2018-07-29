@@ -14,11 +14,12 @@ class Reviews extends Component {
       <div>
         <h1>Product Reviews</h1>
         {reviews.map(review => {
+          const { id, subject, content, rating } = review
           return (
-            <div key={review.id}>
-              <h3>Subject: {review.subject}</h3>
-              <h3>Content: {review.content}</h3>
-              <h3>Rating: {review.rating}</h3>
+            <div key={id} style={{ marginBottom: '1rem' }}>
+              {subject && <h5 className="title is-5">{subject}</h5>}
+              <p className="subtitle is-6">Rating: {rating} stars</p>
+              <p>{content}</p>
             </div>
           )
         })}

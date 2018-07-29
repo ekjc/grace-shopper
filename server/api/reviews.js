@@ -2,71 +2,74 @@ const router = require('express').Router()
 const { Review, Product } = require('../db/models')
 module.exports = router
 
-// Fetch all reviews
-// route address /api/reviews/product/:productId
+// get all reviews :: /api/reviews
 router.get('/', async (req, res, next) => {
   try {
-    const allReviews = await Review.findAll()
-    res.json(allReviews)
+    const reviews = await Review.findAll()
+    res.json(reviews)
   } catch (err) {
     next(err)
   }
 })
 
-// Fetch reviews with specific productId
-// Route address /api/reviews/product/:productId
-router.get('/product/:productId', async (req, res, next) => {
+// get single review :: /api/reviews/:reviewId
+router.get('/:reviewId', async (req, res, next) => {
   try {
-    const productId = req.params.productId
-    const review = await Review.findAll({
-      where: {
-        productId: productId
-      }
-    })
+    const review = await Review.findById(req.params.reviewId)
     res.json(review)
   } catch (err) {
     next(err)
   }
 })
 
-// Fetch all reviews with specific userId
-// route address /api/reviews/users/:userId
-router.get('/user/:userId', async (req, res, next) => {
+//  get all reviews for a product :: /api/reviews/product/:productId
+router.get('/product/:productId', async (req, res, next) => {
   try {
-    const userId = req.params.userId
-    const reviewsFromUser = await Review.findAll({
-      where: {
-        userId: userId
-      }
+    const reviews = await Review.findAll({
+      where: { productId: +req.params.productId }
     })
-    res.json(reviewsFromUser)
+    res.json(reviews)
   } catch (err) {
     next(err)
   }
 })
 
-// Create new Review
-// Route address /api/reviews
+// get all reviews for a user :: /api/reviews/user/:userId
+router.get('/user/:productId', async (req, res, next) => {
+  try {
+    const reviews = await Review.findAll({
+      where: { userId: +req.params.userId }
+    })
+    res.json(reviews)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// add review :: /api/reviews
 router.post('/', async (req, res, next) => {
   try {
-    console.log('req.body.content', req.body.content)
+    console.log('****** req.body', req.body)
+
     const newReview = await Review.create({
       subject: req.body.review.subject,
       content: req.body.review.content,
       rating: req.body.review.rating,
-      productId: req.body.productId
     })
+
+    newReview.setProduct(req.body.productId)
+    newReview.setUser(req.body.userId)
+
     res.json(newReview)
   } catch (err) {
     next(err)
   }
 })
 
-// Edit review
-// Route address /api/reviews/:reviewId
+// update review :: /api/reviews/:reviewId
 router.put('/:reviewId', async (req, res, next) => {
     try {
-      const reviewId = req.params.reviewId  
+      const reviewId = req.params.reviewId
       const reviewToUpdate = await Review.findById(reviewId)
       await reviewToUpdate.update(req.body)
     } catch(err) {
@@ -74,6 +77,7 @@ router.put('/:reviewId', async (req, res, next) => {
     }
 })
 
+// delete review :: /api/reviews/:reviewId
 router.delete('/:reviewId', async (req, res, next) => {
   try {
     const reviewToDelete = await Review.findById(req.params.reviewId)

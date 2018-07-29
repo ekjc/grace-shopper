@@ -9,6 +9,14 @@ const Product = db.define('product', {
       notEmpty: true
     }
   },
+  description: {
+    type: Sequelize.TEXT,
+    defaultValue: 'No description is currently available'
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'http://placehold.it/400x600'
+  },
   price: {
     type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
@@ -16,12 +24,8 @@ const Product = db.define('product', {
       notEmpty: true
     }
   },
-  description: {
-    type: Sequelize.TEXT,
-    defaultValue: 'No description is currently available'
-  },
   SKU: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
@@ -33,10 +37,6 @@ const Product = db.define('product', {
     validate: {
       notEmpty: true
     }
-  },
-  quantityPerUnit: {
-    type: Sequelize.INTEGER,
-    defaultValue: 1
   },
   isFeatured: {
     type: Sequelize.BOOLEAN,

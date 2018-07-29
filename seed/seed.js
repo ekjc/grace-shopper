@@ -10,7 +10,9 @@ const User = require('../server/db/models/user')
 const {
   addresses,
   users,
-  categories,
+  beerCategories,
+  wineCategories,
+  liquorCategories,
   images,
   products,
   reviews,
@@ -21,24 +23,88 @@ const db = require('../server/db')
 
 const seed = async () => {
   try {
-    await db.sync({force: true})
+    await db.sync({ force: true })
+
     await Promise.all(addresses.map(address => Address.create(address)))
     await Promise.all(users.map(user => User.create(user)))
     await Promise.all(images.map(image => Image.create(image)))
-    await Promise.all(categories.map(category => Category.create(category)))
+
+    // enforce categories to be created in this order
+    const beer = await Category.create({ name: 'Beer' })
+    const wine = await Category.create({ name: 'Wine' })
+    const liquor = await Category.create({ name: 'Liquor' })
+
+    // then add beer subcategories
+    await Promise.all(beerCategories.map(cat => beer.addChild(cat)))
+
+    // then add wine subcategories without a parent
+    await Promise.all(
+      wineCategories.map(cat => {
+        if (!cat.parent) {
+          return wine.addChild(cat)
+        }
+      })
+    )
+
+    // then add wine subcategories _with_ a parent
+    await Promise.all(
+      wineCategories.map(async cat => {
+        if (cat.parent) {
+          const parentCat = await Category.findOne({
+            where: { name: cat.parent }
+          })
+          return await parentCat.addChild(cat)
+        }
+      })
+    )
+
+    // then add liquor subcategories without a parent
+    await Promise.all(
+      liquorCategories.map(cat => {
+        if (!cat.parent) {
+          return liquor.addChild(cat)
+        }
+      })
+    )
+
+    // then add liquor subcategories _with_ a parent
+    await Promise.all(
+      liquorCategories.map(async cat => {
+        if (cat.parent) {
+          const parentCat = await Category.findOne({
+            where: { name: cat.parent }
+          })
+          return await parentCat.addChild(cat)
+        }
+      })
+    )
+
     await Promise.all(
       products.map(async product => {
         const newProduct = await Product.create(product)
-        const categoryFromDB = await Category.findAll({
+        const categoriesFromDB = await Category.findAll({
           where: {
-            id: { $or: product.categories }
+            name: { $or: product.categories }
           }
         })
-        await newProduct.addCategory(categoryFromDB)
+        await newProduct.addCategory(categoriesFromDB)
       })
     )
-    await Promise.all(reviews.map(review => Review.create(review)))
-    await Promise.all(orderStatusCodes.map(code => OrderStatusCode.create(code)))
+
+    await Promise.all(reviews.map(async review => {
+      const newReview = await Review.create(review)
+      const product = await Product.findOne({
+        where: {
+          name: { $or: review.product }
+        }
+      })
+      await newReview.setProduct(product)
+    }))
+
+    await Promise.all(
+      orderStatusCodes.map(code => OrderStatusCode.create(code))
+    )
+
     await Promise.all(
       orders.map(async order => {
         const newOrder = await Order.create(order)

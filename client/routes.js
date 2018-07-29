@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Login, Signup, CartView } from './components'
+import { Login, Signup, CartView, PageNotFound } from './components'
 import {
   Home,
+  Auth,
   Product,
   ProductList,
   AddProduct,
@@ -12,37 +13,37 @@ import {
   UserDashboard,
   ManageUsers,
   EditUser,
-  ReviewForm
+  AddReview
 } from './containers'
 import { me } from './store'
 
 const PrivateRoute = ({
   component: MyComponent,
+  isAdmin,
   isLoading,
   isLoggedIn,
   ...rest
 }) => {
-  if (!isLoading) {
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          // isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/" />
-          <MyComponent {...props} />
-        }
-      />
-    )
-  }
+  if (isLoading || !isLoggedIn) return null;
 
-  return null
+  return (
+    <Route
+      {...rest}
+      render={
+        props =>
+          isAdmin ? <MyComponent {...props} /> : <Redirect to="/login" />
+          // <MyComponent {...props} />
+      }
+    />
+  )
 }
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
   }
 
   render() {
@@ -53,18 +54,30 @@ class Routes extends Component {
         <Route exact path="/" component={Home} />
 
         <Route exact path="/products" component={ProductList} />
-        <Route exact path="/products/:productId" component={Product} />
-        <Route path="/products/add" component={AddProduct} />
-        <Route path="/products/:productId/edit" component={EditProduct} />
+        <Route path="/products/:categoryName" component={ProductList} />
+        <Route exact path="/product/:productId" component={Product} />
 
-        <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
-      
+        <Route exact path="/review/add" component={AddReview}/>
+
         {/* temporarily putting cart here for dev work */}
         <Route path="/cart/:orderId" component={CartView} />
 
+        {/* isLoggedIn-only routes */}
         <PrivateRoute
           path="/user-dashboard"
           component={UserDashboard}
+          {...this.props}
+        />
+
+        {/* isAdmin-only routes */}
+        <PrivateRoute
+          path="/products/add"
+          component={AddProduct}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/products/:productId/edit"
+          component={EditProduct}
           {...this.props}
         />
         <PrivateRoute
@@ -78,24 +91,13 @@ class Routes extends Component {
           {...this.props}
         />
 
-        {/* isLoggedIn && (
-          <Switch>
-            <Route path="/home" component={UserDashboard} />
-            {isAdmin && <Route path="/manage" component={Manage} />}
-          </Switch>
-        ) */}
-
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route component={Home} />
+        <Route path="/(login|signup)" component={Auth} />
+        <Route component={PageNotFound} />
       </Switch>
     )
   }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => ({
     isLoading: !!state.me.isLoading,
     isLoggedIn: !!state.me.id,
@@ -109,9 +111,6 @@ const mapDispatch = dispatch => ({
 // `withRouter` makes sure updates are not blocked when url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
 
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,

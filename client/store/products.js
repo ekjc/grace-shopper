@@ -53,7 +53,10 @@ export const fetchProducts = () => async dispatch => {
 export const fetchProductsByCategory = categoryId => async dispatch => {
   dispatch(requestProducts())
   try {
-    const { data } = await axios.get(`/api/products/categories/${categoryId}`)
+    const { data } = await axios.get(
+      `/api/products/${categoryId ? `categories/${categoryId}` : ''}`
+    )
+    console.log('*** fetchProductsByCategory data', data)
     dispatch(receiveProducts(data || []))
   } catch (error) {
     // return dispatch(receiveProducts({ error }))
