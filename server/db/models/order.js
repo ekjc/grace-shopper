@@ -9,9 +9,6 @@ const Order = db.define('order', {
     email: {
       type: Sequelize.STRING,
       allowNull: true,
-      validate: {
-        isEmail: true
-      }
     },
     phoneNumber: {
       type: Sequelize.STRING,
@@ -31,14 +28,15 @@ const Order = db.define('order', {
   }
 )
 
-Order.prototype.generateOrderNumber = () => {
-  let orderNumber = '#'
+Order.prototype.generateOrderNumber = (order) => {
+  let newOrderNum = '#'
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   for (var i = 0; i < 9; i++)
-    orderNumber += possible.charAt(Math.floor(Math.random() * possible.length));
+    newOrderNum += possible.charAt(Math.floor(Math.random() * possible.length));
 
-  return orderNumber;
+  order.orderNumber = newOrderNum
+  return newOrderNum;
 }
 
 module.exports = Order

@@ -45,19 +45,18 @@ router.get('/:orderId', async (req, res, next) => {
 })
 
 
-//Process a "cart" instance into an "order" instance :: /api/order/:orderId/processOrder
-router.put('/:orderId', async (req, res, next) => {
+//Process a "cart" instance into an "order" instance :: /api/orders/:orderId/processOrder
+// 1. Change status code 2. assign an order number (if not present) 3. Create date of order
+router.put('/:orderId/processOrder', async (req, res, next) => {
   try {
-    const processedOrder = await Order.update({
-      orderNumber: Order.generateOrderNumber(), //this will prob need to be changed
-      //...
-    },
-    {
-      where: { id: req.params.productId },
-      returning: true,
-      plain: true
-    })
-    res.json(processedOrder)
+    const orderToProcess = await Order.findById(req.params.orderId)
+    if (!orderToProcess.orderNumber) orderToProcess.generateOrderNumber(orderToProcess)
+    orderToProcess.orderStatusCodeId = req.body.statusCode
+    orderToProcess.date = new Date()
+
+    await orderToProcess.save()
+
+    res.json(orderToProcess)
   }
   catch (err) {
     console.error(err)
@@ -67,16 +66,17 @@ router.put('/:orderId', async (req, res, next) => {
 
 
 // Edit order (for admin?) :: /api/orders/:orderId/editOrder
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:orderId/editOrder', async (req, res, next) => {
   try {
     const updatedOrder = await Order.update({
       email: req.body.email,
       phoneNumber: req.body.email,
-      date: req.body.date,
-      //etc. products
+      customerId: req.body.customerId,
+      addressId: req.body.addressId,
+      orderStatusCodeId: req.body.orderStatusCodeId
     },
     {
-      where: { id: req.params.productId },
+      where: { id: req.params.orderId },
       returning: true,
       plain: true
     })

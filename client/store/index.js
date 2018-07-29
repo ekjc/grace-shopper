@@ -8,6 +8,8 @@ import categories from './categories'
 import products from './products'
 import reviews from './reviews'
 import cart from './cart'
+// Same reducer func for order we need to choose one
+import order from './order'
 import orders from './orders'
 
 const reducer = combineReducers({
@@ -18,6 +20,8 @@ const reducer = combineReducers({
   products,
   reviews,
   cart,
+  // duplicate here with order
+  order,
   orders
 })
 
@@ -32,4 +36,6 @@ export * from './categories'
 export * from './products'
 export * from './reviews'
 export * from './cart'
+// same here
+export * from './order'
 export * from './orders'

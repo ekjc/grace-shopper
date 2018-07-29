@@ -33,17 +33,28 @@ router.delete('/:orderId', async (req, res, next) => {
   }
 })
 
-//Adding item to cart :: /api/cart/:orderId/:productId
-//This creates a new instance on the OrderItem join table btwn product & order ids
+// Adding item to cart :: /api/cart/:orderId/:productId
+// This creates a new instance on the OrderItem join table btwn product & order ids
+// If there already is one, it updates the quantity
 router.post('/:orderId/:productId', async (req, res, next) => {
   try {
-    const newItemInCart = await OrderItem.create({
-      orderId: req.params.orderId,
-      productId: req.params.productId,
-      quantity: req.body.quantity,
-      price: req.body.price
+    const [item, wasCreated] = await OrderItem.findOrCreate({
+      where: { productId: req.params.productId, orderId: req.params.orderId },
+      defaults: { quantity: req.body.qty }
     })
-    res.json(newItemInCart)
+    if (!wasCreated) {
+        await OrderItem.update({
+        quantity: req.body.qty + item.quantity, // if already exists, add to current quantity in cart
+        productId: req.params.productId,
+        orderId: req.params.orderId
+      }, {
+        where: { productId: req.params.productId, orderId: req.params.orderId },
+        returning: true,
+        plain: true
+      })
+    }
+    console.log(item.quantity);
+    res.json(item)
   } catch (err) {
     console.error(err)
     next(err)
@@ -54,7 +65,6 @@ router.post('/:orderId/:productId', async (req, res, next) => {
 //Editing OrderItem table -- NOT Order table
 router.put('/:orderId/:productId', async (req, res, next) => {
   try {
-    console.log( req.params.orderId, req.params.productId, req.body.qty);
     const [num, updatedItem] = await OrderItem.update({
       quantity: req.body.qty,
       productId: req.params.productId,
@@ -65,12 +75,10 @@ router.put('/:orderId/:productId', async (req, res, next) => {
       returning: true,
       plain: true
     })
-    //can't send back the OrderItem instance, need to send back the order??
     const dataRequired = await OrderItem.findOne({
       where: { orderId: req.params.orderId, productId: req.params.productId },
       include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
     })
-    console.log('^^^^^^^^^^^UPDATED ITEM^^^^^^^^^^^^^', dataRequired);
     res.json(dataRequired)
   } catch (err) {
     console.error(err)
@@ -82,12 +90,12 @@ router.put('/:orderId/:productId', async (req, res, next) => {
 //Deleting item from cart :: /api/cart/:orderId/:productId
 //Deleting OrderItem table instance -- NOT the whole Order
 router.delete('/:orderId/:productId', async (req, res, next) => {
-  const productId = +req.params.productId
+  // const productId = +req.params.productId
   try {
     await OrderItem.destroy({
-      where: { productId }
+      where: { productId: req.params.productId, orderId: req.params.orderId },
     })
-    res.json(productId)
+    res.json(req.params.productId)
   } catch (err) {
     console.error(err)
     next(err)
