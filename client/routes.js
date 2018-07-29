@@ -54,9 +54,10 @@ class Routes extends Component {
         <Route exact path="/" component={Home} />
 
         <Route exact path="/products" component={ProductList} />
-        <Route exact path="/products/:productId" component={Product} />
-        <Route exact path="/products/:productId/reviewForm" component={ReviewForm}/>
-      
+        <Route path="/products/:categoryName" component={ProductList} />
+        <Route exact path="/product/:productId" component={Product} />
+        <Route exact path="/product/:productId/reviewForm" component={ReviewForm}/>
+
         {/* temporarily putting cart here for dev work */}
         <Route path="/cart/:orderId" component={CartView} />
 
@@ -89,7 +90,7 @@ class Routes extends Component {
           {...this.props}
         />
 
-        <Route path='/(login|signup)' component={Auth} />
+        <Route path="/(login|signup)" component={Auth} />
         <Route component={PageNotFound} />
       </Switch>
     )

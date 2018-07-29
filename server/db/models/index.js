@@ -32,6 +32,7 @@ Review.belongsTo(User)
 
 // Category model relationships
 Category.belongsToMany(Product, { through: ProductCategory })
+Category.belongsTo(Category, { as: 'parent' });
 
 // User model relationships
 User.belongsTo(Address)

@@ -26,23 +26,47 @@ router.get('/:productId', async (req, res, next) => {
 // Get all products by category :: /api/products/categories/:categoryId
 router.get('/categories/:categoryId', async (req, res, next) => {
   try {
-    const categoryId = req.params.categoryId
-    const matchingProductsFromJoinTable = await ProductCategory.findAll({
-      where: { categoryId: categoryId }
-    })
+    const categoryId = +req.params.categoryId
+    if (categoryId > 0) {
+      const productsFromJoinTable = await ProductCategory.findAll({
+        where: { categoryId: categoryId }
+      })
 
-    const productIds = matchingProductsFromJoinTable.map(
-      product => product.productId
-    )
+      // If there are no products in `ProductCategory`, return empty array.
+      // Otherwise, the final `res.json()` will include every product in db.
+      // Why? Great question! IDK...
+      if (!productsFromJoinTable.length) return res.json([])
 
-    const products = await Product.findAll({
-      where: {
-        id: {
-          $or: productIds
+      const productIds = productsFromJoinTable.map(p => p.productId)
+      const products = await Product.findAll({
+        where: {
+          id: { $or: productIds }
         }
-      }
-    })
-    res.json(products)
+      })
+      return res.json(products)
+    } else {
+      return res.json({ name: 'WHAT?' })
+    }
+
+
+
+
+    // const matchingProductsFromJoinTable = await ProductCategory.findAll({
+    //   where: { categoryId: categoryId }
+    // })
+
+    // const productIds = matchingProductsFromJoinTable.map(
+    //   product => product.productId
+    // )
+
+    // const products = await Product.findAll({
+    //   where: {
+    //     id: {
+    //       $or: productIds
+    //     }
+    //   }
+    // })
+    // res.json(products)
   } catch (err) {
     next(err)
   }
