@@ -90,10 +90,21 @@ const seed = async () => {
         await newProduct.addCategory(categoriesFromDB)
       })
     )
-    // await Promise.all(reviews.map(review => Review.create(review)))
+
+    await Promise.all(reviews.map(async review => {
+      const newReview = await Review.create(review)
+      const product = await Product.findOne({
+        where: {
+          name: { $or: review.product }
+        }
+      })
+      await newReview.setProduct(product)
+    }))
+
     await Promise.all(
       orderStatusCodes.map(code => OrderStatusCode.create(code))
     )
+
     await Promise.all(
       orders.map(async order => {
         const newOrder = await Order.create(order)

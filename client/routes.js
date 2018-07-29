@@ -13,7 +13,7 @@ import {
   UserDashboard,
   ManageUsers,
   EditUser,
-  ReviewForm
+  AddReview
 } from './containers'
 import { me } from './store'
 
@@ -56,7 +56,8 @@ class Routes extends Component {
         <Route exact path="/products" component={ProductList} />
         <Route path="/products/:categoryName" component={ProductList} />
         <Route exact path="/product/:productId" component={Product} />
-        <Route exact path="/product/:productId/reviewForm" component={ReviewForm}/>
+
+        <Route exact path="/review/add" component={AddReview}/>
 
         {/* temporarily putting cart here for dev work */}
         <Route path="/cart/:orderId" component={CartView} />

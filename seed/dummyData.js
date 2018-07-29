@@ -385,7 +385,7 @@ const products = [
     description:
       `Old Style is a beer that revives the crisp rich freshness of a classic Pilsner: light in color and body, medium in aroma and bitterness, full flavored with a delicate aftertaste.`,
     imageUrl: 'https://products2.imgix.drizly.com/ci-old-style-beer-27067f39db712e6a.png',
-    price: 4.99,
+    price: 5.99,
     SKU: 'BPO00011',
     unitsInStock: 45,
     categories: ['Beer', 'Pilsner']
@@ -472,7 +472,7 @@ const products = [
     description:
       `This wine shows off a wonderful color in tone with an elegance that it possesses. To one's palate it is slightly spicy with strong and creamy tannins. A series of sensations that only a wine with a high enological profile can offer.`,
     imageUrl: 'https://products1.imgix.drizly.com/ci-caruso-minini-nero-davola-c39bef26802965b9.png',
-    price: 17.98,
+    price: 19.98,
     SKU: 'WRN21996',
     unitsInStock: 1,
     categories: ['Wine', 'Red Wine', `Nero D'Avola`]
@@ -573,7 +573,7 @@ const products = [
     description:
       `Tito's Handmade Vodka is designed to be savored by spirit connoisseurs.  It is micro-distilled in an old-fashioned pot still, just like fine single malt scotches and high-end French cognacs.  This time-honored method of distillation requires more skill and effort than modern column stills, but it's well worth it.`,
     imageUrl: 'https://products1.imgix.drizly.com/ci-titos-handmade-vodka-864dff1cac26796a.jpeg',
-    price: 15.49,
+    price: 21.49,
     SKU: 'LVT24099',
     unitsInStock: 5,
     categories: ['Liquor', `Vodka`]
@@ -637,7 +637,7 @@ const products = [
     description:
       `Our flagship Bumbu Rum is based on the original recipe created by 16th and 17th century sailors of the West Indies, who blended native Caribbean ingredients into their rum and called it “Bumbu” – truly the original craft spirit.  Using the same all-natural native spices and no artificial colors or flavors, our rum is an authentic revival of this piece of Caribbean history, distilled in small batches and blended by hand.`,
     imageUrl: 'https://products0.imgix.drizly.com/ci-bumbu-original-rum-cb6bd438aa5e66ca.jpeg',
-    price: 32.49,
+    price: 35.49,
     SKU: 'LRG94911',
     unitsInStock: 2,
     categories: ['Liquor', 'Rum', `Gold Rum`]
@@ -647,7 +647,7 @@ const products = [
     description:
       `Expressive flavors of vanilla, tropical fruit, and notes of clean, new oak.`,
     imageUrl: 'https://products0.imgix.drizly.com/ci-tanduay-gold-rum-f5eb815611413dc4.png',
-    price: 15.99,
+    price: 18.99,
     SKU: 'LRG83229',
     unitsInStock: 2,
     categories: ['Liquor', 'Rum', `Gold Rum`]
@@ -677,7 +677,7 @@ const products = [
     description:
       `Addictive Extra Añejo is a 100% Pure Blue Agave Tequila, dark amber colored with reddish hues, with an excellent roasted flavor, and sweet fruity aromas.`,
     imageUrl: 'https://products2.imgix.drizly.com/ci-adictivo-tequila-extra-anejo-9c687e604b8ecf00.png',
-    price: 85.49,
+    price: 109.99,
     SKU: 'LTA875937',
     unitsInStock: 1,
     categories: ['Liquor', 'Tequila', `Añejo`]
@@ -687,7 +687,7 @@ const products = [
     description:
       `Aged for 2.5 years in small batches, Don Julio 1942 is handcrafted in tribute to the year that Julio González's founded his distillery "La Primavera." This luxury tequila has a taste of warm oak with hints of caramel and toffee. Made with 100% blue agave plant. Sip neat or chilled.`,
     imageUrl: 'https://products1.imgix.drizly.com/ci-don-julio-1942-9a779b176d8bdcd7.jpeg',
-    price: 104.98,
+    price: 134.98,
     SKU: 'LTA13995',
     unitsInStock: 2,
     categories: ['Liquor', 'Tequila', `Añejo`]
@@ -712,33 +712,123 @@ const products = [
 
 const reviews = [
   {
-    subject: 'It SUCKED',
-    content: 'Kinda lame. Sorta hated it',
+    subject: `It SUCKED`,
+    content: `Kinda lame. Sorta hated drinking it`,
     rating: 1,
-    productId: 1,
-    userId: 1
+    userId: 1,
+    product: [`Lord Hobo Boom Sauce`]
   },
   {
-    subject: 'Mehhhhh',
-    content: 'Ok i guess.',
+    subject: `Mehhhhh`,
+    content: `Ok i guess.`,
     rating: 3,
-    productId: 2,
-    userId: 2
+    userId: 2,
+    product: [`Modelo Especial`]
   },
   {
-    subject: 'Bow Chicka Wow',
-    content: 'Amazing! Would tell friend about this product.',
+    subject: `Bow Chicka Wow`,
+    content: `Amazing! I will tell my friends about this beer.`,
     rating: 5,
-    productId: 3,
-    userId: 3
+    userId: 1,
+    product: [`Yuengling`]
   },
   {
-    subject: 'Howdy',
-    content: 'Generic product review',
+    subject: ``,
+    content: `Generic product review...`,
+    rating: 3,
+    userId: 1,
+    product: [`Cloudy Bay Sauvignon Blanc`]
+  },
+  {
+    subject: `Lovely flavor!`,
+    content: ``,
+    rating: 5,
+    userId: 3,
+    product: [`Caruso & Minini Nero D'Avola`]
+  },
+  {
+    subject: `Not sweet enough`,
+    content: `I wish this were sweeter`,
+    rating: 2,
+    userId: 2,
+    product: [`CIROC Coconut Vodka`]
+  },
+  {
+    subject: `Can't get enough!`,
+    content: `The BEST vodka in the world!!!!!!`,
+    rating: 5,
+    userId: 1,
+    product: [`Tito's Handmade Vodka`]
+  },
+  {
+    subject: `NEVER GOT MY ORDER`,
+    content: `This website is a scam, man. DON'T TRUST IT!!!`,
+    rating: 1,
+    userId: 4,
+    product: [`Don Julio 1942`]
+  },
+  {
+    subject: ``,
+    content: ``,
+    rating: 5,
+    userId: 2,
+    product: [`Tito's Handmade Vodka`]
+  },
+  {
+    subject: `Love it`,
+    content: `Great stuff`,
+    rating: 5,
+    userId: 1,
+    product: [`Kentucky Bourbon Barrel Stout`]
+  },
+  {
+    subject: ``,
+    content: `Not bad for a pale ale`,
     rating: 4,
-    productId: 4,
-    userId: 4
-  }
+    userId: 3,
+    product: [`Half Acre Daisy Cutter Pale Ale`]
+  },
+  {
+    subject: `gross`,
+    content: `it's gross`,
+    rating: 1,
+    userId: 2,
+    product: [`Bumbu Original Rum`]
+  },
+  {
+    subject: ``,
+    content: `Delicious but overpriced. Buy it at your local store and you'll get it $20 cheaper I guarantee you`,
+    rating: 4,
+    userId: 3,
+    product: [`Adictivo Tequila Extra Añejo`]
+  },
+  {
+    subject: `It'll do the job`,
+    content: `Nothing fancy here.`,
+    rating: 3,
+    userId: 1,
+    product: [`Coors Banquet`]
+  },
+  {
+    subject: `definitely will order again!!`,
+    content: ``,
+    rating: 4,
+    userId: 2,
+    product: [`Left Hand Milk Stout Nitro`]
+  },
+
+
+
+
+
+
+  // {
+  //   subject: ``,
+  //   content: ``,
+  //   rating: 0,
+  //   userId: 3,
+  //   product: [``]
+  // },
 ]
 
 const orderStatusCodes = [
