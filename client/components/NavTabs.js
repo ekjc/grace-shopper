@@ -12,7 +12,6 @@ const categories = {
 }
 
 export const NavTabs = ({ props }) => {
-  console.log(props)
   return (
     <div style={{ marginTop: '15px' }}>
       {props === beer
