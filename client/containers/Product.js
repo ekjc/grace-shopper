@@ -13,13 +13,12 @@ class Product extends Component {
   render() {
     const { product, isLoading, isAdmin } = this.props
     return (
-      <div>
-        <h1>Name: {product.name}</h1>
-        <h3>Price: {product.price}</h3>
-        <h3>Desciption: {product.description}</h3>
-        <h3>SKU: {product.SKU}</h3>
-        <h3>Units In Stock: {product.unitsInStock}</h3>
-        <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>
+      <div className="content">
+        <h1 className="title is-2">{product.name}</h1>
+        <p>Price: {product.price}</p>
+        <p>Desciption: {product.description}</p>
+        <p>SKU: #{product.SKU}</p>
+        <p>Units In Stock: {product.unitsInStock}</p>
         <br />
         <br />
         <br />
