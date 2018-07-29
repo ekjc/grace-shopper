@@ -712,33 +712,67 @@ const products = [
 
 const reviews = [
   {
-    subject: 'It SUCKED',
-    content: 'Kinda lame. Sorta hated it',
+    subject: `It SUCKED`,
+    content: `Kinda lame. Sorta hated drinking it`,
     rating: 1,
     userId: 1,
-    product: ['Lord Hobo Boom Sauce']
+    product: [`Lord Hobo Boom Sauce`]
   },
   {
-    subject: 'Mehhhhh',
-    content: 'Ok i guess.',
+    subject: `Mehhhhh`,
+    content: `Ok i guess.`,
     rating: 3,
     userId: 2,
-    product: ['Modelo Especial']
+    product: [`Modelo Especial`]
   },
   {
-    subject: 'Bow Chicka Wow',
-    content: 'Amazing! Would tell friend about this product.',
+    subject: `Bow Chicka Wow`,
+    content: `Amazing! I will tell my friends about this beer.`,
     rating: 5,
     userId: 1,
-    product: ['Yuengling']
+    product: [`Yuengling`]
   },
   {
-    subject: 'Howdy',
-    content: 'Generic product review',
-    rating: 4,
+    subject: ``,
+    content: `Generic product review...`,
+    rating: 3,
     userId: 1,
-    product: ['Cloudy Bay Sauvignon Blanc']
-  }
+    product: [`Cloudy Bay Sauvignon Blanc`]
+  },
+  {
+    subject: `Lovely flavor!`,
+    content: ``,
+    rating: 5,
+    userId: 3,
+    product: [`Caruso & Minini Nero D'Avola`]
+  },
+  {
+    subject: `Not sweet enough`,
+    content: `I wish this were sweeter`,
+    rating: 2,
+    userId: 2,
+    product: [`CIROC Coconut Vodka`]
+  },
+  {
+    subject: `Can't get enough!`,
+    content: `The BEST vodka in the world!!!!!!`,
+    rating: 5,
+    userId: 1,
+    product: [`Tito's Handmade Vodka`]
+  },
+
+
+
+
+
+
+  // {
+  //   subject: ``,
+  //   content: ``,
+  //   rating: 0,
+  //   userId: 3,
+  //   product: [``]
+  // },
 ]
 
 const orderStatusCodes = [
