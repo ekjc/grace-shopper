@@ -11,15 +11,15 @@ class CartView extends Component {
   }
 
   render() {
-    const { cart, cartItems, sendOrder } = this.props
+    const { cart, cartItems, sendOrder, match: { params: { orderId } } } = this.props
     cartItems.sort((a , b) => (a.productId - b.productId));  //must be sorted to stay in place upon quantity update
-    const orderId = this.props.match.params.orderId
-    const orderTotal = cartItems.reduce((acc, val) => {
+    const orderTotal = cartItems.reduce((acc, val) => { //helper func to calculate order total
       return acc + (val.quantity*val.product.price)
     }, 0)
     return (
       <div>
         <h2>Cart</h2>
+        {!cartItems.length && <h2>There are no items in your cart</h2>}
         {cartItems.length &&
         cartItems.map(item => (
          <div key={item.product.id} style={{'margin':'15px', display: 'block'}}>
@@ -43,10 +43,10 @@ class CartView extends Component {
              onClick={() => this.props.deleteCartItem(orderId, item.product.id)}>
              Remove Item
            </button>
-         </div>
+        </div>
        ))}
+       <p style={{'margin':'20px'}}>{`Total: $${orderTotal.toFixed(2)}`}</p>
       <div>
-      <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
       <Checkout sendOrder={sendOrder} cart={cart}/>
       </div>
       </div>

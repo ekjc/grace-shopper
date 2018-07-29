@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 export const Checkout = ({sendOrder, cart}) => {
-console.log(`PROPS: `, sendOrder, cart);
-
     return (
       <div>
         <p style={{'margin':'15px', color: 'red'}}>TEST =>

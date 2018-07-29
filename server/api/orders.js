@@ -66,16 +66,17 @@ router.put('/:orderId/processOrder', async (req, res, next) => {
 
 
 // Edit order (for admin?) :: /api/orders/:orderId/editOrder
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:orderId/editOrder', async (req, res, next) => {
   try {
     const updatedOrder = await Order.update({
       email: req.body.email,
       phoneNumber: req.body.email,
-      date: req.body.date,
-      //etc. products
+      customerId: req.body.customerId,
+      addressId: req.body.addressId,
+      orderStatusCodeId: req.body.orderStatusCodeId
     },
     {
-      where: { id: req.params.productId },
+      where: { id: req.params.orderId },
       returning: true,
       plain: true
     })
