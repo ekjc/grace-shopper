@@ -10,4 +10,12 @@ export { default as CategoryMenu } from './CategoryMenu'
 
 export { default as CartView } from './CartView'
 
+export {
+  default as ValidateField,
+  validateUser,
+  validateCategory,
+  validateProduct,
+  validateReview
+} from './ValidateField';
+
 export { default as PageNotFound } from './PageNotFound'

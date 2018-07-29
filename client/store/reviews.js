@@ -81,10 +81,11 @@ export const fetchReviewsByUser = userId => async dispatch => {
   }
 }
 
-export const createReview = (review, productId) => async dispatch => {
+export const createReview = (review, userId, productId) => async dispatch => {
   try {
     const { data } = await axios.post(`/api/reviews`, {review, productId})
     dispatch(createReviewSuccess(data || {}))
+    history.push(`/product/${productId}`)
   } catch (error) {
     console.error(error)
   }

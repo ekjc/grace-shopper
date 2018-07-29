@@ -16,7 +16,7 @@ class Reviews extends Component {
         {reviews.map(review => {
           const { id, subject, content, rating } = review
           return (
-            <div key={id}>
+            <div key={id} style={{ marginBottom: '1rem' }}>
               {subject && <h5 className="title is-5">{subject}</h5>}
               <p className="subtitle is-6">Rating: {rating} stars</p>
               <p>{content}</p>

@@ -55,7 +55,6 @@ router.post('/', async (req, res, next) => {
       subject: req.body.review.subject,
       content: req.body.review.content,
       rating: req.body.review.rating,
-      // productId: req.body.productId
     })
 
     newReview.setProduct(req.body.productId)
