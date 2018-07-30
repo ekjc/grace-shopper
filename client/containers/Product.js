@@ -38,9 +38,8 @@ class Product extends Component {
           value={this.state.quantityToAdd}
           name="quantityToAdd"
           min="1" max="200"/>
-        {/* hardcoded orderId in createCartItem() as first arg, will need to be tied to user/session */}
-        <button type="submit"
-          onClick={() => this.props.createCartItem(1, productId, this.state.quantityToAdd)}>
+          <button type="submit"
+            onClick={() => this.props.createCartItem(this.props.myId, +productId, this.state.quantityToAdd)}>
              Add to Cart
            </button>
         </div>
@@ -68,12 +67,13 @@ class Product extends Component {
 const mapState = state => ({
   isLoading: state.products.isLoading,
   isAdmin: state.me.isAdmin,
-  product: state.products.active
+  product: state.products.active,
+  myId: state.me.id //provide userId to createCartItem() -- see reviews model as well
 })
 
 const mapDispatch = dispatch => ({
   getProduct: productId => dispatch(fetchProduct(productId)),
-  createCartItem: (orderId, productId, qty) => dispatch(createCartItem(orderId, productId, qty))
+  createCartItem: (orderId, productId, qty) => dispatch(createCartItem(orderId, productId, qty)),
 })
 
 export default connect(mapState, mapDispatch)(Product)
