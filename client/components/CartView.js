@@ -91,7 +91,6 @@ class CartView extends Component {
           ))}
         <p style={{ margin: '20px' }}>{`Total: $${orderTotal.toFixed(2)}`}</p>
         <div>
-          {/* Add Button and Link here so surround Checkout. On Click, render Stripe's inherent checkout Form */}
           <Checkout sendOrder={sendOrder} cart={cart} />
         </div>
       </div>

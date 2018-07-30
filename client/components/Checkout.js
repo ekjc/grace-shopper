@@ -13,17 +13,17 @@ const errorPayment = data => {
   alert('An error occurred with the processing of payment information')
 }
 
-const onToken = (amount, description) => token =>
-  //may need to define custom axios here rather than use sendOrder
-  axios
-    .post(PAYMENT_SERVER_URL, {
-      description,
-      source: token.id,
-      currency: CURRENCY,
-      amount: dollarsToCents(amount)
-    })
-    .then(successPayment)
-    .catch(errorPayment)
+// const onToken = (amount, description) => token =>
+//   //may need to define custom axios here rather than use sendOrder
+//   axios
+//     .post(PAYMENT_SERVER_URL, {
+//       description,
+//       source: token.id,
+//       currency: CURRENCY,
+//       amount: dollarsToCents(amount)
+//     })
+//     .then(successPayment)
+//     .catch(errorPayment)
 
 const Checkout = (amount, description, cart) => {
   console.log(cart)
@@ -35,7 +35,7 @@ const Checkout = (amount, description, cart) => {
           <StripeCheckout
             name={name}
             amount={dollarsToCents(amount)}
-            token={onToken(amount, description)}
+            //token={onToken(amount, description)}
             currency={CURRENCY}
             stripeKey={keyPublishable}
           />
