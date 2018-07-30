@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Checkout } from './Checkout'
+import Checkout from './Checkout'
 import { connect } from 'react-redux'
 import {
   fetchCart,
@@ -9,11 +9,18 @@ import {
   processOrder
 } from '../store'
 
+import order from '../store/order'
+
 class CartView extends Component {
   async componentDidMount() {
     const orderId = this.props.match.params.orderId
     await this.props.getCart(orderId)
     await this.props.getCartItems(orderId)
+  }
+
+  handleSubmit = (event, orderId, statusCode) => {
+    event.preventDefault()
+    this.props.sendOrder(orderId, statusCode)
   }
 
   render() {
@@ -97,7 +104,14 @@ class CartView extends Component {
               {`Total: $${orderTotal.toFixed(2)}`}
             </p>
             <div>
-              <Checkout sendOrder={sendOrder} cart={cart} />
+              <Checkout
+                handleSubmit={this.handleSubmit}
+                cart={cart}
+                sendOrder={sendOrder}
+                orderTotal={orderTotal}
+                orderId={orderId}
+                statusCode={3}
+              />
             </div>
           </div>
         )}
