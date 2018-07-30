@@ -32,7 +32,7 @@ const PrivateRoute = ({
       {...rest}
       render={
         props =>
-          isAdmin ? <MyComponent {...props} /> : <Redirect to="/login" />
+          isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/login" />
           // <MyComponent {...props} />
       }
     />
