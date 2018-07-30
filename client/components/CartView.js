@@ -91,7 +91,7 @@ class CartView extends Component {
           ))}
         <p style={{ margin: '20px' }}>{`Total: $${orderTotal.toFixed(2)}`}</p>
         <div>
-          <Checkout sendOrder={sendOrder} cart={cart} />
+          <Checkout sendOrder={sendOrder} cart={cart} orderTotal={orderTotal} />
         </div>
       </div>
     )
