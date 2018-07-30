@@ -60,7 +60,6 @@ class Routes extends Component {
 
         <Route exact path="/review/add" component={AddReview}/>
 
-        {/* temporarily putting cart here for dev work */}
         <Route path="/cart/:orderId" component={CartView} />
 
         {/* isLoggedIn-only routes */}

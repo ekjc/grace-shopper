@@ -59,6 +59,9 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
+  // console.log(req.headers.cookie); // access cookie SID --> put on user state as guest ID?
+  // res.json(req.user || req.headers.cookie)
+
   if(!req.user) {
     res.sendStatus(404)
   }
