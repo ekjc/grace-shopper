@@ -23,14 +23,23 @@ class Product extends Component {
 
   render() {
     const { product, isLoading, isAdmin, match: {  params: { productId } } } = this.props
+    console.log(this.props)
     return (
-      <div>
-        <h1>Name: {product.name}</h1>
-        <h3>Price: {product.price}</h3>
-        <h3>Desciption: {product.description}</h3>
-        <h3>SKU: {product.SKU}</h3>
-        <h3>Units In Stock: {product.unitsInStock}</h3>
-        <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>
+      <div className='container'>
+        <div className='columns'>
+          <div className='column is-three-fifths'>
+            <img src={product.imageUrl} />
+          </div>
+            {/* <div className='columns'> */}
+              <div className='column'><h1 className='title'>{product.name}</h1></div>
+            {/* </div> */}
+            {/* <div className='columns'> */}
+              <div className='column'><h1 className='title'>${product.price}</h1></div>
+            {/* </div> */}
+            {/* <div className='columns'>   */}
+              <div className='column'><p className='has-text-info'>{product.description}</p></div>
+            {/* </div> */}
+        </div>
         <div>
         <input
           onChange={this.handleChange}
@@ -61,6 +70,7 @@ class Product extends Component {
         </Link>
         <Reviews productId={this.props.match.params.productId} />
       </div>
+      // {/* </div> */}
     )
   }
 }
