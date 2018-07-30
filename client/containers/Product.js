@@ -23,14 +23,23 @@ class Product extends Component {
 
   render() {
     const { product, isLoading, isAdmin, match: {  params: { productId } } } = this.props
+    console.log(this.props)
     return (
-      <div>
-        <h1>Name: {product.name}</h1>
-        <h3>Price: {product.price}</h3>
-        <h3>Desciption: {product.description}</h3>
-        <h3>SKU: {product.SKU}</h3>
-        <h3>Units In Stock: {product.unitsInStock}</h3>
-        <h3>Quantity Per Unit: {product.quantityPerUnit}</h3>
+      <div className='container'>
+        <div className='columns'>
+          <div className='column is-three-fifths'>
+            <img src={product.imageUrl} />
+          </div>
+            {/* <div className='columns'> */}
+              <div className='column'><h1 className='title'>{product.name}</h1></div>
+            {/* </div> */}
+            {/* <div className='columns'> */}
+              <div className='column'><h1 className='title'>${product.price}</h1></div>
+            {/* </div> */}
+            {/* <div className='columns'>   */}
+              <div className='column'><p className='has-text-info'>{product.description}</p></div>
+            {/* </div> */}
+        </div>
         <div>
         <input
           onChange={this.handleChange}
@@ -38,9 +47,8 @@ class Product extends Component {
           value={this.state.quantityToAdd}
           name="quantityToAdd"
           min="1" max="200"/>
-        {/* hardcoded orderId in createCartItem() as first arg, will need to be tied to user/session */}
-        <button type="submit"
-          onClick={() => this.props.createCartItem(1, productId, this.state.quantityToAdd)}>
+          <button type="submit"
+            onClick={() => this.props.createCartItem(this.props.myId || `guest`, +productId, this.state.quantityToAdd)}>
              Add to Cart
            </button>
         </div>
@@ -61,6 +69,7 @@ class Product extends Component {
         </Link>
         <Reviews productId={this.props.match.params.productId} />
       </div>
+      // {/* </div> */}
     )
   }
 }
@@ -68,12 +77,13 @@ class Product extends Component {
 const mapState = state => ({
   isLoading: state.products.isLoading,
   isAdmin: state.me.isAdmin,
-  product: state.products.active
+  product: state.products.active,
+  myId: state.me.id 
 })
 
 const mapDispatch = dispatch => ({
   getProduct: productId => dispatch(fetchProduct(productId)),
-  createCartItem: (orderId, productId, qty) => dispatch(createCartItem(orderId, productId, qty))
+  createCartItem: (orderId, productId, qty) => dispatch(createCartItem(orderId, productId, qty)),
 })
 
 export default connect(mapState, mapDispatch)(Product)

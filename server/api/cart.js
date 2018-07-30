@@ -33,27 +33,62 @@ router.delete('/:orderId', async (req, res, next) => {
   }
 })
 
-// Adding item to cart :: /api/cart/:orderId/:productId
-// This creates a new instance on the OrderItem join table btwn product & order ids
-// If there already is one, it updates the quantity
-router.post('/:orderId/:productId', async (req, res, next) => {
+// Adding item to cart :: /api/cart/:userId/:productId
+router.post('/:userId/:productId', async (req, res, next) => {
   try {
+    let useThisOrderId;
+
+    /* handling unauthenticated users: Create new order, send order id back as part of cookie */
+    if (req.params.userId === `guest`) {
+      console.log('COOKIE PARSER SAYS....', req.cookies);
+      if (!req.cookies.orderId) {
+        const guestOrder = await Order.create({
+          orderStatusCodeId: 1
+        })
+        res.cookie('orderId', `${guestOrder.id}`).send('cookies set') //set cookie for their orderId
+        useThisOrderId = guestOrder.id
+      } else{
+        console.log(`guest already has a cart, adding item to order #${req.cookies.orderId}`);
+        useThisOrderId = req.cookies.orderId
+      }
+    }
+
+    else {
+    /* if an order with the userId (e.g. customerId) passed in and an orderStatusCodeId of 1 does not exist,
+    create new cart (e.g. order) instance and use that newly created orderId */
+      const doesOrderExist = await Order.findOne({
+        where: {customerId: req.params.userId}, orderStatusCodeId: 1})
+
+      if (!doesOrderExist) {
+        const newOrder = Order.build()
+        newOrder.customerId = req.params.userId
+        newOrder.orderStatusCodeId = 1
+        await newOrder.save()
+        useThisOrderId = newOrder.id
+        console.log(`NEW CART CREATED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
+      } else {
+        useThisOrderId = doesOrderExist.id
+        console.log(`CART ALREADY EXISTED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
+      }
+    }
+    /*Take care of adding the item to the order that either existed or was just created,
+    Creates a new instance on the OrderItem join table btwn productId & orderId.
+    If there already is one, it updates the quantity*/
     const [item, wasCreated] = await OrderItem.findOrCreate({
-      where: { productId: req.params.productId, orderId: req.params.orderId },
+      where: { productId: req.params.productId, orderId: useThisOrderId },
       defaults: { quantity: req.body.qty }
     })
     if (!wasCreated) {
         await OrderItem.update({
         quantity: req.body.qty + item.quantity, // if already exists, add to current quantity in cart
         productId: req.params.productId,
-        orderId: req.params.orderId
+        orderId: useThisOrderId
       }, {
-        where: { productId: req.params.productId, orderId: req.params.orderId },
+        where: { productId: req.params.productId, orderId: useThisOrderId },
         returning: true,
         plain: true
       })
     }
-    console.log(item.quantity);
     res.json(item)
   } catch (err) {
     console.error(err)

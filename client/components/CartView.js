@@ -8,6 +8,7 @@ import {
   deleteCartItem,
   processOrder
 } from '../store'
+
 import order from '../store/order'
 
 class CartView extends Component {
@@ -23,32 +24,42 @@ class CartView extends Component {
   }
 
   render() {
-    const { cart, cartItems, match: { params: { orderId } } } = this.props
-    cartItems.sort((a, b) => a.productId - b.productId) //must be sorted to stay in place upon quantity update
+    const {
+      cart,
+      cartItems,
+      sendOrder,
+      match: { params: { orderId } }
+    } = this.props
+
+    // must be sorted to stay in place upon quantity update
+    cartItems.sort((a, b) => a.productId - b.productId)
+
+    // helper func to calculate order total
     const orderTotal = cartItems.reduce((acc, val) => {
-      //helper func to calculate order total
       return acc + val.quantity * val.product.price
     }, 0)
+
     return (
       <div>
-        <h2>Cart</h2>
-        {!cartItems.length && <h2>There are no items in your cart</h2>}
-        {cartItems.length &&
-          cartItems.map(item => (
+        <h1 className="title is-2">Cart</h1>
+        {!cartItems.length && (
+          <p className="subtitle is-4">There are no items in your cart</p>
+        )}
+        {!!cartItems.length && cartItems.map(item => (
             <div
               key={item.product.id}
-              style={{ margin: '15px', display: 'block' }}
+              className="content"
             >
-              {`Item: ${item.product.name}`}
-              <p style={{ margin: '5px', display: 'block' }}>
-                {`Price: ${item.product.price}`}
-              </p>
-              <p style={{ margin: '5px', display: 'block' }}>
+              <p className="title is-5">{`Item: ${item.product.name}`}</p>
+              <p>{`Price: ${item.product.price}`}</p>
+              <p>
                 {`Quantity: ${item.quantity}`}
                 <span style={{ margin: '10px' }}>
                   <button
                     type="button"
-                    disabled={item.quantity <= 1 && 'true'} //prevent go below 0 quantity
+                    className="button is-small"
+                    // prevent go below 0 quantity
+                    disabled={item.quantity <= 1 && 'true'}
                     onClick={() =>
                       this.props.updateCartItem(
                         orderId,
@@ -57,11 +68,11 @@ class CartView extends Component {
                       )
                     }
                   >
-                    {' '}
-                    -{' '}
+                    -
                   </button>
                   <button
                     type="button"
+                    className="button is-small"
                     onClick={() =>
                       this.props.updateCartItem(
                         orderId,
@@ -70,36 +81,40 @@ class CartView extends Component {
                       )
                     }
                   >
-                    {' '}
-                    +{' '}
+                    +
                   </button>
                 </span>
               </p>
-              <p style={{ margin: '5px', display: 'block' }}>
-                {`Subtotal: $${(item.quantity * item.product.price).toFixed(
-                  2
-                )}`}
-              </p>
+              <p>{`Subtotal: $${(item.quantity * item.product.price).toFixed(2)}`}</p>
               <button
                 type="button"
+                className="button is-outlined is-danger"
                 onClick={() =>
                   this.props.deleteCartItem(orderId, item.product.id)
                 }
               >
-                Remove Item
+                Remove item
               </button>
             </div>
           ))}
-        <p style={{ margin: '20px' }}>{`Total: $${orderTotal.toFixed(2)}`}</p>
-        <div>
-          <Checkout
-            handleSubmit={this.handleSubmit}
-            cart={cart}
-            orderTotal={orderTotal}
-            orderId={orderId}
-            statusCode={3}
-          />
-        </div>
+        {!!cartItems.length && (
+          <div>
+            <hr  style={{ margin: '2rem 0' }} />
+            <p className="is-size-5 has-text-weight-bold">
+              {`Total: $${orderTotal.toFixed(2)}`}
+            </p>
+            <div>
+              <Checkout
+                handleSubmit={this.handleSubmit}
+                cart={cart}
+                sendOrder={sendOrder}
+                orderTotal={orderTotal}
+                orderId={orderId}
+                statusCode={3}
+              />
+            </div>
+          </div>
+        )}
       </div>
     )
   }

@@ -76,9 +76,10 @@ export const createCart = cart => async dispatch => {
   }
 }
 
-export const createCartItem = (orderId, productId, qty) => async dispatch => {
+//changed orderId to userId in args
+export const createCartItem = (userId, productId, qty) => async dispatch => {
   try {
-    const { data } = await axios.post(`/api/cart/${orderId}/${productId}`, {qty})
+    const { data } = await axios.post(`/api/cart/${userId}/${productId}`, {qty})
     dispatch(createCartItemSuccess(data || {}))
     // history.push('/manage/users');
   } catch (err) {
@@ -86,9 +87,7 @@ export const createCartItem = (orderId, productId, qty) => async dispatch => {
   }
 }
 
-/* NOTE: removed price from this thunk, not sure is needed since it's on the product model */
 export const updateCartItem = (orderId, productId, qty) => async dispatch => {
-  console.log('updateCartItem fired in store');
   try {
     const { data } = await axios.put( `/api/cart/${orderId}/${productId}`, {qty})
     dispatch(updateCartItemSuccess(data || {}))

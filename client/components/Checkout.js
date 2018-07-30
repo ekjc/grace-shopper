@@ -11,6 +11,7 @@ const dollarsToCents = amount => amount * 100
 const successPayment = data => {
   alert('Payment was successfully processed')
 }
+
 const errorPayment = data => {
   alert('An error occurred with the processing of payment information')
 }
@@ -53,5 +54,23 @@ const Checkout = ({ handleSubmit, cart, orderId, statusCode, orderTotal }) => {
     </div>
   )
 }
+
+// OLDER CODE BELOW...
+// export const Checkout = ({sendOrder, cart}) => {
+//     return (
+//       <div style={{ marginTop: '2rem' }}>
+//         <p><span style={{ marginRight: '1rem', color: 'red' }}>TEST =></span>
+//           <span>
+//             <button
+//               type="button"
+//               className="button is-link"
+//               onClick={() => sendOrder(cart.id, 1)}> {/* 1 = 'processing'*/}
+//               Complete Purchase
+//             </button>
+//           </span>
+//         </p>
+//       </div>
+//     )
+// }
 
 export default Checkout

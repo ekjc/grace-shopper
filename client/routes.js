@@ -32,7 +32,7 @@ const PrivateRoute = ({
       {...rest}
       render={
         props =>
-          isAdmin ? <MyComponent {...props} /> : <Redirect to="/login" />
+          isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/login" />
           // <MyComponent {...props} />
       }
     />
@@ -60,7 +60,6 @@ class Routes extends Component {
 
         <Route exact path="/review/add" component={AddReview}/>
 
-        {/* temporarily putting cart here for dev work */}
         <Route path="/cart/:orderId" component={CartView} />
 
         {/* isLoggedIn-only routes */}

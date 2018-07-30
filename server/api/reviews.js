@@ -58,7 +58,7 @@ router.post('/', async (req, res, next) => {
     newReview.setProduct(req.body.productId)
     newReview.setUser(req.body.userId)
 
-    res.json(newReview)
+    res.status(201).json(newReview)
   } catch (err) {
     next(err)
   }
