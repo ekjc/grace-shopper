@@ -38,27 +38,39 @@ router.post('/:userId/:productId', async (req, res, next) => {
   try {
     let useThisOrderId;
 
-    /* placeholder for handling unauthenticated users */
-    if (req.params.userId === `guest`) console.log('please log in for testing');
+    /* handling unauthenticated users: Create new order, send order id back as part of cookie */
+    if (req.params.userId === `guest`) {
+      console.log('COOKIE PARSER SAYS....', req.cookies);
+      if (!req.cookies.orderId) {
+        const guestOrder = await Order.create({
+          orderStatusCodeId: 1
+        })
+        res.cookie('orderId', `${guestOrder.id}`).send('cookies set') //set cookie for their orderId
+        useThisOrderId = guestOrder.id
+      } else{
+        console.log(`guest already has a cart, adding item to order #${req.cookies.orderId}`);
+        useThisOrderId = req.cookies.orderId
+      }
+    }
 
     else {
     /* if an order with the userId (e.g. customerId) passed in and an orderStatusCodeId of 1 does not exist,
     create new cart (e.g. order) instance and use that newly created orderId */
-    const doesOrderExist = await Order.findOne({
-      where: {customerId: req.params.userId}, orderStatusCodeId: 1})
+      const doesOrderExist = await Order.findOne({
+        where: {customerId: req.params.userId}, orderStatusCodeId: 1})
 
-    if (!doesOrderExist) {
-      const newOrder = Order.build()
-      newOrder.customerId = req.params.userId
-      newOrder.orderStatusCodeId = 1
-      await newOrder.save()
-      useThisOrderId = newOrder.id
-      console.log(`NEW CART CREATED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
-    } else {
-      useThisOrderId = doesOrderExist.id
-      console.log(`CART ALREADY EXISTED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
+      if (!doesOrderExist) {
+        const newOrder = Order.build()
+        newOrder.customerId = req.params.userId
+        newOrder.orderStatusCodeId = 1
+        await newOrder.save()
+        useThisOrderId = newOrder.id
+        console.log(`NEW CART CREATED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
+      } else {
+        useThisOrderId = doesOrderExist.id
+        console.log(`CART ALREADY EXISTED, NOW USING ${useThisOrderId} AS THE ORDER ID`)
+      }
     }
-
     /*Take care of adding the item to the order that either existed or was just created,
     Creates a new instance on the OrderItem join table btwn productId & orderId.
     If there already is one, it updates the quantity*/
@@ -78,7 +90,6 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
     }
     res.json(item)
-    }
   } catch (err) {
     console.error(err)
     next(err)

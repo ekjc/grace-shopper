@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
@@ -45,6 +46,7 @@ const createApp = () => {
   app.use(morgan('dev'))
 
   // body parsing middleware
+  app.use(cookieParser())
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
 
@@ -62,6 +64,7 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+
 
   // auth and api routes
   app.use('/auth', require('./auth'))
