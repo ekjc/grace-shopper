@@ -47,6 +47,7 @@ export const me = () => async dispatch => {
   try {
     const { data } = await axios.get('/auth/me')
     dispatch(receiveMe(data || {}))
+    console.log(`guest cookie OR user data:`, data);
   } catch (err) {
     console.error(err)
   }

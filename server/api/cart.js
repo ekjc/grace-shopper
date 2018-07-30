@@ -36,12 +36,16 @@ router.delete('/:orderId', async (req, res, next) => {
 // Adding item to cart :: /api/cart/:userId/:productId
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
+    let useThisOrderId;
+
+    /* placeholder for handling unauthenticated users */
+    if (req.params.userId === `guest`) console.log('please log in for testing');
+
+    else {
     /* if an order with the userId (e.g. customerId) passed in and an orderStatusCodeId of 1 does not exist,
     create new cart (e.g. order) instance and use that newly created orderId */
     const doesOrderExist = await Order.findOne({
       where: {customerId: req.params.userId}, orderStatusCodeId: 1})
-
-    let useThisOrderId;
 
     if (!doesOrderExist) {
       const newOrder = Order.build()
@@ -73,8 +77,8 @@ router.post('/:userId/:productId', async (req, res, next) => {
         plain: true
       })
     }
-
     res.json(item)
+    }
   } catch (err) {
     console.error(err)
     next(err)

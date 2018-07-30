@@ -39,7 +39,7 @@ class Product extends Component {
           name="quantityToAdd"
           min="1" max="200"/>
           <button type="submit"
-            onClick={() => this.props.createCartItem(this.props.myId, +productId, this.state.quantityToAdd)}>
+            onClick={() => this.props.createCartItem(this.props.myId || `guest`, +productId, this.state.quantityToAdd)}>
              Add to Cart
            </button>
         </div>
@@ -68,7 +68,7 @@ const mapState = state => ({
   isLoading: state.products.isLoading,
   isAdmin: state.me.isAdmin,
   product: state.products.active,
-  myId: state.me.id //provide userId to createCartItem() -- see reviews model as well
+  myId: state.me.id 
 })
 
 const mapDispatch = dispatch => ({
