@@ -8,11 +8,12 @@ import {
   Auth,
   Product,
   ProductList,
-  AddProduct,
-  EditProduct,
   UserDashboard,
   ManageUsers,
   EditUser,
+  ManageProducts,
+  AddProduct,
+  EditProduct,
   AddReview
 } from './containers'
 import { me } from './store'
@@ -70,12 +71,17 @@ class Routes extends Component {
 
         {/* isAdmin-only routes */}
         <PrivateRoute
+          exact path="/manage/products"
+          component={ManageProducts}
+          {...this.props}
+        />
+        <PrivateRoute
           path="/products/add"
           component={AddProduct}
           {...this.props}
         />
         <PrivateRoute
-          path="/products/:productId/edit"
+          path="/manage/product/:productId"
           component={EditProduct}
           {...this.props}
         />
@@ -85,7 +91,7 @@ class Routes extends Component {
           {...this.props}
         />
         <PrivateRoute
-          path="/manage/users/:userId"
+          path="/manage/user/:userId"
           component={EditUser}
           {...this.props}
         />

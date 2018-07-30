@@ -49,8 +49,6 @@ router.get('/user/:productId', async (req, res, next) => {
 // add review :: /api/reviews
 router.post('/', async (req, res, next) => {
   try {
-    console.log('****** req.body', req.body)
-
     const newReview = await Review.create({
       subject: req.body.review.subject,
       content: req.body.review.content,
@@ -60,7 +58,7 @@ router.post('/', async (req, res, next) => {
     newReview.setProduct(req.body.productId)
     newReview.setUser(req.body.userId)
 
-    res.json(newReview)
+    res.status(201).json(newReview)
   } catch (err) {
     next(err)
   }
@@ -68,13 +66,23 @@ router.post('/', async (req, res, next) => {
 
 // update review :: /api/reviews/:reviewId
 router.put('/:reviewId', async (req, res, next) => {
-    try {
-      const reviewId = req.params.reviewId
-      const reviewToUpdate = await Review.findById(reviewId)
-      await reviewToUpdate.update(req.body)
-    } catch(err) {
-        next(err)
-    }
+  try {
+    const { data: review } = await Review.update(
+      {
+        subject: req.body.review.subject,
+        content: req.body.review.content,
+        rating: req.body.review.rating
+      },
+      {
+        where: { id: req.params.reviewId },
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(review)
+  } catch (err) {
+    next(err)
+  }
 })
 
 // delete review :: /api/reviews/:reviewId

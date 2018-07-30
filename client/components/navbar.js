@@ -73,12 +73,12 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               Sign up
             </Link>
           )}
-          <a className="navbar-item">
+          <Link to="/cart" className="navbar-item">
             <span className="icon">
               <i className="fas fa-shopping-cart" />
             </span>
             <span className="is-hidden">Cart</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

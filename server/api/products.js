@@ -47,134 +47,61 @@ router.get('/categories/:categoryId', async (req, res, next) => {
     } else {
       return res.json({ name: 'WHAT?' })
     }
-
-
-
-
-    // const matchingProductsFromJoinTable = await ProductCategory.findAll({
-    //   where: { categoryId: categoryId }
-    // })
-
-    // const productIds = matchingProductsFromJoinTable.map(
-    //   product => product.productId
-    // )
-
-    // const products = await Product.findAll({
-    //   where: {
-    //     id: {
-    //       $or: productIds
-    //     }
-    //   }
-    // })
-    // res.json(products)
   } catch (err) {
     next(err)
-  }
-})
-
-// Get all reviews related to a certain productId
-// Route address /api/products/:productId/reviews
-router.get('/:productId/reviews', async (req, res, next) => {
-  try {
-    const productId = req.params.productId
-    const reviewsForProduct = await Review.findAll({
-      where: {
-        productId: productId
-      }
-    })
-    res.json(reviewsForProduct)
-  } catch (err) {
-    console.error('Your error was', err)
-    next(err)
-  }
-})
-
-router.post('/:productId/reviewForm', async (req, res, next) => {
-  try {
-    console.log(('req.body', req.body))
-    const productId = req.params.productId
-    const review = await Review.create({
-      subject: req.body.subject,
-      content: req.body.content,
-      rating: req.body.rating,
-      productId: productId
-    })
-    res.json(review)
-  } catch (error) {
-    console.error('Your error was', error)
-    next(error)
   }
 })
 
 router.post('/', async (req, res, next) => {
-  const newProduct = await Product.create(req.body).catch(next)
-  res.json(newProduct)
-})
-
-//The route below does not post to the database, but I didn't want to delete without consensus...new simple route above
-
-// router.post('/addProduct', (req, res, next) => {
-//   Product.create({
-//     name: req.body.name,
-//     description: req.body.description,
-//     sku: req.body.sku,
-//     price: req.body.price,
-//     unitsInStock: req.body.unitsInStock,
-//     quantityPerUnit: req.body.quantityPerUnit,
-//     isFeatured: req.body.isFeatured,
-//     isActive: req.body.isActive
-//   })
-//     .then(product =>
-//       res.json({
-//         message: 'Created successfully',
-//         body: product
-//       })
-//     )
-//     .catch(err => {
-//       const errTitle = 'Unable to create product'
-//       res.status(500).json({ error: err, title: errTitle })
-//     })
-// })
-
-// router.put('/:productId/edit', async (req, res, next) => {
-//   const product = await Product.findById(req.params.productId).catch(next)
-//   await product.update(req.body).catch(next)
-//   res.status(204).end()
-// })
-
-router.put('/:productId/edit', (req, res, next) => {
-  Product.update(
-    {
+  try {
+    const newProduct = await Product.create({
       name: req.body.name,
       description: req.body.description,
-      sku: req.body.sku,
+      imageUrl: req.body.imageUrl,
       price: req.body.price,
+      SKU: req.body.SKU,
       unitsInStock: req.body.unitsInStock,
-      quantityPerUnit: req.body.quantityPerUnit,
       isFeatured: req.body.isFeatured,
       isActive: req.body.isActive
-    },
-    {
-      where: { id: req.params.productId },
-      returning: true,
-      plain: true
-    }
-  )
-    .spread((numAffected, product) => {
-      res.json({ message: 'Updated successfully', body: product })
     })
-    .catch(err => res.status(500).json({ error: err }))
+
+    res.json(newProduct)
+  } catch (err) {
+    next(err)
+  }
 })
 
-router.delete('/:productId', (req, res, next) => {
-  Product.destroy({
-    where: {
-      id: req.params.productId
-    }
-  }).then(id =>
-    res.json({
-      message: 'Deleted successfully',
-      body: +req.params.id
-    })
-  )
+router.put('/:productId', async (req, res, next) => {
+  try {
+    const { data: product } = await Product.update(
+      {
+        name: req.body.name,
+        description: req.body.description,
+        imageUrl: req.body.imageUrl,
+        price: req.body.price,
+        SKU: req.body.SKU,
+        unitsInStock: req.body.unitsInStock,
+        isFeatured: req.body.isFeatured,
+        isActive: req.body.isActive
+      },
+      {
+        where: { id: req.params.productId },
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:productId', async (req, res, next) => {
+  const productId = +req.params.productId
+  try {
+    await Product.destroy({ where: { id: productId } })
+    res.json(productId)
+  } catch (err) {
+    next(err)
+  }
 })

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchUsers, deleteUser, logout } from '../store'
+import { fetchUsers, deleteUser } from '../store'
 import { UserRow } from '../components'
 
 class ManageUsers extends Component {
@@ -69,16 +69,15 @@ class ManageUsers extends Component {
  * CONTAINER
  */
 const mapState = state => ({
-  isLoading: state.me.isLoading,
-  isAdmin: state.me.isAdmin,
-  users: state.users.all,
-  myId: state.me.id
+  isLoading: !!state.users.isLoading,
+  isAdmin: !!state.me.isAdmin,
+  myId: state.me.id,
+  users: state.users.all
 })
 
 const mapDispatch = dispatch => ({
   getUsers: () => dispatch(fetchUsers()),
-  deleteUser: user => dispatch(deleteUser(user)),
-  handleClick: () => dispatch(logout())
+  deleteUser: user => dispatch(deleteUser(user))
 })
 
 export default connect(mapState, mapDispatch)(ManageUsers)
@@ -87,5 +86,8 @@ export default connect(mapState, mapDispatch)(ManageUsers)
  * PROP TYPES
  */
 ManageUsers.propTypes = {
-  isAdmin: PropTypes.bool
+  isLoading: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  myId: PropTypes.number,
+  users: PropTypes.array.isRequired,
 }

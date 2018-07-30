@@ -12,12 +12,12 @@ class Reviews extends Component {
     const reviews = this.props.reviews
     return (
       <div>
-        <h1>Product Reviews</h1>
+        <h3 className="title is-5">Product Reviews</h3>
         {reviews.map(review => {
           const { id, subject, content, rating } = review
           return (
             <div key={id} style={{ marginBottom: '1rem' }}>
-              {subject && <h5 className="title is-5">{subject}</h5>}
+              {subject && <h4 className="title is-5">{subject}</h4>}
               <p className="subtitle is-6">Rating: {rating} stars</p>
               <p>{content}</p>
             </div>
