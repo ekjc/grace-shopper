@@ -34,7 +34,9 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
           </NavLink>
           */}
         </div>
-
+        <div className='column is-3'>
+          <input className="input" type="text" placeholder="Search"/>
+        </div>
         <div className="navbar-end">
           {isLoggedIn && (
             <NavLink
