@@ -30,6 +30,15 @@ export const validateProduct = values => {
   if (!values.name) {
     errors.name = 'Name is a required field.';
   }
+  if (!values.price) {
+    errors.price = 'Price is a required field.';
+  }
+  if (!values.SKU) {
+    errors.SKU = 'SKU is a required field.';
+  }
+  if (!values.unitsInStock) {
+    errors.unitsInStock = 'Units is a required field.';
+  }
   if (
     !/^(?:\w+:)?\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(values.imageUrl)
   ) {
@@ -138,7 +147,7 @@ export default props => {
             min={extraProps.min}
             max={extraProps.max}
             step={extraProps.step}
-            className={`textarea ${getValidateClassNames(touched, error)}`}
+            className={`input ${getValidateClassNames(touched, error)}`}
           />
           {valid &&
             visited && (

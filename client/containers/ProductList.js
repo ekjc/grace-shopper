@@ -41,8 +41,6 @@ class ProductList extends Component {
   async componentDidMount() {
     await this.props.getCategoryChildren()
     await this.props.getProducts()
-
-    // await this.props.getProductsByCategory(paramId)
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -59,7 +57,7 @@ class ProductList extends Component {
   // }
 
   handleClick = (event, category) => {
-    // event.preventDefault()
+    event.preventDefault()
     this.props.getCategory(category.id)
     this.props.getCategoryChildren(category.id)
     this.props.getProductsByCategory(category.id)
@@ -75,7 +73,7 @@ class ProductList extends Component {
     } = this.props
     return (
       <div>
-        <h1 className="title is-2">{this.state.categoryName || 'All Products'}</h1>
+        <h1 className="title is-2">{category.name || 'All Products'}</h1>
         <div className="columns">
           <div className="column is-3">
             <CategoryMenu
