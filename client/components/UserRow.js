@@ -5,18 +5,18 @@ import { Link } from 'react-router-dom'
 const UserRow = ({ user, deleteUser }) => (
   <tr>
     <td>
-      <Link to={`/manage/users/${user.id}`}>
+      <Link to={`/manage/user/${user.id}`}>
         {user.firstName} {user.lastName}
       </Link>
     </td>
-    <td>{user.email}</td>
-    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-    <td>{user.isAdmin ? 'Admin' : 'Customer'}</td>
+    <td className="is-size-7 has-text-grey-dark">{user.email}</td>
+    <td className="is-size-7 has-text-grey-dark">{new Date(user.createdAt).toLocaleDateString()}</td>
+    <td className="is-size-7 has-text-grey-dark">{user.isAdmin ? 'Admin' : 'Customer'}</td>
     <td>
       <div className="field is-grouped">
         <p className="control">
           <Link
-            to={`/manage/users/${user.id}`}
+            to={`/manage/user/${user.id}`}
             className="button is-link is-small"
           >
             Edit

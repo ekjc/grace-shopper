@@ -1,146 +1,163 @@
 import React, { Component } from 'react'
-import { Field, reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchProduct, updateProduct } from '../store'
+import { Field, reduxForm } from 'redux-form'
+import { fetchProduct, updateProduct, removeActiveProduct } from '../store'
+import { ValidateField, validateProduct } from '../components';
+
 
 class EditProduct extends Component {
   componentDidMount() {
     this.props.getProduct(this.props.match.params.productId)
   }
 
-  renderField(field) {
-    const { meta: { touched, error } } = field
-    return (
-      <div className="form-group">
-        <label>{field.label}</label>
-        <input
-          className="form-control"
-          type={field.typeOfInput}
-          {...field.input}
-        />
-        {touched ? error : ''}
-      </div>
-    )
-  }
-
   handleSubmit = values => {
-    const { name, price, SKU, unitsInStock, quantityPerUnit } = values
+    const { name, price, SKU, unitsInStock, description, imageUrl } = values
     this.props.updateProduct({
       id: this.props.match.params.productId,
-      name, price, SKU, unitsInStock, quantityPerUnit
+      name, price, SKU, unitsInStock, description, imageUrl
     })
   }
 
   goBack = () => {
+    this.props.removeActiveProduct()
     this.props.history.goBack()
   }
 
   render() {
-    const { pristine, submitting, reset } = this.props
+    const { product, pristine, reset, submitting } = this.props
     return (
-      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-        <h2>Edit Product</h2>
-        <Field
-          label="Name of Product"
-          typeOfInput="text"
-          name="name"
-          component={this.renderField}
-        />
-        <Field label="Price" name="price" component={this.renderField} />
-        <Field
-          label="Description of Product"
-          typeOfInput="text"
-          name="product"
-          component={this.renderField}
-        />
-        <Field label="SKU" name="SKU" component={this.renderField} />
-        <Field
-          label="Units in Stock"
-          typeOfInput="number"
-          name="unitsInStock"
-          component={this.renderField}
-        />
-        <Field
-          label="Quantity Per Unit"
-          typeOfInput="number"
-          name="quantityPerUnit"
-          component={this.renderField}
-        />
-        <button
-          type="submit"
-          disabled={pristine || submitting}
-          onClick={this.goBack}
-        >
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
-        <button
-          type="button"
-          onClick={this.goBack}
-        >
-          Cancel
-        </button>
+      <div>
+        <h1 className="title is-2">Edit Product</h1>
+        <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+          <Field
+            label="Name"
+            name="name"
+            type="text"
+            component={ValidateField}
+          />
 
-        {/* <Field
-          label="Featured Product"
-          type="checkbox"
-          name="featuredProduct"
-          component="input"
-        />
-        <Field
-          label="Would you like this product to be labeled as active?"
-          type="radio"
-          name="activeStatus"
-          component={this.renderField}
-        /> */}
+          <Field
+            label="SKU"
+            name="SKU"
+            type="text"
+            component={ValidateField}
+          />
 
-      </form>
+          <Field
+            label="Price"
+            name="price"
+            type="number"
+            min={0}
+            step={0.01}
+            component={ValidateField}
+          />
+
+          <Field
+            label="Units"
+            name="unitsInStock"
+            type="number"
+            min={0}
+            step={1}
+            placeholder="Number of units in stock"
+            component={ValidateField}
+          />
+
+          <Field
+            label="Description"
+            name="description"
+            type="textarea"
+            rows={8}
+            component={ValidateField}
+          />
+
+          <Field
+            label="Image URL"
+            name="imageUrl"
+            type="text"
+            placeholder="http://"
+            component={ValidateField}
+          />
+
+          <div className="field is-grouped">
+            <div className="control">
+              <button
+                type="submit"
+                className="button is-link"
+                disabled={pristine || submitting}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="control">
+              <button type="button" className="button is-light" onClick={reset}>
+                Reset
+              </button>
+            </div>
+            <div className="control">
+              <button
+                type="button"
+                className="button is-light"
+                onClick={this.goBack}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          {/* <Field
+            label="Featured Product"
+            type="checkbox"
+            name="featuredProduct"
+            component="input"
+          />
+          <Field
+            label="Would you like this product to be labeled as active?"
+            type="radio"
+            name="activeStatus"
+            component={this.renderField}
+          /> */}
+
+        </form>
+      </div>
     )
   }
 }
 
-const validate = values => {
-  const errors = {}
-
-  if (!values.name) {
-    errors.name = 'Please enter a product name.'
-  }
-  if (!values.price) {
-    errors.price = 'Please enter the price of the product.'
-  }
-  if (!values.SKU) {
-    errors.SKU = 'Please enter the product SKU.'
-  }
-  if (!values.unitsInStock) {
-    errors.unitsInStock = 'Please enter the number of units currently in stock.'
-  }
-  return errors
-}
 
 EditProduct = reduxForm({
-  validate,
-  form: 'editProductsForm',
+  form: 'editProduct',
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true
+  keepDirtyOnReinitialize: true,
+  validate: validateProduct
 })(EditProduct)
 
-const mapState = state => ({
-  product: state.products.active,
-  initialValues: {
-    name: state.products.active.name,
-    price: state.products.active.price,
-    description: state.products.active.description,
-    SKU: state.products.active.SKU,
-    unitsInStock: state.products.active.unitsInStock,
-    quantityPerUnit: state.products.active.quantityPerUnit
+const mapState = ({ products }) => {
+  const { active: product } = products;
+  return {
+    product: product,
+    initialValues: {
+      name: product.name,
+      description: product.description,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      SKU: product.SKU,
+      unitsInStock: product.unitsInStock,
+      isFeatured: product.isFeatured,
+      isActive: product.isActive
+    }
   }
-})
+}
 
 const mapDispatch = dispatch => ({
   getProduct: productId => dispatch(fetchProduct(productId)),
-  updateProduct: product => dispatch(updateProduct(product))
+  updateProduct: product => dispatch(updateProduct(product)),
+  removeActiveProduct: () => dispatch(removeActiveProduct())
 })
 
 export default connect(mapState, mapDispatch)(EditProduct)
+
+EditProduct.propTypes = {
+  getProduct: PropTypes.func.isRequired,
+  updateProduct: PropTypes.func.isRequired
+}

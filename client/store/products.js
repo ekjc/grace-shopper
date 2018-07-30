@@ -14,6 +14,8 @@ const CREATE_PRODUCT_SUCCESS = 'CREATE_PRODUCT_SUCCESS'
 const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS'
 const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS'
 
+const REMOVE_ACTIVE_PRODUCT = 'REMOVE_ACTIVE_PRODUCT'
+
 /**
  * ACTION CREATORS
  */
@@ -35,6 +37,8 @@ const deleteProductSuccess = productId => ({
   type: DELETE_PRODUCT_SUCCESS,
   productId
 })
+
+export const removeActiveProduct = () => ({ type: REMOVE_ACTIVE_PRODUCT })
 
 /**
  * THUNK CREATORS
@@ -98,7 +102,7 @@ export const updateProduct = product => async dispatch => {
 export const deleteProduct = product => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/products/${product.id}`)
-    dispatch(deleteProductSuccess(data || {}))
+    dispatch(deleteProductSuccess(data))
   } catch (error) {
     console.error(error)
   }
@@ -152,9 +156,16 @@ export default (state = initialState, action) => {
       }
 
     case DELETE_PRODUCT_SUCCESS:
+      console.log('delete product action', action)
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.productId)
+      }
+
+    case REMOVE_ACTIVE_PRODUCT:
+      return {
+        ...state,
+        active: {}
       }
 
     default:

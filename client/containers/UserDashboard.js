@@ -15,13 +15,16 @@ class UserDashboard extends Component {
         <h1 className="title is-2">My Account</h1>
         <p className="subtitle is-4">Welcome, {firstName}!</p>
         {isAdmin && (
-          <div>
-            <h4>
+          <div className="content">
+            <div className="notification">
               You are an admin, and with great power comes great responsibility.
-            </h4>
+            </div>
             <ul>
               <li><Link to="/manage/users">Manage Users</Link></li>
               <li><Link to="/manage/products">Manage Products</Link></li>
+              <li><Link to="/manage/categories">Manage Categories</Link></li>
+              <li><Link to="/manage/reviews">Manage Reviews</Link></li>
+              <li><Link to="/manage/orders">Manage Orders</Link></li>
             </ul>
           </div>
         )}

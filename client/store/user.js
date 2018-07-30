@@ -18,7 +18,7 @@ const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS'
 const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS'
 const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS'
 
-const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER'
+const REMOVE_ACTIVE_USER = 'REMOVE_ACTIVE_USER'
 
 /**
  * ACTION CREATORS
@@ -37,7 +37,7 @@ const createUserSuccess = user => ({ type: CREATE_USER_SUCCESS, user })
 const updateUserSuccess = user => ({ type: UPDATE_USER_SUCCESS, user })
 const deleteUserSuccess = userId => ({ type: DELETE_USER_SUCCESS, userId })
 
-export const resetActiveUser = () => ({ type: RESET_ACTIVE_USER })
+export const removeActiveUser = () => ({ type: REMOVE_ACTIVE_USER })
 
 /**
  * THUNK CREATORS
@@ -209,7 +209,7 @@ export const usersReducer = (state = initialUsers, action) => {
         all: [...state.all].filter(item => item.id !== action.userId)
       }
 
-    case RESET_ACTIVE_USER:
+    case REMOVE_ACTIVE_USER:
       return {
         ...state,
         active: {}

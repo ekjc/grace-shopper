@@ -48,7 +48,7 @@ class Product extends Component {
         <br />
         <br />
         <br />
-        <Link to={`/product/${product.id}/edit`}>
+        <Link to={`/manage/product/${product.id}`}>
           <button type="button">Edit Product</button>
         </Link>
         <Link

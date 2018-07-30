@@ -269,7 +269,7 @@ const products = [
       `The Angry Orchard variety pack is perfect for when you just cant decide. It features 3 bottles each of Crisp Apple, Apple Ginger, Traditional Dry and a rotating seasonal style.`,
     imageUrl: 'https://products1.imgix.drizly.com/ci-angry-orchard-cider-variety-pack-f66b11154133b3ff.jpeg',
     price: 21.99,
-    SKU: 'BCA26785-PK',
+    SKU: 'BCA26784',
     unitsInStock: 10,
     categories: ['Beer', 'Cider']
   },
@@ -278,7 +278,7 @@ const products = [
     description:
       `Hard cider is a strong, sturdy but not-too-sweet fermented alcoholic beverage built from the juice of apples. It's not actually hard, as that would be impossible to drink.`,
     imageUrl: 'https://products2.imgix.drizly.com/ci-smith-forge-hard-cider-051fa3bbac40818d.png',
-    price: 0,
+    price: 13.25,
     SKU: 'BCS29017',
     unitsInStock: 3,
     categories: ['Beer', 'Cider']
