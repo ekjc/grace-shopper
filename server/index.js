@@ -14,10 +14,10 @@ const socketio = require('socket.io')
 module.exports = app
 
 //Stripe backend
-const configureServer = require('./stripe/serverConfig')
-const configureRoutes = require('./stripe/routeConfig')
-configureServer(app)
-configureRoutes(app)
+// const configureServer = require('./stripe/serverConfig')
+// const configureRoutes = require('./stripe/routeConfig')
+// configureServer(app)
+// configureRoutes(app)
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
