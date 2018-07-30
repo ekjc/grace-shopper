@@ -73,7 +73,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               Sign up
             </Link>
           )}
-          <Link to="/cart" className="navbar-item">
+          <Link to={`/cart`} className="navbar-item">
             <span className="icon">
               <i className="fas fa-shopping-cart" />
             </span>
@@ -85,10 +85,15 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   </nav>
 )
 
-const mapState = state => ({
-  isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin
-})
+const mapState = state => {
+
+  // const cartId = state.cart.info.id || null
+
+  return {
+    isLoggedIn: !!state.me.id,
+    isAdmin: !!state.me.isAdmin
+  }
+}
 
 const mapDispatch = dispatch => ({
   handleClick: () => dispatch(logout())
