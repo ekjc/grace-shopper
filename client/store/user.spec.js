@@ -28,23 +28,26 @@ describe('thunk creators', () => {
   })
 
   describe('me', () => {
-    it('eventually dispatches the GET USER action', async () => {
-      const fakeUser = { email: 'Cody' }
+    it('eventually dispatches the RECEIVE_ME action', async () => {
+      const fakeUser = { email: 'user@test.com' }
       mockAxios.onGet('/auth/me').replyOnce(200, fakeUser)
       await store.dispatch(me())
       const actions = store.getActions()
-      expect(actions[0].type).to.be.equal('GET_USER')
-      expect(actions[0].user).to.be.deep.equal(fakeUser)
+      // `actions` has two indices because the thunk
+      // dispatches two actions: Request and Receive
+      expect(actions[0].type).to.be.equal('REQUEST_ME')
+      expect(actions[1].type).to.be.equal('RECEIVE_ME')
+      expect(actions[1].me).to.be.deep.equal(fakeUser)
     })
   })
 
   describe('logout', () => {
-    it('logout: eventually dispatches the REMOVE_USER action', async () => {
+    it('logout: eventually dispatches the REMOVE_ME action', async () => {
       mockAxios.onPost('/auth/logout').replyOnce(204)
       await store.dispatch(logout())
       const actions = store.getActions()
-      expect(actions[0].type).to.be.equal('REMOVE_USER')
-      expect(history.location.pathname).to.be.equal('/login')
+      expect(actions[0].type).to.be.equal('REMOVE_ME')
+      expect(history.location.pathname).to.be.equal('/')
     })
   })
 })
