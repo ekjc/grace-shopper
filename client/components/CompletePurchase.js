@@ -15,14 +15,13 @@ class CompletePurchase extends Component {
   }
 
   render() {
-    // const { cart, sendOrder, formInfo } = this.props
     return (
       <div style={{ marginTop: '2rem' }}>
         <p>
           <span>
             <button
               type="button"
-              className="button is-link"
+              className="button is-primary"
               onClick={(event) => this.handleSubmit(event)}>
               Complete Purchase
             </button>

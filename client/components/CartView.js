@@ -14,6 +14,7 @@ import order from '../store/order'
 
 class CartView extends Component {
   async componentDidMount() {
+    console.log(document.cookie); //EVELYN WORKING ON THIS TO FIX CART ROUTES....
     const orderId = this.props.match.params.orderId
     await this.props.getCart(orderId)
     await this.props.getCartItems(orderId)
@@ -109,9 +110,6 @@ class CartView extends Component {
                 cart={cart}
                 sendOrder={sendOrder}
                 history={this.props.history} />
-              {/* NOTE: Everything previously in Checkout is now in CompletePurchase, which
-                is rendered by the BillingShipping component. Checkout should be made to only have stripe now.
-                Evelyn will incorporate stripe component into the checkout flow after merge. */}
             </div>
           </div>
         )}

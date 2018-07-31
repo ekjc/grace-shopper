@@ -14,9 +14,9 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
           <Logo />
         </Link>
         <div className="navbar-burger burger" data-target="navPrimary">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </div>
       </div>
       <div id="navPrimary" className="navbar-menu">
@@ -73,7 +73,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               Sign up
             </Link>
           )}
-          <Link to={`/cart`} className="navbar-item">
+          <Link to="/cart" className="navbar-item">
             <span className="icon">
               <i className="fas fa-shopping-cart" />
             </span>
