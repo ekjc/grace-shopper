@@ -21,9 +21,9 @@ const requestOrder = () => ({ type: REQUEST_ORDER })
 const receiveOrder = order => ({ type: RECEIVE_ORDER, order })
 
 const requestOrderItems = () => ({ type: REQUEST_ORDER_ITEMS })
-const receiveOrderItems = orderItems => ({
+const receiveOrderItems = items => ({
   type: RECEIVE_ORDER_ITEMS,
-  orderItems
+  items
 })
 
 const createOrderSuccess = order => ({
@@ -47,6 +47,17 @@ export const fetchOrder = orderId => async dispatch => {
   try {
     const { data } = await axios.get(`/api/orders/${orderId}`)
     dispatch(receiveOrder(data || {}))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const fetchOrderHistory = userId => async dispatch => {
+  dispatch(requestOrderItems())
+  try {
+    const { data } = await axios.get(`/api/orders/orderhistory/${userId}`)
+    console.log('data', data)
+    dispatch(receiveOrderItems(data || []))
   } catch (error) {
     console.error(error)
   }
@@ -110,6 +121,7 @@ export default (state = initialOrder, action) => {
       }
 
     case RECEIVE_ORDER_ITEMS:
+    console.log('action.items', action.items)
       return {
         ...state,
         items: [...state.items, action.items],

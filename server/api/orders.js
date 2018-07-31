@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const { Order, OrderStatusCode, OrderItem, Product, User } = require('../db/models')
 module.exports = router
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 
 // Get all orders/cart instances :: /api/orders
@@ -46,6 +48,33 @@ router.get('/:orderId', async (req, res, next) => {
     })
     res.json(order)
   } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
+// Route address /api/orders/orderhistory/:userId
+router.get('/orderhistory/:userId', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const orderHistory = await Order.findAll({
+      where: {
+        customerId: userId,
+        // orderStatusCodeId: {
+        //   [Op.ne]: 1
+        // } 
+      },
+      include: [
+        { model: OrderStatusCode, attributes: ['description'] },
+        { model: User, as: 'customer' },
+      ]
+    })
+    // const userOrder = await OrderItem.findOne({
+    //   where: { orderId: req.params.orderId, productId: req.params.productId },
+    //   include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
+    // })
+    res.json(orderHistory)
+  } catch(err) {
     console.error(err)
     next(err)
   }
