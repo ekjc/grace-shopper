@@ -10,10 +10,6 @@ class UserReviews extends Component {
   }
 
   render() {
-      console.log('this.props from UserReviews container', this.props)
-      console.log('this.props.userId', this.props.userId)
-      console.log('this.props.reviews.all', this.props.reviews.all)
-      console.log('this.props.match.params.userId', this.props.match.params.userId)
       const reviewsByUser = this.props.reviews.all
     return (
       <div>

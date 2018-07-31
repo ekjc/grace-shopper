@@ -9,7 +9,6 @@ import { UserList } from '../components'
  */
 class UserDashboard extends Component {
   render() {
-    console.log('This.props from UserDashboard', this.props)    
     const { firstName, lastName, email, isAdmin } = this.props.me
     return (
       <div>
@@ -17,7 +16,7 @@ class UserDashboard extends Component {
         <p className="subtitle is-4">Welcome, {firstName}!</p>
         <ul>
           <li><Link to={`/reviews/user/${this.props.me.id}`}>Manage Reviews</Link></li>
-          <li><Link to='/order/history'>Order History</Link></li>
+          <li><Link to={`/orders/orderhistory/${this.props.me.id}`}>Order History</Link></li>
         </ul>
         <p className="subtitle is-4">Welcome, {firstName ? firstName : email}!</p>
         {isAdmin && (

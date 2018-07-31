@@ -57,7 +57,6 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, isAdmin } = this.props
-
     return (
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
@@ -68,8 +67,9 @@ class Routes extends Component {
 
         <Route path='/reviews/user/:userId' component={UserReviews} />
 
+        <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
+
         <Route exact path="/review/add" component={AddReview}/>
-        <Route exact path="/order/history" component={OrderHistory}/>
 
         <Route path="/cart" component={CartView} />
 
