@@ -5,18 +5,16 @@ import { createCartItem } from '../store'
 
 const ProductCard = ({ product, myId, addToCart }) => (
   <div className="card">
-    <div className="card-image">
+    <Link to={`/product/${product.id}`} className="card-image">
       <div className="see-details">
-        <a className="button is-small">
+        <div className="button is-small">
           <span>See details</span>
-        </a>
+        </div>
       </div>
       <figure className="image is-2by3">
-        <Link to={`/product/${product.id}`}>
-          <img src={product.imageUrl} />
-        </Link>
+        <img src={product.imageUrl} />
       </figure>
-    </div>
+    </Link>
     <Link
       to={`/product/${product.id}`}
       className="card-content has-text-centered"

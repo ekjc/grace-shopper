@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { fetchCategory, updateCategory, removeActiveCategory } from '../store'
-import { ValidateField, validateCategory } from '../components';
+import {
+  fetchCategories,
+  fetchCategory,
+  updateCategory,
+  removeActiveCategory
+} from '../store'
+import { ValidateField, validateCategory } from '../components'
 
 class EditCategory extends Component {
   componentDidMount() {
+    this.props.getCategories()
     this.props.getCategory(this.props.match.params.categoryId)
   }
 
@@ -25,7 +31,7 @@ class EditCategory extends Component {
 
   render() {
     const { category, pristine, reset, submitting } = this.props
-    console.log('category', category)
+    // console.log('category', category)
     return (
       <div>
         <h2 className="title is-3">Edit Category</h2>
@@ -42,6 +48,14 @@ class EditCategory extends Component {
             label="Parent"
             name="parent"
             type="text"
+            component={ValidateField}
+          />
+
+          <Field
+            label="TEST"
+            name="test"
+            type="select"
+            options={TEST_CATEGORIES}
             component={ValidateField}
           />
 
@@ -84,9 +98,10 @@ EditCategory = reduxForm({
 })(EditCategory)
 
 const mapState = ({ categories }) => {
-  const { active: category } = categories;
+  const { active: category, all } = categories;
   const parent = category.parent ? category.parent.name : '';
   return {
+    categories: all,
     category: category,
     initialValues: {
       name: category.name,
@@ -96,6 +111,7 @@ const mapState = ({ categories }) => {
 }
 
 const mapDispatch = dispatch => ({
+  getCategories: () => dispatch(fetchCategories()),
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
   updateCategory: category => dispatch(updateCategory(category)),
   removeActiveCategory: () => dispatch(removeActiveCategory())

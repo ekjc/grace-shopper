@@ -6,7 +6,7 @@ const ProductRow = ({ product, deleteProduct }) => (
   <tr>
     <td>{product.id}</td>
     <td>
-      <Link to={`/manage/product/${product.id}`}>
+      <Link to={`/product/${product.id}`}>
         {product.name}
         {!!product.isFeatured && (
           <span className="tag is-rounded is-secondary" style={{ fontSize: '.75rem', marginLeft: '.5rem' }}>Featured</span>
