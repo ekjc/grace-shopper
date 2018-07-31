@@ -13,6 +13,7 @@ class OrderHistory extends Component {
     const orderHistory = this.props.items
     return (
       <div>
+        <h1 className='title'>Order History</h1>
           {orderHistory.length && orderHistory.map(order => (
                     <div key={order[0].id}>
                     {console.log('order', order)} 
