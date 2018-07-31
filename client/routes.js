@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { Login, Signup, CartView, PageNotFound } from './components'
+import { Login, Signup, CartView, PageNotFound, Confirmation } from './components'
 import {
   Home,
   Auth,
@@ -15,6 +15,8 @@ import {
   ManageProducts,
   AddProduct,
   EditProduct,
+  UserReviews,
+  OrderHistory,
   ManageCategories,
   // AddCategory,
   EditCategory,
@@ -56,7 +58,6 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, isAdmin } = this.props
-
     return (
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
@@ -65,9 +66,15 @@ class Routes extends Component {
         <Route path="/products/:categoryName" component={ProductList} />
         <Route exact path="/product/:productId" component={Product} />
 
+        <Route path='/reviews/user/:userId' component={UserReviews} />
+
+        <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
+
         <Route exact path="/review/add" component={AddReview}/>
 
-        <Route path="/cart/:orderId" component={CartView} />
+        <Route path="/cart" component={CartView} />
+
+        <Route path='/orderConfirmation' component={Confirmation} />
 
         {/* isLoggedIn-only routes */}
         <PrivateRoute

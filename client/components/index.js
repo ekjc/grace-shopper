@@ -8,6 +8,7 @@ export { default as CategoryMenu } from './CategoryMenu'
 export { default as ManageMenu } from './ManageMenu'
 
 export { default as CartView } from './CartView'
+export { default as Confirmation } from './Confirmation'
 
 export {
   default as ValidateField,
@@ -24,3 +25,5 @@ export { default as ReviewRow } from './ReviewRow'
 export { default as OrderRow } from './OrderRow'
 
 export { default as PageNotFound } from './PageNotFound'
+
+// export { Search } from './Search'

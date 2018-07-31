@@ -13,6 +13,11 @@ class UserDashboard extends Component {
     return (
       <div>
         <h1 className="title is-1">My Account</h1>
+        <p className="subtitle is-4">Welcome, {firstName}!</p>
+        <ul>
+          <li><Link to={`/reviews/user/${this.props.me.id}`}>Manage Reviews</Link></li>
+          <li><Link to={`/orders/orderhistory/${this.props.me.id}`}>Order History</Link></li>
+        </ul>
         <p className="subtitle is-4">Welcome, {firstName ? firstName : email}!</p>
         {isAdmin && (
           <div className="box">

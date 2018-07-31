@@ -22,7 +22,7 @@ const reducer = combineReducers({
   cart,
   // duplicate here with order
   order,
-  orders
+  orders,
 })
 
 const middleware = composeWithDevTools(

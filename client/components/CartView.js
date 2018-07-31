@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Checkout from './Checkout'
+import { Checkout } from './Checkout'
+import BillingShipping from './BillingShipping'
 import { connect } from 'react-redux'
 import {
   fetchCart,
@@ -13,6 +14,7 @@ import order from '../store/order'
 
 class CartView extends Component {
   async componentDidMount() {
+    console.log(document.cookie); //EVELYN WORKING ON THIS TO FIX CART ROUTES....
     const orderId = this.props.match.params.orderId
     await this.props.getCart(orderId)
     await this.props.getCartItems(orderId)
@@ -104,14 +106,10 @@ class CartView extends Component {
               {`Total: $${orderTotal.toFixed(2)}`}
             </p>
             <div>
-              <Checkout
-                handleSubmit={this.handleSubmit}
+              <BillingShipping
                 cart={cart}
                 sendOrder={sendOrder}
-                orderTotal={orderTotal}
-                orderId={orderId}
-                statusCode={3}
-              />
+                history={this.props.history} />
             </div>
           </div>
         )}

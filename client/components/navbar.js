@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo'
 import { logout } from '../store'
+// import { Search } from './components'
 
 const toggleNavbarMenu = event => {
   const navbarBurger = event.target;
@@ -41,15 +42,6 @@ const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
           <NavLink to="/products/liquor" className="navbar-item" activeClassName="is-active">
             Liquor
           </NavLink>
-          {/* isAdmin && (
-            <NavLink
-              to="/user-dashboard"
-              className="navbar-item"
-              activeClassName="is-active"
-            >
-              Manage
-            </NavLink>
-          ) */}
         </div>
 
         <div className="navbar-end">
@@ -103,7 +95,7 @@ const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
               Sign up
             </Link>
           )}
-          <Link to={`/cart`} className="navbar-item">
+          <Link to="/cart" className="navbar-item">
             <span className="icon">
               <i className="fas fa-shopping-cart" />
             </span>
