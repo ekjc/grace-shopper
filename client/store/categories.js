@@ -20,7 +20,10 @@ const REMOVE_ACTIVE_CATEGORY = 'REMOVE_ACTIVE_CATEGORY'
  * ACTION CREATORS
  */
 const requestCategories = () => ({ type: REQUEST_CATEGORIES })
-const receiveCategories = categories => ({ type: RECEIVE_CATEGORIES, categories })
+const receiveCategories = categories => ({
+  type: RECEIVE_CATEGORIES,
+  categories
+})
 
 const requestCategory = () => ({ type: REQUEST_CATEGORY })
 const receiveCategory = category => ({ type: RECEIVE_CATEGORY, category })
@@ -63,6 +66,7 @@ export const fetchCategory = categoryId => async dispatch => {
     const { data } = await axios.get(`/api/categories/${categoryId}`)
     console.log('fetchCategory data', data)
     dispatch(receiveCategory(data || {}))
+    history.push(`${data.name}`).toLowerCase()
   } catch (error) {
     // return dispatch(receiveCategory({ error }))
     console.error(error)
@@ -171,6 +175,6 @@ export default (state = initialState, action) => {
       }
 
     default:
-      return state;
+      return state
   }
 }
