@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { Login, Signup, CartView, PageNotFound } from './components'
+import { Login, Signup, CartView, PageNotFound, Confirmation } from './components'
 import {
   Home,
   Auth,

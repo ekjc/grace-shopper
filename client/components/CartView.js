@@ -98,7 +98,10 @@ class CartView extends Component {
               {`Total: $${orderTotal.toFixed(2)}`}
             </p>
             <div>
-              <BillingShipping cart={cart} sendOrder={sendOrder} />
+              <BillingShipping
+                cart={cart}
+                sendOrder={sendOrder}
+                history={this.props.history} />
               {/* NOTE: Everything previously in Checkout is now in CompletePurchase, which
                 is rendered by the BillingShipping component. Checkout should be made to only have stripe now.
                 Evelyn will incorporate stripe component into the checkout flow after merge. */}

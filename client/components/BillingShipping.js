@@ -131,7 +131,11 @@ class BillingShipping extends Component {
     <h2 style={{ marginTop: '2rem', fontWeight: 'bold'}}>Payment Information</h2>
     <p style={{ marginTop: '.5rem'}}> *enter stripe here* </p>
 
-    <CompletePurchase cart={cart} sendOrder={sendOrder} formInfo={this.state}/>
+    <CompletePurchase
+      cart={cart}
+      sendOrder={sendOrder}
+      formInfo={this.state}
+      history={this.props.history}/>
   </div>}
   </div>
     )

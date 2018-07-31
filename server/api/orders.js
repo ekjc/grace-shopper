@@ -65,7 +65,6 @@ router.put('/:orderId/processOrder', async (req, res, next) => {
       }
     })
     const addressId = orderAddress.id // grab that address id to connect up to order
-    console.log(`ADDRESS & Address ID ^^^^^`, orderAddress, `THE ID ISSSSSS`, addressId);
 
     const orderToProcess = await Order.findById(req.params.orderId) // find the cart id & turn it into an "order"
     if (!orderToProcess.orderNumber) {
