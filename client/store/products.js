@@ -83,7 +83,7 @@ export const createProduct = product => async dispatch => {
   try {
     const { data } = await axios.post(`/api/products`, product)
     dispatch(createProductSuccess(data || {}))
-    // history.push(`/manage/users/${data.id}`)
+    history.push(`/manage/product/${data.id}`)
   } catch (error) {
     console.error(error)
   }
@@ -93,7 +93,7 @@ export const updateProduct = product => async dispatch => {
   try {
     const { data } = await axios.put(`/api/products/${product.id}`, product)
     dispatch(updateProductSuccess(data || {}))
-    // history.push('/manage/users');
+    history.goBack()
   } catch (error) {
     console.error(error)
   }
@@ -103,6 +103,7 @@ export const deleteProduct = product => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/products/${product.id}`)
     dispatch(deleteProductSuccess(data))
+    history.goBack()
   } catch (error) {
     console.error(error)
   }

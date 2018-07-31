@@ -1,11 +1,16 @@
 const router = require('express').Router()
 const { Product, Category, ProductCategory, Review } = require('../db/models')
+const { isAdmin } = require('../utils')
 module.exports = router
 
 // Get all products :: /api/products
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    const products = await Product.findAll({
+      order: [
+        ['id', 'ASC']
+      ]
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -52,7 +57,7 @@ router.get('/categories/:categoryId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create({
       name: req.body.name,
@@ -65,13 +70,13 @@ router.post('/', async (req, res, next) => {
       isActive: req.body.isActive
     })
 
-    res.json(newProduct)
+    res.status(201).json(newProduct)
   } catch (err) {
     next(err)
   }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', isAdmin, async (req, res, next) => {
   try {
     const { data: product } = await Product.update(
       {
@@ -96,7 +101,7 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   const productId = +req.params.productId
   try {
     await Product.destroy({ where: { id: productId } })

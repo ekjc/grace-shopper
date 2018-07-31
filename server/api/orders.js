@@ -1,9 +1,16 @@
 const router = require('express').Router()
-const { Order, OrderStatusCode, OrderItem, Product, User, Address } = require('../db/models')
+const {
+  Order,
+  OrderStatusCode,
+  OrderItem,
+  Product,
+  User,
+  Address
+} = require('../db/models')
+const { isAllowed, isAdmin } = require('../utils')
 module.exports = router
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-
 
 // Get all orders/cart instances :: /api/orders
 router.get('/', async (req, res, next) => {
@@ -82,7 +89,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
 
 //Process a "cart" instance into an "order" instance :: /api/orders/:orderId/processOrder
 // 1. Change status code 2. assign an order number (if not present) 3. Create date of order
-router.put('/:orderId/processOrder', async (req, res, next) => {
+router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
   try {
     const [orderAddress, wasCreated] = await Address.findOrCreate({
       where: { street1: req.body.street1, street2: req.body.street2, },
@@ -115,7 +122,7 @@ router.put('/:orderId/processOrder', async (req, res, next) => {
 
 
 // Edit order (for admin?) :: /api/orders/:orderId/editOrder
-router.put('/:orderId/editOrder', async (req, res, next) => {
+router.put('/:orderId/editOrder', isAdmin, async (req, res, next) => {
   try {
     const updatedOrder = await Order.update(
       {

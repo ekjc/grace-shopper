@@ -11,10 +11,10 @@ const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-//const FRONTEND_DEV_URL = require('./stripe/frontend')
+// const FRONTEND_DEV_URL = require('./stripe/frontend')
 module.exports = app
 
-//Stripe backend
+// Stripe backend
 // const configureServer = require('./stripe/serverConfig')
 // const configureRoutes = require('./stripe/routeConfig')
 // configureServer(app)

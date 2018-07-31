@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
+const { isAllowed, isAdmin } = require('../utils')
 module.exports = router
-
 
 /* THIS IS NOT IN USE -- NEW CART GETS CREATED UPON ADDING ITEM - SEE BELOW */
 // Create new "order" e.g. cart instance :: /api/cart
@@ -13,7 +13,7 @@ module.exports = router
 //       date: req.body.date,
 //       //etc. products
 //     })
-//     res.json(newOrder)
+//     res.status(201).json(newOrder)
 //   }
 //   catch (err) {
 //     console.error(err)
@@ -90,7 +90,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
         plain: true
       })
     }
-    res.json(item)
+    res.status(201).json(item)
   } catch (err) {
     console.error(err)
     next(err)

@@ -72,7 +72,7 @@
     transition-duration: 740ms;
 
     .price {
-      transform: translateY(-0.5rem);
+      transform: translateY(-0.625rem);
       transition-duration: 860ms;
     }
   }
@@ -95,20 +95,22 @@ a.card-content {
 .card-footer {
   border: 0;
   position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    // `-1px` to account for border
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
 }
 .card-footer-item {
   background-color: $pink;
   color: rgba($white, .85);
   font-size: .875rem;
   opacity: 0;
-  transition: opacity $speed $easing $speed, background-color $speed $easing, color $speed $easing;
+  transition: opacity 0 $easing, background-color $speed $easing, color $speed $easing;
 
   .card:hover & {
     opacity: 1;
     transition-duration: 280ms;
+    transition-delay: $speed;
   }
 
   &:hover {

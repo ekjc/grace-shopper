@@ -27,7 +27,7 @@ class EditUser extends Component {
     const { user, pristine, reset, submitting } = this.props
     return (
       <div>
-        <h1 className="title is-2">Edit User</h1>
+        <h2 className="title is-3">Edit User</h2>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
           <Field

@@ -19,7 +19,7 @@ class AddReview extends Component {
     const { location, pristine, submitting, reset } = this.props
     return (
       <div>
-        <h1 className="title is-2">Add a Review</h1>
+        <h1 className="title is-1">Add a Review</h1>
         <p className="subtitle">What did you think of {location.state.product.name}?</p>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
           <Field

@@ -35,7 +35,7 @@ class Product extends Component {
             <img src={product.imageUrl} />
           </div>
           <div className="column">
-            <h1 className="title is-2" style={{ marginBottom: '0.75rem' }}>
+            <h1 className="title is-1" style={{ marginBottom: '0.75rem' }}>
               {product.name}
             </h1>
             <div className="level">
@@ -79,48 +79,54 @@ class Product extends Component {
             </div>
             <hr />
             <div className="content">
-              <div className="field is-horizontal">
-                <div
-                  className="field-label is-normal has-text-left"
-                  style={{ flexGrow: '0', marginRight: '1rem' }}
-                >
-                  <label htmlFor="quantityToAdd" className="label">
-                    Qty:
-                  </label>
-                </div>
-                <div className="field-body" style={{ flexGrow: 0 }}>
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        onChange={this.handleChange}
-                        type="number"
-                        className="input"
-                        value={this.state.quantityToAdd}
-                        name="quantityToAdd"
-                        id="quantityToAdd"
-                        min={1}
-                        max={product.unitsInStock}
-                        style={{ width: '4rem' }}
-                      />
-                    </p>
+              {product.unitsInStock > 0 ? (
+                <div className="field is-horizontal">
+                  <div
+                    className="field-label is-normal has-text-left"
+                    style={{ flexGrow: '0', marginRight: '1rem' }}
+                  >
+                    <label htmlFor="quantityToAdd" className="label">
+                      Qty:
+                    </label>
                   </div>
-                  <div className="field">
-                    <button
-                      type="submit"
-                      className="button is-secondary"
-                      onClick={() =>
-                        this.props.createCartItem(
-                          this.props.myId || `guest`,
-                          +productId,
-                          this.state.quantityToAdd
-                        )
-                      }
-                    >
-                      Add to Cart
-                    </button>
+                  <div className="field-body" style={{ flexGrow: 0 }}>
+                    <div className="field">
+                      <p className="control">
+                        <input
+                          onChange={this.handleChange}
+                          type="number"
+                          className="input"
+                          value={this.state.quantityToAdd}
+                          name="quantityToAdd"
+                          id="quantityToAdd"
+                          min={1}
+                          max={product.unitsInStock}
+                          style={{ width: '4rem' }}
+                        />
+                      </p>
+                    </div>
+                    <div className="field">
+                      <button
+                        type="submit"
+                        className="button is-secondary"
+                        onClick={() =>
+                          this.props.createCartItem(
+                            this.props.myId || `guest`,
+                            +productId,
+                            this.state.quantityToAdd
+                          )
+                        }
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="notification">
+                  This product is currently unavailable to order.
+                </div>
+              )}
               <p style={{ marginTop: '1.5rem' }}>{product.description}</p>
             </div>
           </div>

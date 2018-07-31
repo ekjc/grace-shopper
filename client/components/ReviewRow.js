@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 
 const ReviewRow = ({ review, deleteReview }) => (
   <tr>
-    <td>{review.product.name}</td>
+    <td>{review.id}</td>
     <td>{review.rating}</td>
     <td>{review.subject}</td>
+    <td>{review.product.name}</td>
     <td>{review.userId}</td>
     <td style={{ justifyContent: 'flex-end' }}>
       <div className="field is-grouped is-pulled-right">

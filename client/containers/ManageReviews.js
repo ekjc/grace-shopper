@@ -22,20 +22,22 @@ class ManageReviews extends Component {
 
     return (
       <div>
-        <h1 className="title is-2">Manage Reviews</h1>
+        <h2 className="title is-3">Reviews</h2>
         <table className="table is-fullwidth is-striped">
           <colgroup>
-            <col style={{ width: '30%' }} />
+            <col style={{ width: '8%' }} />
             <col style={{ width: '8%' }} />
             <col style={{ width: '20%' }} />
+            <col style={{ width: '30%' }} />
             <col style={{ width: '8%' }} />
             <col />
           </colgroup>
           <thead>
             <tr>
-              <th scope="col">Product</th>
+              <th scope="col">ID</th>
               <th scope="col">Rating</th>
               <th scope="col">Subject</th>
+              <th scope="col">Product</th>
               <th scope="col">User Id</th>
               <th scope="col" />
             </tr>
