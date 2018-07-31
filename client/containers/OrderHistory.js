@@ -9,7 +9,6 @@ class OrderHistory extends Component {
   }
 
   render() {
-    console.log('this.props.items from order history container', this.props.items)
     const orderHistory = this.props.items
     return (
       <div>
@@ -32,7 +31,6 @@ class OrderHistory extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('state from OrderHistory', state)
   return {
     items: state.orders.items,
     userId: state.me.id
