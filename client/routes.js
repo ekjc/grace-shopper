@@ -68,6 +68,8 @@ class Routes extends Component {
 
         <Route path='/reviews/user/:userId' component={UserReviews} />
 
+        <Route path='/products' component={ProductList} />
+
         <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
 
         <Route exact path="/review/add" component={AddReview}/>
