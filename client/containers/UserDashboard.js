@@ -13,7 +13,7 @@ class UserDashboard extends Component {
     return (
       <div>
         <h1 className="title is-2">My Account</h1>
-        <p className="subtitle is-4">Welcome, {firstName}!</p>
+        <p className="subtitle is-4">Welcome, {firstName ? firstName : email}!</p>
         {isAdmin && (
           <div className="content">
             <div className="notification">
