@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo'
 import { logout } from '../store'
+// import { Search } from './components'
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <nav className="navbar is-primary">
@@ -30,7 +31,10 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
             Liquor
           </NavLink>
         </div>
-
+        {/* <Search /> */}
+        <div className='column is-3'>
+          <input className="input" type="text" placeholder="Search"/>
+        </div>
         <div className="navbar-end">
           {isLoggedIn && (
             <NavLink

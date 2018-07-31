@@ -14,6 +14,8 @@ import {
   ManageProducts,
   AddProduct,
   EditProduct,
+  UserReviews,
+  OrderHistory
   ManageCategories,
   // AddCategory,
   EditCategory,
@@ -55,6 +57,7 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, isAdmin } = this.props
+    console.log('this.props from routes.js', this.props)
 
     return (
       <Switch>
@@ -64,7 +67,10 @@ class Routes extends Component {
         <Route path="/products/:categoryName" component={ProductList} />
         <Route exact path="/product/:productId" component={Product} />
 
+        <Route path='/reviews/user/:userId' component={UserReviews} />
+
         <Route exact path="/review/add" component={AddReview}/>
+        <Route exact path="/order/history" component={OrderHistory}/>
 
         <Route path="/cart/:orderId" component={CartView} />
 

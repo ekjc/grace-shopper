@@ -43,7 +43,7 @@ router.get('/product/:productId', async (req, res, next) => {
 })
 
 // get all reviews for a user :: /api/reviews/user/:userId
-router.get('/user/:productId', async (req, res, next) => {
+router.get('/user/:userId', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
       where: { userId: +req.params.userId }
