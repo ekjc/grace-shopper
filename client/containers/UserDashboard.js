@@ -19,6 +19,7 @@ class UserDashboard extends Component {
           <li><Link to={`/reviews/user/${this.props.me.id}`}>Manage Reviews</Link></li>
           <li><Link to='/order/history'>Order History</Link></li>
         </ul>
+        <p className="subtitle is-4">Welcome, {firstName ? firstName : email}!</p>
         {isAdmin && (
           <div className="content">
             <div className="notification">

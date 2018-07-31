@@ -1,7 +1,8 @@
-.navbar {}
+.navbar {
+  font-size: 1.075rem;
+}
 
-div.navbar-item {
-  a {
-    color: $white
-  }
+.navbar-brand svg {
+  fill: $white;
+  width: 6rem;
 }

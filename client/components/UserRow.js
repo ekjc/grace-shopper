@@ -13,7 +13,7 @@ const UserRow = ({ user, deleteUser }) => (
     <td className="is-size-7 has-text-grey-dark">{new Date(user.createdAt).toLocaleDateString()}</td>
     <td className="is-size-7 has-text-grey-dark">{user.isAdmin ? 'Admin' : 'Customer'}</td>
     <td>
-      <div className="field is-grouped">
+      <div className="field is-grouped is-pulled-right">
         <p className="control">
           <Link
             to={`/manage/user/${user.id}`}

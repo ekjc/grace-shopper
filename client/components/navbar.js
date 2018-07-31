@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
+import Logo from './Logo'
 import { logout } from '../store'
 // import { Search } from './components'
 
@@ -9,8 +10,8 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          LOGO
+        <Link to="/" className="navbar-item has-background-primary">
+          <Logo />
         </Link>
         <div className="navbar-burger burger" data-target="navPrimary">
           <span></span>
@@ -20,10 +21,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       </div>
       <div id="navPrimary" className="navbar-menu">
         <div className="navbar-start">
-        <NavLink to="/products" className="navbar-item" activeClassName="is-active">
-            Products
-          </NavLink>
-          {/*
           <NavLink to="/products/beer" className="navbar-item" activeClassName="is-active">
             Beer
           </NavLink>
@@ -33,7 +30,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
           <NavLink to="/products/liquor" className="navbar-item" activeClassName="is-active">
             Liquor
           </NavLink>
-          */}
         </div>
         {/* <Search /> */}
         <div className='column is-3'>

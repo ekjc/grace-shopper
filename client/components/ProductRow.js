@@ -20,7 +20,7 @@ const ProductRow = ({ product, deleteProduct }) => (
       </span>
     </td>
     <td>
-      <div className="field is-grouped">
+      <div className="field is-grouped is-pulled-right">
         <p className="control">
           <Link
             to={`/manage/product/${product.id}`}

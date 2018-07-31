@@ -61,7 +61,7 @@ export const validateReview = values => {
 
 export default props => {
   const {
-    input, label, type, name,
+    input, label, type, name, helpText,
     meta: { dirty, touched, error, valid, visited },
     ...extraProps
   } = props;
@@ -107,6 +107,7 @@ export default props => {
           </div>
           {touched && error && <p className="help is-danger">{error}</p>}
         </div>
+        {helpText && <p className="help">{helpText}</p>}
       </div>
     );
   }
@@ -130,6 +131,7 @@ export default props => {
             )}
           {touched && error && <p className="help is-danger">{error}</p>}
         </div>
+        {helpText && <p className="help">{helpText}</p>}
       </div>
     );
   }
@@ -157,6 +159,25 @@ export default props => {
             )}
           {touched && error && <p className="help is-danger">{error}</p>}
         </div>
+        {helpText && <p className="help">{helpText}</p>}
+      </div>
+    );
+  }
+
+  // if (type === 'checkbox') {}
+
+  if (type === 'switch') {
+    return (
+      <div className="field">
+        <label className="label">{label}</label>
+        <input
+          id={name}
+          name={name}
+          type="checkbox"
+          className="switch is-rounded"
+        />
+        <label htmlFor={name}>{extraProps.switchLabel}</label>
+        {helpText && <p className="help">{helpText}</p>}
       </div>
     );
   }
@@ -181,6 +202,7 @@ export default props => {
         </div>
         {touched && error && <p className="help is-danger">{error}</p>}
       </div>
+      {helpText && <p className="help">{helpText}</p>}
     </div>
   );
 };

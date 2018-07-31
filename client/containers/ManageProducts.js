@@ -25,7 +25,7 @@ class ManageProducts extends Component {
         <h1 className="title is-2">Manage Products</h1>
         <table className="table is-fullwidth is-striped">
           <colgroup>
-            <col style={{ width: '40%' }} />
+            <col style={{ width: '45%' }} />
             <col style={{ width: '10%' }} />
             <col style={{ width: '10%' }} />
             <col style={{ width: '20%' }} />

@@ -18,6 +18,9 @@ export {
 
 export { default as UserRow } from './UserRow'
 export { default as ProductRow } from './ProductRow'
+export { default as CategoryRow } from './CategoryRow'
+export { default as ReviewRow } from './ReviewRow'
+export { default as OrderRow } from './OrderRow'
 
 export { default as PageNotFound } from './PageNotFound'
 
