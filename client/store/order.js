@@ -42,7 +42,7 @@ export default (state = initialCart, action) => {
     case PROCESS_ORDER_SUCCESS:
       return {
         ...state,
-        info: action.cart
+        info: action.order
       }
 
     default:

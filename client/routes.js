@@ -76,7 +76,7 @@ class Routes extends Component {
 
         <Route path="/cart" component={CartView} />
 
-        <Route path='/orderConfirmation' component={Confirmation} />
+        <Route path='/orderConfirmation/:orderNumber' component={Confirmation} />
 
         {/* isLoggedIn-only routes */}
         <PrivateRoute

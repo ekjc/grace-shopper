@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 const Confirmation = (props) => {
   const {cart, cartItems} = props
+  const orderNumber = props.match.params.orderNumber
+  console.log(orderNumber);
   return (
     <div style={{ marginTop: '15px' }}>
       <h1 style={{ marginTop: '.5rem', fontWeight: 'bold' }} > Thank you for your order {cart.email}! </h1>

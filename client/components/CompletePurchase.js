@@ -11,7 +11,8 @@ class CompletePurchase extends Component {
     event.preventDefault()
     const { cart, sendOrder, formInfo, history } = this.props
     await sendOrder({orderId: cart.id, formInfo, statusCode: 3}) // 3 = processing
-    history.push('/orderConfirmation')
+    console.log(cart.orderNumber);
+    history.push(`/orderConfirmation/${cart.orderNumber}`)
   }
 
   render() {
