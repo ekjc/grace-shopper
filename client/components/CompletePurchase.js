@@ -15,7 +15,6 @@ class CompletePurchase extends Component {
   }
 
   render() {
-    // const { cart, sendOrder, formInfo } = this.props
     return (
       <div style={{ marginTop: '2rem' }}>
         <p>

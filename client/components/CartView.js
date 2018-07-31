@@ -14,6 +14,7 @@ import order from '../store/order'
 
 class CartView extends Component {
   async componentDidMount() {
+    console.log(document.cookie); //EVELYN WORKING ON THIS TO FIX CART ROUTES....
     const orderId = this.props.match.params.orderId
     await this.props.getCart(orderId)
     await this.props.getCartItems(orderId)
