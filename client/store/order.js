@@ -14,10 +14,12 @@ const processOrderSuccess = (order) => ({ type: PROCESS_ORDER_SUCCESS, order })
 /**
  * THUNK CREATORS
  */
-export const processOrder = (orderId, statusCode) => async dispatch => {
+export const processOrder = ({orderId, formInfo, statusCode}) => async dispatch => {
   try {
-    const { data } = await axios.put(`/api/orders/${orderId}/processOrder`, {statusCode})
+    console.log('logging received info', orderId, formInfo, statusCode)
+    const { data } = await axios.put(`/api/orders/${orderId}/processOrder`, formInfo, statusCode)
     dispatch(processOrderSuccess(data || {}))
+    console.log('DATA RECEIVED FROM PROCESS ORDER BACKEND', data);
   } catch (err) {
     console.error(err)
   }
