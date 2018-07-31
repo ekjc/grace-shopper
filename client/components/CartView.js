@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Checkout from './Checkout'
+import { Checkout } from './Checkout'
+import BillingShipping from './BillingShipping'
 import { connect } from 'react-redux'
 import {
   fetchCart,
@@ -104,14 +105,13 @@ class CartView extends Component {
               {`Total: $${orderTotal.toFixed(2)}`}
             </p>
             <div>
-              <Checkout
-                handleSubmit={this.handleSubmit}
+              <BillingShipping
                 cart={cart}
                 sendOrder={sendOrder}
-                orderTotal={orderTotal}
-                orderId={orderId}
-                statusCode={3}
-              />
+                history={this.props.history} />
+              {/* NOTE: Everything previously in Checkout is now in CompletePurchase, which
+                is rendered by the BillingShipping component. Checkout should be made to only have stripe now.
+                Evelyn will incorporate stripe component into the checkout flow after merge. */}
             </div>
           </div>
         )}

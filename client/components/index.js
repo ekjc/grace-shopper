@@ -7,6 +7,7 @@ export { default as ProductNav } from './ProductNav'
 export { default as CategoryMenu } from './CategoryMenu'
 
 export { default as CartView } from './CartView'
+export { default as Confirmation } from './Confirmation'
 
 export {
   default as ValidateField,

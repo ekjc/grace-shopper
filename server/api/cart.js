@@ -3,22 +3,23 @@ const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
 module.exports = router
 
 
+/* THIS IS NOT IN USE -- NEW CART GETS CREATED UPON ADDING ITEM - SEE BELOW */
 // Create new "order" e.g. cart instance :: /api/cart
-router.post('/', async (req, res, next) => {
-  try {
-    const newOrder = await Order.create({
-      email: req.body.email,
-      phoneNumber: req.body.email,
-      date: req.body.date,
-      //etc. products
-    })
-    res.json(newOrder)
-  }
-  catch (err) {
-    console.error(err)
-    next(err)
-  }
-})
+// router.post('/', async (req, res, next) => {
+//   try {
+//     const newOrder = await Order.create({
+//       email: req.body.email,
+//       phoneNumber: req.body.email,
+//       date: req.body.date,
+//       //etc. products
+//     })
+//     res.json(newOrder)
+//   }
+//   catch (err) {
+//     console.error(err)
+//     next(err)
+//   }
+// })
 
 // Destroy cart instance (user has removed all items) :: /api/cart/:orderId
 router.delete('/:orderId', async (req, res, next) => {
