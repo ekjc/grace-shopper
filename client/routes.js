@@ -14,6 +14,12 @@ import {
   ManageProducts,
   AddProduct,
   EditProduct,
+  ManageCategories,
+  // AddCategory,
+  EditCategory,
+  ManageReviews,
+  // AddReview,
+  // EditReview,
   AddReview
 } from './containers'
 import { me } from './store'
@@ -52,9 +58,9 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route exact path="/" component={Home} />
+        {/*<Route exact path="/" component={Home} />*/}
 
-        <Route exact path="/products" component={ProductList} />
+        <Route exact path="/" component={ProductList} />
         <Route path="/products/:categoryName" component={ProductList} />
         <Route exact path="/product/:productId" component={Product} />
 
@@ -71,6 +77,16 @@ class Routes extends Component {
 
         {/* isAdmin-only routes */}
         <PrivateRoute
+          exact path="/manage/users"
+          component={ManageUsers}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/manage/user/:userId"
+          component={EditUser}
+          {...this.props}
+        />
+        <PrivateRoute
           exact path="/manage/products"
           component={ManageProducts}
           {...this.props}
@@ -85,14 +101,21 @@ class Routes extends Component {
           component={EditProduct}
           {...this.props}
         />
+
         <PrivateRoute
-          exact path="/manage/users"
-          component={ManageUsers}
+          exact path="/manage/categories"
+          component={ManageCategories}
           {...this.props}
         />
         <PrivateRoute
-          path="/manage/user/:userId"
-          component={EditUser}
+          path="/manage/category/:categoryId"
+          component={EditCategory}
+          {...this.props}
+        />
+
+        <PrivateRoute
+          exact path="/manage/reviews"
+          component={ManageReviews}
           {...this.props}
         />
 

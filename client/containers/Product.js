@@ -22,40 +22,110 @@ class Product extends Component {
   }
 
   render() {
-    const { product, isLoading, isAdmin, match: {  params: { productId } } } = this.props
-    console.log(this.props)
+    const {
+      product,
+      isLoading,
+      isAdmin,
+      match: { params: { productId } }
+    } = this.props
     return (
-      <div className='container'>
-        <div className='columns'>
-          <div className='column is-three-fifths'>
+      <div>
+        <div className="columns">
+          <div className="column is-one-third">
             <img src={product.imageUrl} />
           </div>
-            {/* <div className='columns'> */}
-              <div className='column'><h1 className='title'>{product.name}</h1></div>
-            {/* </div> */}
-            {/* <div className='columns'> */}
-              <div className='column'><h1 className='title'>${product.price}</h1></div>
-            {/* </div> */}
-            {/* <div className='columns'>   */}
-              <div className='column'><p className='has-text-info'>{product.description}</p></div>
-            {/* </div> */}
-        </div>
-        <div>
-        <input
-          onChange={this.handleChange}
-          type="number"
-          value={this.state.quantityToAdd}
-          name="quantityToAdd"
-          min="1" max="200"/>
-          <button type="submit"
-            onClick={() => this.props.createCartItem(this.props.myId || `guest`, +productId, this.state.quantityToAdd)}>
-             Add to Cart
-           </button>
+          <div className="column">
+            <h1 className="title is-2" style={{ marginBottom: '0.75rem' }}>
+              {product.name}
+            </h1>
+            <div className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  <p className="is-size-4 has-text-weight-bold">
+                    {product.price > 0 ? `$${product.price}` : 'Free!'}
+                  </p>
+                </div>
+                <div className="level-item is-size-7">
+                  <div
+                    className={`is-size-7 ${
+                      product.unitsInStock > 0
+                        ? 'has-text-success'
+                        : 'has-text-danger'
+                    }`}
+                  >
+                    <span
+                      className="icon is-small"
+                      style={{ margin: '0 .25rem' }}
+                    >
+                      <i
+                        className={`fas ${
+                          product.unitsInStock > 0
+                            ? 'fa-check-circle'
+                            : 'fa-exclamation-circle'
+                        }`}
+                      />
+                    </span>
+                    <span>
+                      {product.unitsInStock > 0 ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="level-right">
+                <span className="is-size-7 has-text-grey-light">
+                  # {product.SKU}
+                </span>
+              </div>
+            </div>
+            <hr />
+            <div className="content">
+              <div className="field is-horizontal">
+                <div
+                  className="field-label is-normal has-text-left"
+                  style={{ flexGrow: '0', marginRight: '1rem' }}
+                >
+                  <label htmlFor="quantityToAdd" className="label">
+                    Qty:
+                  </label>
+                </div>
+                <div className="field-body" style={{ flexGrow: 0 }}>
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        onChange={this.handleChange}
+                        type="number"
+                        className="input"
+                        value={this.state.quantityToAdd}
+                        name="quantityToAdd"
+                        id="quantityToAdd"
+                        min={1}
+                        max={product.unitsInStock}
+                        style={{ width: '4rem' }}
+                      />
+                    </p>
+                  </div>
+                  <div className="field">
+                    <button
+                      type="submit"
+                      className="button is-secondary"
+                      onClick={() =>
+                        this.props.createCartItem(
+                          this.props.myId || `guest`,
+                          +productId,
+                          this.state.quantityToAdd
+                        )
+                      }
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p style={{ marginTop: '1.5rem' }}>{product.description}</p>
+            </div>
+          </div>
         </div>
 
-        <br />
-        <br />
-        <br />
         <Link to={`/manage/product/${product.id}`}>
           <button type="button">Edit Product</button>
         </Link>
@@ -69,7 +139,6 @@ class Product extends Component {
         </Link>
         <Reviews productId={this.props.match.params.productId} />
       </div>
-      // {/* </div> */}
     )
   }
 }
@@ -78,12 +147,13 @@ const mapState = state => ({
   isLoading: state.products.isLoading,
   isAdmin: state.me.isAdmin,
   product: state.products.active,
-  myId: state.me.id 
+  myId: state.me.id
 })
 
 const mapDispatch = dispatch => ({
   getProduct: productId => dispatch(fetchProduct(productId)),
-  createCartItem: (orderId, productId, qty) => dispatch(createCartItem(orderId, productId, qty)),
+  createCartItem: (orderId, productId, qty) =>
+    dispatch(createCartItem(orderId, productId, qty))
 })
 
 export default connect(mapState, mapDispatch)(Product)

@@ -46,7 +46,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   passport.use(strategy)
 
   router.get('/', passport.authenticate('google', { scope: 'email' }))
-  
+
   router.get(
     '/callback',
     passport.authenticate('google', {
@@ -54,5 +54,4 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       failureRedirect: '/login'
     }),
   )
-  console.log('We made it to /callback')                  
 }
