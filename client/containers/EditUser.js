@@ -11,10 +11,10 @@ class EditUser extends Component {
   }
 
   handleSubmit = values => {
-    const { firstName, lastName, email, isAdmin } = values;
+    const { firstName, lastName, email, phone, isAdmin } = values;
     this.props.updateUser({
       id: this.props.match.params.userId,
-      firstName, lastName, email, isAdmin
+      firstName, lastName, email, phone, isAdmin
     })
   }
 
@@ -50,6 +50,13 @@ class EditUser extends Component {
             type="email"
             component={ValidateField}
           />
+
+          {/*<Field
+            label="Phone"
+            name="phone"
+            type="tel"
+            component={ValidateField}
+          />*/}
 
           <div className="field">
             <label className="label">User Role</label>

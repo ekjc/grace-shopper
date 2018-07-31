@@ -30,6 +30,19 @@ class EditProduct extends Component {
       <div>
         <h1 className="title is-2">Edit Product</h1>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+
+          <div className="field">
+            <label className="label">Featured</label>
+            <Field
+              className="switch is-rounded"
+              name="isFeatured"
+              id="isFeatured"
+              component="input"
+              type="checkbox"
+            />
+            <label htmlFor="isFeatured"></label>
+          </div>
+
           <Field
             label="Name"
             name="name"
@@ -59,7 +72,7 @@ class EditProduct extends Component {
             type="number"
             min={0}
             step={1}
-            placeholder="Number of units in stock"
+            helpText="Number of units in stock"
             component={ValidateField}
           />
 
@@ -104,20 +117,6 @@ class EditProduct extends Component {
               </button>
             </div>
           </div>
-
-          {/* <Field
-            label="Featured Product"
-            type="checkbox"
-            name="featuredProduct"
-            component="input"
-          />
-          <Field
-            label="Would you like this product to be labeled as active?"
-            type="radio"
-            name="activeStatus"
-            component={this.renderField}
-          /> */}
-
         </form>
       </div>
     )

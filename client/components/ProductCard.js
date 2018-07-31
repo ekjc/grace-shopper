@@ -1,25 +1,51 @@
-import React from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { createCartItem } from '../store'
 
-const ProductCard = ({ product }) => (
+const ProductCard = ({ product, myId, addToCart }) => (
   <div className="card">
     <div className="card-image">
+      <div className="see-details">
+        <a className="button is-small">
+          <span>See details</span>
+        </a>
+      </div>
       <figure className="image is-2by3">
         <Link to={`/product/${product.id}`}>
           <img src={product.imageUrl} />
         </Link>
       </figure>
     </div>
-    <div className="card-content">
-      <div className="content">
-        <h3 className="title is-6">
-          <Link to={`/product/${product.id}`}>{product.name}</Link>
-        </h3>
-        <p>{product.price > 0 ? `$${product.price}` : `Free!`}</p>
-        <p>{product.unitsInStock > 0 ? 'In Stock' : 'Out of Stock!'}</p>
-      </div>
-    </div>
+    <Link
+      to={`/product/${product.id}`}
+      className="card-content has-text-centered"
+    >
+      <h2 className="title">{product.name}</h2>
+      <p className="price">
+        {product.price > 0 ? `$${product.price}` : `Free!`}
+      </p>
+    </Link>
+    <footer className="card-footer">
+      <a
+        href="#"
+        className="card-footer-item"
+        onClick={() => addToCart(myId || `guest`, product.id, 1)}
+      >
+        Add to Cart
+      </a>
+    </footer>
   </div>
 )
 
-export default ProductCard
+// const mapState = state = ({
+//   myId: state.me.id
+// })
+
+const mapDispatch = dispatch => ({
+  addToCart: (orderId, productId, qty) =>
+    dispatch(createCartItem(orderId, productId, qty))
+})
+
+export default connect(null, mapDispatch)(ProductCard)
+
