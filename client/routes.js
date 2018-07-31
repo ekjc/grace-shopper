@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { Login, Signup, CartView, PageNotFound } from './components'
+import { Login, Signup, CartView, PageNotFound, Confirmation } from './components'
 import {
   Home,
   Auth,
@@ -67,6 +67,8 @@ class Routes extends Component {
         <Route exact path="/review/add" component={AddReview}/>
 
         <Route path="/cart/:orderId" component={CartView} />
+
+        <Route path='/orderConfirmation' component={Confirmation} />
 
         {/* isLoggedIn-only routes */}
         <PrivateRoute
