@@ -32,9 +32,10 @@ class ManageUsers extends Component {
 
     return (
       <div>
-        <h1 className="title is-2">Manage Users</h1>
+        <h2 className="title is-3">Users</h2>
         <table className="table is-fullwidth is-striped">
           <colgroup>
+            <col style={{ width: '8%' }} />
             <col style={{ width: '25%' }} />
             <col style={{ width: '25%' }} />
             <col style={{ width: '15%' }} />
@@ -43,6 +44,7 @@ class ManageUsers extends Component {
           </colgroup>
           <thead>
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Joined</th>

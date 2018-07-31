@@ -5,6 +5,7 @@ export { default as ProductCard } from './ProductCard'
 export { default as ProductNav } from './ProductNav'
 
 export { default as CategoryMenu } from './CategoryMenu'
+export { default as ManageMenu } from './ManageMenu'
 
 export { default as CartView } from './CartView'
 

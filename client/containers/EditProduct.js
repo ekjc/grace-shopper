@@ -12,10 +12,18 @@ class EditProduct extends Component {
   }
 
   handleSubmit = values => {
-    const { name, price, SKU, unitsInStock, description, imageUrl } = values
+    const {
+      isFeatured,
+      name,
+      price,
+      SKU,
+      unitsInStock,
+      description,
+      imageUrl
+    } = values
     this.props.updateProduct({
       id: this.props.match.params.productId,
-      name, price, SKU, unitsInStock, description, imageUrl
+      isFeatured, name, price, SKU, unitsInStock, description, imageUrl
     })
   }
 
@@ -28,7 +36,7 @@ class EditProduct extends Component {
     const { product, pristine, reset, submitting } = this.props
     return (
       <div>
-        <h1 className="title is-2">Edit Product</h1>
+        <h2 className="title is-3">Edit Product</h2>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
           <div className="field">

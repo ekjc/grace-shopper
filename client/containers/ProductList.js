@@ -73,7 +73,7 @@ class ProductList extends Component {
     } = this.props
     return (
       <div>
-        <h1 className="title is-2">{category.name || 'All Products'}</h1>
+        <h1 className="title is-1">{category.name || 'All Products'}</h1>
         <div className="columns">
           <div className="column is-3">
             <CategoryMenu

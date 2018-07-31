@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { Review, Product } = require('../db/models')
+const { isAllowed } = require('../utils')
 module.exports = router
 
 // get all reviews :: /api/reviews
@@ -55,7 +56,7 @@ router.get('/user/:productId', async (req, res, next) => {
 })
 
 // add review :: /api/reviews
-router.post('/', async (req, res, next) => {
+router.post('/', isAllowed, async (req, res, next) => {
   try {
     const newReview = await Review.create({
       subject: req.body.review.subject,
@@ -73,7 +74,7 @@ router.post('/', async (req, res, next) => {
 })
 
 // update review :: /api/reviews/:reviewId
-router.put('/:reviewId', async (req, res, next) => {
+router.put('/:reviewId', isAllowed, async (req, res, next) => {
   try {
     const { data: review } = await Review.update(
       {
@@ -94,7 +95,7 @@ router.put('/:reviewId', async (req, res, next) => {
 })
 
 // delete review :: /api/reviews/:reviewId
-router.delete('/:reviewId', async (req, res, next) => {
+router.delete('/:reviewId', isAllowed, async (req, res, next) => {
   try {
     const reviewToDelete = await Review.findById(req.params.reviewId)
     Review.destroy(reviewToDelete)

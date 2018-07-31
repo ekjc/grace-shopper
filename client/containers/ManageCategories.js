@@ -22,20 +22,20 @@ class ManageCategories extends Component {
 
     return (
       <div>
-        <h1 className="title is-2">Manage Categories</h1>
+        <h2 className="title is-3">Categories</h2>
         <table className="table is-fullwidth is-striped">
           <colgroup>
-            <col style={{ width: '40%' }} />
+            <col style={{ width: '8%' }} />
             <col style={{ width: '30%' }} />
-            <col style={{ width: '20%' }} />
+            <col style={{ width: '30%' }} />
             <col />
           </colgroup>
           <thead>
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
               <th scope="col">Parent</th>
-              <th scope="col"></th>
-              <th />
+              <th scope="col" />
             </tr>
           </thead>
           <tbody>

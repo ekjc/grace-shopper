@@ -7,6 +7,9 @@ import history from '../history'
 const REQUEST_ORDER = 'REQUEST_ORDER'
 const RECEIVE_ORDER = 'RECEIVE_ORDER'
 
+const REQUEST_ORDERS = 'REQUEST_ORDERS'
+const RECEIVE_ORDERS = 'RECEIVE_ORDERS'
+
 const REQUEST_ORDER_ITEMS = 'REQUEST_ORDER_ITEMS'
 const RECEIVE_ORDER_ITEMS = 'RECEIVE_ORDER_ITEMS'
 
@@ -19,6 +22,9 @@ const DELETE_ORDER_SUCCESS = 'DELETE_ORDER_SUCCESS'
  */
 const requestOrder = () => ({ type: REQUEST_ORDER })
 const receiveOrder = order => ({ type: RECEIVE_ORDER, order })
+
+const requestOrders = () => ({ type: REQUEST_ORDER })
+const receiveOrders = orders => ({ type: RECEIVE_ORDER, orders })
 
 const requestOrderItems = () => ({ type: REQUEST_ORDER_ITEMS })
 const receiveOrderItems = orderItems => ({
@@ -42,6 +48,16 @@ const deleteOrderSuccess = orderId => ({
 /**
  * THUNK CREATORS
  */
+export const fetchOrders = () => async dispatch => {
+  dispatch(requestOrders())
+  try {
+    const { data } = await axios.get(`/api/orders`)
+    dispatch(receiveOrders(data || {}))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const fetchOrder = orderId => async dispatch => {
   dispatch(requestOrder())
   try {

@@ -31,7 +31,7 @@ class AddProduct extends Component {
     const { pristine, submitting, reset } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-        <h1 className="title is-2">Add a Product</h1>
+        <h1 className="title is-1">Add a Product</h1>
         <Field
           label="Name of Product"
           typeOfInput="text"

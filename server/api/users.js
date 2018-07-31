@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { User } = require('../db/models')
 const { Review } = require('../db/models')
+const { isAdmin } = require('../utils')
 
 module.exports = router
 
@@ -27,7 +28,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', isAdmin, async (req, res, next) => {
   try {
     const { data: user } = await User.update(
       {
@@ -50,7 +51,7 @@ router.put('/:userId', async (req, res, next) => {
   }
 })
 
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', isAdmin, async (req, res, next) => {
   const userId = +req.params.userId
   try {
     await User.destroy({ where: { id: userId } })

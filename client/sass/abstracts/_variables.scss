@@ -80,17 +80,32 @@ $colors: mergeColorMaps(
 // $box-padding: 1.5rem;
 
 $card-shadow: 0 .125rem .25rem rgba($black, 0.08);
-$card-shadow-hover: 0 1.5rem 4rem -0.75rem rgba(10, 10, 10, 0.2);
+$card-shadow-hover: 0 1.5rem 4rem -0.75rem rgba($black, 0.2);
 
 $column-gap: 1.5rem;
 
 // $footer-background-color: $black-ter;
 
-$navbar-item-color: rgba($light, 0.75);
-$navbar-item-hover-color: rgba($light, 0.95);
+// $navbar-item-color: rgba($light, 0.75);
+// $navbar-item-hover-color: rgba($light, 0.95);
 // $navbar-item-hover-background-color: transparent;
-$navbar-item-active-color: $white;
+// $navbar-item-active-color: $white;
 // $navbar-item-active-background-color: transparent;
+
+// $navbar-dropdown-background-color: $white;
+// $navbar-dropdown-border-top: 2px solid $border;
+// $navbar-dropdown-offset: -4px;
+// $navbar-dropdown-arrow: $link;
+// $navbar-dropdown-radius: $radius-large;
+// $navbar-dropdown-z: 20;
+
+// $navbar-dropdown-boxed-radius: $radius-large;
+$navbar-dropdown-boxed-shadow: $card-shadow-hover;
+
+// $navbar-dropdown-item-hover-color: $black;
+// $navbar-dropdown-item-hover-background-color: $background;
+// $navbar-dropdown-item-active-color: $link;
+// $navbar-dropdown-item-active-background-color: $background;
 
 // $title-color: $light;
 // $title-weight: $weight-semibold;

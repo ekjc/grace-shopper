@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 const UserRow = ({ user, deleteUser }) => (
   <tr>
+    <td>{user.id}</td>
     <td>
       <Link to={`/manage/user/${user.id}`}>
         {user.firstName} {user.lastName}

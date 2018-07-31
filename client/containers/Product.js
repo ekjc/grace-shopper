@@ -35,7 +35,7 @@ class Product extends Component {
             <img src={product.imageUrl} />
           </div>
           <div className="column">
-            <h1 className="title is-2" style={{ marginBottom: '0.75rem' }}>
+            <h1 className="title is-1" style={{ marginBottom: '0.75rem' }}>
               {product.name}
             </h1>
             <div className="level">

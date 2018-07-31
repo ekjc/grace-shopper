@@ -36,7 +36,7 @@ export const validateProduct = values => {
   if (!values.SKU) {
     errors.SKU = 'SKU is a required field.';
   }
-  if (!values.unitsInStock) {
+  if (values.unitsInStock === undefined) {
     errors.unitsInStock = 'Units is a required field.';
   }
   if (

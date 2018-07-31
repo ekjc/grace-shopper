@@ -4,9 +4,13 @@ import { Link } from 'react-router-dom'
 
 const ProductRow = ({ product, deleteProduct }) => (
   <tr>
+    <td>{product.id}</td>
     <td>
       <Link to={`/manage/product/${product.id}`}>
         {product.name}
+        {!!product.isFeatured && (
+          <span className="tag is-rounded is-secondary" style={{ fontSize: '.75rem', marginLeft: '.5rem' }}>Featured</span>
+        )}
       </Link>
     </td>
     <td className="is-size-7 has-text-grey-dark">${product.price}</td>

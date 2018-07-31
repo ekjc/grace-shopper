@@ -25,14 +25,22 @@ class EditCategory extends Component {
 
   render() {
     const { category, pristine, reset, submitting } = this.props
+    console.log('category', category)
     return (
       <div>
-        <h1 className="title is-2">Edit Category</h1>
+        <h2 className="title is-3">Edit Category</h2>
         <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
           <Field
             label="Name"
             name="name"
+            type="text"
+            component={ValidateField}
+          />
+
+          <Field
+            label="Parent"
+            name="parent"
             type="text"
             component={ValidateField}
           />
@@ -77,11 +85,12 @@ EditCategory = reduxForm({
 
 const mapState = ({ categories }) => {
   const { active: category } = categories;
-  console.log('category', category)
+  const parent = category.parent ? category.parent.name : '';
   return {
     category: category,
     initialValues: {
-      name: category.name
+      name: category.name,
+      parent: parent
     }
   }
 }

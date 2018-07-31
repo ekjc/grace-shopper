@@ -1,11 +1,23 @@
 const router = require('express').Router()
 const { Category } = require('../db/models')
+const { isAdmin } = require('../utils')
 module.exports = router
 
 // get all categories — flattened
 router.get('/', async (req, res, next) => {
   try {
-    const categories = await Category.findAll()
+    const categories = await Category.findAll({
+      include: [{
+        model: Category,
+        as: 'parent',
+        attributes: ['id', 'name', 'parentId'],
+        include: [{
+          model: Category,
+          as: 'parent',
+          attributes: ['id', 'name', 'parentId']
+        }]
+      }]
+    })
     res.json(categories)
   } catch (err) {
     next(err)
@@ -14,7 +26,22 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:categoryId', async (req, res, next) => {
   try {
-    const category = await Category.findById(req.params.categoryId)
+    // const category = await Category.findById(req.params.categoryId)
+    const category = await Category.findOne({
+      where: {
+        id: req.params.categoryId
+      },
+      include: [{
+        model: Category,
+        as: 'parent',
+        attributes: ['id', 'name', 'parentId'],
+        include: [{
+          model: Category,
+          as: 'parent',
+          attributes: ['id', 'name', 'parentId']
+        }]
+      }]
+    })
     res.json(category)
 
     // if (categoryId > 0) {
@@ -55,7 +82,7 @@ router.get('/:categoryId/children', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const newCategory = await Category.create({
       name: req.body.name
@@ -68,12 +95,12 @@ router.post('/', async (req, res, next) => {
       newCategory.setParent(parentCat)
     }
 
-    res.json(newCategory)
+    res.status(201).json(newCategory)
   } catch (err) {
     next(err)
   }
 })
 
-router.put('/:categoryId', async (req, res, next) => {})
+router.put('/:categoryId', isAdmin, async (req, res, next) => {})
 
-router.delete('/:categoryId', async (req, res, next) => {})
+router.delete('/:categoryId', isAdmin, async (req, res, next) => {})

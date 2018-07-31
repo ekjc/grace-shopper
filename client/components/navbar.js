@@ -5,14 +5,26 @@ import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo'
 import { logout } from '../store'
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
+const toggleNavbarMenu = event => {
+  const navbarBurger = event.target;
+  const navbarMenu = document.getElementById('navPrimary')
+
+  navbarBurger.classList.toggle('is-active')
+  navbarMenu.classList.toggle('is-active')
+}
+
+const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
         <Link to="/" className="navbar-item has-background-primary">
           <Logo />
         </Link>
-        <div className="navbar-burger burger" data-target="navPrimary">
+        <div
+          className="navbar-burger burger"
+          onClick={event => toggleNavbarMenu(event)}
+          data-target="navPrimary"
+        >
           <span></span>
           <span></span>
           <span></span>
@@ -29,36 +41,58 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
           <NavLink to="/products/liquor" className="navbar-item" activeClassName="is-active">
             Liquor
           </NavLink>
-        </div>
-
-        <div className="navbar-end">
-          {isLoggedIn && (
+          {/* isAdmin && (
             <NavLink
               to="/user-dashboard"
               className="navbar-item"
               activeClassName="is-active"
             >
-              My Account
+              Manage
             </NavLink>
-          )}
+          ) */}
+        </div>
+
+        <div className="navbar-end">
           {isLoggedIn && (
-            <a href="#" onClick={handleClick} className="navbar-item">
-              Logout
-            </a>
-          )}
-          {/*!isLoggedIn && (
-            <div className="navbar-item">
-              <span>
-                <Link to="/login">
-                  Sign in
-                </Link>
-                <span className="has-text-weight-normal" style={{ margin: '0 .25rem' }}>or</span>
-                <Link to="/signup">
-                  Sign up
-                </Link>
-              </span>
+
+            <div className="navbar-item has-dropdown is-hoverable">
+              <div className="navbar-link">
+                My Account
+                <div className="navbar-dropdown">
+                  <NavLink
+                    to="/user-dashboard"
+                    className="navbar-item"
+                    activeClassName="is-active"
+                  >
+                    My Profile
+                  </NavLink>
+                  <a href="#" className="navbar-item">
+                    My Orders
+                  </a>
+                  <a href="#" className="navbar-item">
+                    My Reviews
+                  </a>
+                  {isAdmin && (
+                    <div>
+                      <hr className="navbar-divider" />
+                      <NavLink
+                        to="/manage"
+                        className="navbar-item"
+                        activeClassName="is-active"
+                      >
+                        Manage
+                      </NavLink>
+                    </div>
+                  )}
+                  <hr className="navbar-divider" />
+                  <a href="#" onClick={handleLogout} className="navbar-item">
+                    Logout
+                  </a>
+                </div>
+              </div>
             </div>
-          )*/}
+          )}
+
           {!isLoggedIn && (
             <Link to="/login" className="navbar-item">
               Login
@@ -92,13 +126,13 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-  handleClick: () => dispatch(logout())
+  handleLogout: () => dispatch(logout())
 })
 
 export default connect(mapState, mapDispatch)(Navbar)
 
 Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired
 }

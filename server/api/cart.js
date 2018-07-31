@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
+const { isAllowed, isAdmin } = require('../utils')
 module.exports = router
-
 
 // Create new "order" e.g. cart instance :: /api/cart
 router.post('/', async (req, res, next) => {
@@ -12,7 +12,7 @@ router.post('/', async (req, res, next) => {
       date: req.body.date,
       //etc. products
     })
-    res.json(newOrder)
+    res.status(201).json(newOrder)
   }
   catch (err) {
     console.error(err)
@@ -89,7 +89,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
         plain: true
       })
     }
-    res.json(item)
+    res.status(201).json(item)
   } catch (err) {
     console.error(err)
     next(err)

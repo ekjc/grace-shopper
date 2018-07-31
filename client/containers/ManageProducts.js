@@ -22,10 +22,11 @@ class ManageProducts extends Component {
 
     return (
       <div>
-        <h1 className="title is-2">Manage Products</h1>
+        <h2 className="title is-3">Products</h2>
         <table className="table is-fullwidth is-striped">
           <colgroup>
-            <col style={{ width: '45%' }} />
+            <col style={{ width: '6%' }} />
+            <col style={{ width: '44%' }} />
             <col style={{ width: '10%' }} />
             <col style={{ width: '10%' }} />
             <col style={{ width: '20%' }} />
@@ -33,6 +34,7 @@ class ManageProducts extends Component {
           </colgroup>
           <thead>
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
               <th scope="col">Price</th>
               <th scope="col">SKU</th>

@@ -95,6 +95,7 @@ export const updateReview = review => async dispatch => {
   try {
     const { data } = await axios.put(`/api/reviews/${review.id}/`, review)
     dispatch(updateReviewSuccess(data || {}))
+    history.goBack()
   } catch (error) {
     console.error(error)
   }
@@ -104,6 +105,7 @@ export const deleteReview = review => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/reviews/${review.id}`)
     dispatch(deleteReviewSuccess(data || {}))
+    history.goBack()
   } catch (error) {
     console.error(error)
   }

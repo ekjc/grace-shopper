@@ -14,6 +14,8 @@ const CREATE_CATEGORY_SUCCESS = 'CREATE_CATEGORY_SUCCESS'
 const UPDATE_CATEGORY_SUCCESS = 'UPDATE_CATEGORY_SUCCESS'
 const DELETE_CATEGORY_SUCCESS = 'DELETE_CATEGORY_SUCCESS'
 
+const REMOVE_ACTIVE_CATEGORY = 'REMOVE_ACTIVE_CATEGORY'
+
 /**
  * ACTION CREATORS
  */
@@ -36,14 +38,18 @@ const deleteCategorySuccess = categoryId => ({
   categoryId
 })
 
+export const removeActiveCategory = () => ({ type: REMOVE_ACTIVE_CATEGORY })
+
 /**
  * THUNK CREATORS
  */
 export const fetchCategories = categoryId => async dispatch => {
   dispatch(requestCategories())
   try {
-    const id = categoryId || 0;
-    const { data } = await axios.get(`/api/categories/${id}`)
+    // const id = categoryId || 0;
+    const { data } = await axios.get(
+      `/api/categories/${categoryId ? `${categoryId}` : ''}`
+    )
     dispatch(receiveCategories(data || []))
   } catch (error) {
     // return dispatch(receiveCategories({ error }))
@@ -55,6 +61,7 @@ export const fetchCategory = categoryId => async dispatch => {
   dispatch(requestCategory())
   try {
     const { data } = await axios.get(`/api/categories/${categoryId}`)
+    console.log('fetchCategory data', data)
     dispatch(receiveCategory(data || {}))
   } catch (error) {
     // return dispatch(receiveCategory({ error }))
@@ -88,7 +95,7 @@ export const updateCategory = category => async dispatch => {
   try {
     const { data } = await axios.put(`/api/categories/${category.id}`, category)
     dispatch(updateCategorySuccess(data || {}))
-    // history.push('/manage/users');
+    history.goBack()
   } catch (error) {
     console.error(error)
   }
@@ -98,6 +105,7 @@ export const deleteCategory = category => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/categories/${category.id}`)
     dispatch(deleteCategorySuccess(data || {}))
+    history.goBack()
   } catch (error) {
     console.error(error)
   }
@@ -154,6 +162,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.categoryId)
+      }
+
+    case REMOVE_ACTIVE_CATEGORY:
+      return {
+        ...state,
+        active: {}
       }
 
     default:

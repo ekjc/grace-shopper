@@ -8,6 +8,7 @@ export { default as Product } from './Product'
 export { default as AddReview } from './AddReview'
 
 export { default as UserDashboard } from './UserDashboard'
+export { default as Manage } from './Manage'
 
 export { default as ManageUsers } from './ManageUsers'
 export { default as EditUser } from './EditUser'

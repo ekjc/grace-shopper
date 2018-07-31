@@ -53,7 +53,7 @@ export const me = () => async dispatch => {
     new Order and set that orderId to another cookie key/value pair to be used
     when updating the cart */
     if (!data.id) document.cookie = 'userType=guest'
-    console.log(`guest cookie OR user data:`, data);
+    // console.log(`guest cookie OR user data:`, data);
   } catch (err) {
     console.error(err)
   }
@@ -126,7 +126,7 @@ export const updateUser = user => async dispatch => {
   try {
     const { data } = await axios.put(`/api/users/${user.id}`, user)
     dispatch(updateUserSuccess(data || {}))
-    history.push('/manage/users');
+    history.goBack()
   } catch (err) {
     console.error(err)
   }
@@ -136,6 +136,7 @@ export const deleteUser = user => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/users/${user.id}`)
     dispatch(deleteUserSuccess(data))
+    history.goBack()
   } catch (err) {
     console.error(err)
   }
