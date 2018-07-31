@@ -10,6 +10,9 @@ class OrderHistory extends Component {
 
   render() {
     const orderHistory = this.props.items
+    console.log('orderHistory', orderHistory)
+    console.log('orderHistory.length', orderHistory.length)
+    console.log('typeof orderHistory', typeof orderHistory)
     return (
       <div>
         <h1 className='title'>Order History</h1>

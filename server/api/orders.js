@@ -70,6 +70,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
         // orderStatusCodeId: {
         //   [Op.ne]: 1
         // }
+        // orderStatusCodeId: { $ne: 1 }        
       },
       include: [
         { model: OrderStatusCode, attributes: ['description'] },
