@@ -109,9 +109,6 @@ class CartView extends Component {
                 cart={cart}
                 sendOrder={sendOrder}
                 history={this.props.history} />
-              {/* NOTE: Everything previously in Checkout is now in CompletePurchase, which
-                is rendered by the BillingShipping component. Checkout should be made to only have stripe now.
-                Evelyn will incorporate stripe component into the checkout flow after merge. */}
             </div>
           </div>
         )}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CompletePurchase from './CompletePurchase'
+import Checkout from './Checkout'
 
 class BillingShipping extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class BillingShipping extends Component {
       <span>
         <button
           type="button"
-          className="button is-link"
+          className={this.state.toggleForm ? "button is-light" : "button is-link"}
           name="toggleForm"
           onClick={(event) => {
             this.handleToggle(event)
@@ -129,8 +130,10 @@ class BillingShipping extends Component {
       </p>
     </form>
     <h2 style={{ marginTop: '2rem', fontWeight: 'bold'}}>Payment Information</h2>
-    <p style={{ marginTop: '.5rem'}}> *enter stripe here* </p>
-
+    <p style={{ marginTop: '.8rem'}}>
+      <Checkout />
+      <img style={{ width: '15%', marginTop: '.8rem'}} src="https://waardex.com/wp-content/uploads/2018/04/logo-stripe-e1504674210431.png" />
+    </p>
     <CompletePurchase
       cart={cart}
       sendOrder={sendOrder}

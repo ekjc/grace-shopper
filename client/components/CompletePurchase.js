@@ -22,7 +22,7 @@ class CompletePurchase extends Component {
           <span>
             <button
               type="button"
-              className="button is-link"
+              className="button is-primary"
               onClick={(event) => this.handleSubmit(event)}>
               Complete Purchase
             </button>

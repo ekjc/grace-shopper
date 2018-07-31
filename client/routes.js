@@ -15,7 +15,7 @@ import {
   AddProduct,
   EditProduct,
   UserReviews,
-  OrderHistory
+  OrderHistory,
   ManageCategories,
   // AddCategory,
   EditCategory,
