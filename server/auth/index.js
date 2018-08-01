@@ -14,7 +14,7 @@ router.post('/login', async (req, res, next) => {
     } else {
       req.login(
         user,
-        err => (err ? next(err) : res.cookie('userType', 'user').json(user))
+        err => (err ? next(err) : res.cookie('userType', 'user').cookie('orderId', '').json(user))
       )
     }
   } catch (err) {
@@ -59,6 +59,7 @@ router.post('/logout', (req, res) => {
   req.logout()
   req.session.destroy()
   res.cookie('userType', 'guest')
+  res.cookie('orderId', '')
   res.redirect('/')
 })
 

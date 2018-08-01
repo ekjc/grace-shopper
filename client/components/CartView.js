@@ -10,21 +10,26 @@ import {
   deleteCartItem,
   processOrder
 } from '../store'
+import { getOrderIdFromCookie } from '../utils'
+
+const orderId = getOrderIdFromCookie()
 
 class CartView extends Component {
   async componentDidMount() {
-    let orderId;
-    if (this.props.myId) {
-      // Get a logged-in user's id
-      const { data: { id } } = await axios.get(`/api/cart/getUserCart/${this.props.myId}`)
-      orderId = id
-    } else {
-      // Gets the guest's orderId
-      const cookies = document.cookie.split('; ')
-      const guestOrderId = +(cookies.find(cookie => cookie.startsWith('orderId'))).slice(8)
-      orderId = guestOrderId
-    }
-    console.log(orderId);
+    // let orderId;
+    // if (this.props.myId) {
+    //   // Get a logged-in user's id
+    //   const { data: { id } } = await axios.get(`/api/cart/getUserCart/${this.props.myId}`)
+    //   orderId = id
+    // } else {
+    //   // Gets the guest's orderId
+    //   const cookies = document.cookie.split('; ')
+    //   const guestOrderId = +(cookies.find(cookie => cookie.startsWith('orderId'))).slice(8)
+    //   orderId = guestOrderId
+    // }
+    // console.log(orderId);
+
+
     await this.props.getCart(orderId)
     await this.props.getCartItems(orderId)
   }
@@ -38,9 +43,10 @@ class CartView extends Component {
     const {
       cart,
       cartItems,
-      sendOrder,
-      match: { params: { orderId } }
+      sendOrder
     } = this.props
+
+    console.log('this.props', this.props)
 
     // must be sorted to stay in place upon quantity update
     cartItems.sort((a, b) => a.productId - b.productId)

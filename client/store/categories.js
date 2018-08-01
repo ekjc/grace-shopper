@@ -52,7 +52,7 @@ export const fetchCategories = categoryId => async dispatch => {
     const { data } = await axios.get(
       `/api/categories/${categoryId ? `${categoryId}` : ''}`
     )
-    console.log('fetchCategories data', data)
+    // console.log('fetchCategories data', data)
     dispatch(receiveCategories(data || []))
   } catch (error) {
     console.error(error)

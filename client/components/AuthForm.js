@@ -50,9 +50,9 @@ const AuthForm = ({ name, displayName, linkName, linkDisplayName, subtitle, hand
       </form>
     </div>
     <p className="has-text-grey">
-      <Link to={`/${linkName}`}>{linkDisplayName}</Link>&nbsp;·&nbsp;
+      <a href="/auth/google">{displayName} with Google</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+      <Link to={`/${linkName}`}>{linkDisplayName}</Link>
       {/* <Link to="/auth/google">{displayName} with Google</Link> */}
-      <a href="/auth/google">{displayName} with Google</a>
     </p>
   </div>
 )

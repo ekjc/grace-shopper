@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Review, Product } = require('../db/models')
+const { Review, Product, User } = require('../db/models')
 const { isAllowed } = require('../utils')
 module.exports = router
 
@@ -35,7 +35,11 @@ router.get('/:reviewId', async (req, res, next) => {
 router.get('/product/:productId', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
-      where: { productId: +req.params.productId }
+      where: { productId: +req.params.productId },
+      include: [{
+        model: User,
+        attributes: ['id', 'firstName', 'lastName', 'email']
+      }]
     })
     res.json(reviews)
   } catch (err) {
@@ -101,8 +105,9 @@ router.put('/:reviewId', isAllowed, async (req, res, next) => {
 // delete review :: /api/reviews/:reviewId
 router.delete('/:reviewId', isAllowed, async (req, res, next) => {
   try {
-    const reviewToDelete = await Review.findById(req.params.reviewId)
-    Review.destroy(reviewToDelete)
+    const reviewId = +req.params.reviewId
+    await Review.destroy({ where: { id: reviewId } })
+    res.json(reviewId)
   } catch (err) {
     next(err)
   }

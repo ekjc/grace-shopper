@@ -2,29 +2,48 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 const Confirmation = (props) => {
-  const {cart, cartItems} = props
+  const { cart, items } = props
   const orderNumber = props.match.params.orderNumber
-  console.log(orderNumber);
+  console.log('orderNumber', orderNumber);
   return (
-    <div style={{ marginTop: '15px' }}>
-      <h1 style={{ marginTop: '.5rem', fontWeight: 'bold' }} > Thank you for your order {cart.email}! </h1>
-      <p style={{ marginTop: '.5rem' }}> Order {cart.orderNumber} </p>
-      <p> Status: Processing </p>
-      <p style={{ marginTop: '2rem', fontWeight: 'bold' }}> Items Purchased </p>
-      {cartItems.map(item => (
-        <ul key={item.product.id}>
-        <li style={{ marginTop: '.5rem', fontWeight: 'bold' }}>{item.product.name}</li>
-        <li>${item.product.price}</li>
-        <li>Quantity Purchased: {item.quantity}</li>
-      </ul>
-      ))}
+    <div>
+      <h1 className="title is-1">Order complete</h1>
+      <p className="subtitle">Thank you for you order!</p>
+      <div className="notification">
+        <p>Order #{cart.orderNumber}</p>
+        <p>Status: Processing</p>
+      </div>
+      <h2 className="title is-4">Products ordered</h2>
+      <table className="table is-fullwidth is-striped">
+        <colgroup>
+          <col style={{ width: '30%' }} />
+          <col style={{ width: '10%' }} />
+          <col style={{ width: '15%' }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(item => (
+            <tr key={item.product.id}>
+              <td>{item.product.name}</td>
+              <td>{item.quantity}</td>
+              <td>${item.product.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }
 
 const mapState = ({ cart }) => ({
   cart: cart.info,
-  cartItems: cart.items
+  items: cart.items
 })
 
 export default connect(mapState)(Confirmation)

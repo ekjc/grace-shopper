@@ -187,6 +187,7 @@ const products = [
     price: 9.99,
     SKU: 'BLM94781',
     unitsInStock: 50,
+    isFeatured: true,
     categories: ['Beer', 'Lager']
   },
   {
@@ -293,6 +294,7 @@ const products = [
     price: 7.49,
     SKU: 'BSL35450',
     unitsInStock: 4,
+    isFeatured: true,
     categories: ['Beer', 'Stout']
   },
   {
@@ -447,6 +449,7 @@ const products = [
     price: 28.49,
     SKU: 'WRC58397',
     unitsInStock: 20,
+    isFeatured: true,
     categories: ['Wine', 'Red Wine', 'Cabernet Sauvignon']
   },
 
@@ -576,6 +579,7 @@ const products = [
     price: 21.49,
     SKU: 'LVT24099',
     unitsInStock: 5,
+    isFeatured: true,
     categories: ['Liquor', `Vodka`]
   },
   {
@@ -610,6 +614,7 @@ const products = [
     price: 41.99,
     SKU: 'LWB77592',
     unitsInStock: 3,
+    isFeatured: true,
     categories: ['Liquor', 'Whiskey', `Bourbon`]
   },
 

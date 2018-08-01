@@ -9,8 +9,22 @@
     height: 100%;
   }
 
+  .tag.is-featured {
+    font-size: .75rem;
+    position: absolute;
+      top: .75rem;
+      right: .75rem;
+    transition: all $speed $easing;
+    width: auto;
+    z-index: 9;
+  }
+
   &:hover {
     box-shadow: $card-shadow-hover;
+
+    .tag.is-featured {
+      opacity: 0;
+    }
   }
 }
 

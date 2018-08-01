@@ -29,7 +29,7 @@ const Order = db.define('order', {
 )
 
 Order.prototype.generateOrderNumber = (order) => {
-  let newOrderNum = '#'
+  let newOrderNum = ''
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   for (var i = 0; i < 9; i++)

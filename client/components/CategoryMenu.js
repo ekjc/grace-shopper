@@ -5,7 +5,7 @@ import { slugify } from '../utils'
 
 const CategoryMenu = props => {
   const { category, categories, handleClick, isLoading } = props
-  if (isLoading) return null
+  // if (isLoading) return null
 
   // console.log('category', category)
 
@@ -13,8 +13,25 @@ const CategoryMenu = props => {
     <aside className="menu">
       <p className="menu-label">Categories</p>
       <ul className="menu-list">
+        {category.parent && (
+          <li>
+            <Link
+              to={``}
+              className="is-active"
+              onClick={event => handleClick(event, category.parent)}
+            >
+              <span className="icon has-text-grey-light">
+                <i className="fas fa-chevron-left"></i>
+              </span>
+              <span>Go back</span>
+            </Link>
+            <ul>
 
-        {!isLoading && categories.map(x => (
+            </ul>
+          </li>
+        )}
+
+        {categories.map(x => (
           <li key={x.id}>
             <Link
               to={`/products/${slugify(x.name)}`}

@@ -15,3 +15,11 @@ export const slugify = text => {
     .replace(/-{2,}/g, '-')     // replace multiple dashes with single dash
     .replace(/^-+|-+$/g, '');   // remove leading and trailing dash
 }
+
+export const getOrderIdFromCookie = () => {
+  const cookies = document.cookie.split('; ');
+  const cookie = cookies.find(cookie => cookie.startsWith('orderId'))
+  if (cookie) {
+    return +cookie.slice(8)
+  }
+}

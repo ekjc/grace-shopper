@@ -13,7 +13,9 @@ const ProductRow = ({ product, deleteProduct }) => (
         )}
       </Link>
     </td>
-    <td className="is-size-7 has-text-grey-dark">${product.price}</td>
+    <td className="is-size-7 has-text-grey-dark">
+      ${product.price}
+    </td>
     <td className="is-size-7 has-text-grey-dark">{product.SKU}</td>
     <td className={`is-size-7 ${product.unitsInStock > 0 ? 'has-text-success' : 'has-text-danger'}`}>
       <span className="icon">

@@ -1,5 +1,4 @@
-/*eslint complexity: ["error", 20]*/
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class CompletePurchase extends Component {
   // constructor(props) {
@@ -7,11 +6,12 @@ class CompletePurchase extends Component {
   //   this.state = {} //in case we add in some kind of error handling...
   // }
 
-  handleSubmit = async (event) => {
+  handleSubmit = async event => {
     event.preventDefault()
     const { cart, sendOrder, formInfo, history } = this.props
-    await sendOrder({orderId: cart.id, formInfo, statusCode: 3}) // 3 = processing
-    console.log(cart.orderNumber);
+    // 3 = processing
+    await sendOrder({ orderId: cart.id, formInfo, statusCode: 3 })
+    console.log(cart.orderNumber)
     history.push(`/orderConfirmation/${cart.orderNumber}`)
   }
 
@@ -23,7 +23,8 @@ class CompletePurchase extends Component {
             <button
               type="button"
               className="button is-primary"
-              onClick={(event) => this.handleSubmit(event)}>
+              onClick={event => this.handleSubmit(event)}
+            >
               Complete Purchase
             </button>
           </span>
