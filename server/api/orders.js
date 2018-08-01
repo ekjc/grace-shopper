@@ -23,7 +23,6 @@ router.get('/', async (req, res, next) => {
     })
     res.json(orders)
   } catch (err) {
-    console.error(err)
     next(err)
   }
 })
@@ -39,7 +38,6 @@ router.get('/:orderId/items', async (req, res, next) => {
     })
     res.json(orderItems)
   } catch (err) {
-    console.error(err)
     next(err)
   }
 })
@@ -55,7 +53,6 @@ router.get('/:orderId', async (req, res, next) => {
     })
     res.json(order)
   } catch (err) {
-    console.error(err)
     next(err)
   }
 })
@@ -69,7 +66,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
         customerId: userId,
         // orderStatusCodeId: {
         //   [Op.ne]: 1
-        // } 
+        // }
       },
       include: [
         { model: OrderStatusCode, attributes: ['description'] },
@@ -82,7 +79,6 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
     // })
     res.json(orderHistory)
   } catch(err) {
-    console.error(err)
     next(err)
   }
 })
@@ -100,9 +96,12 @@ router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
         zip: req.body.zip,
       }
     })
-    const addressId = orderAddress.id // grab that address id to connect up to order
 
-    const orderToProcess = await Order.findById(req.params.orderId) // find the cart id & turn it into an "order"
+    // grab address id to connect to order
+    const addressId = orderAddress.id
+
+    // find the cart id and turn it into an "order"
+    const orderToProcess = await Order.findById(req.params.orderId)
     if (!orderToProcess.orderNumber) {
       orderToProcess.generateOrderNumber(orderToProcess)
     }
@@ -113,9 +112,8 @@ router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
     orderToProcess.addressId = addressId
     await orderToProcess.save()
 
-    res.json(orderToProcess)
+    res.status(201).json(orderToProcess)
   } catch (err) {
-    console.error(err)
     next(err)
   }
 })
@@ -138,9 +136,8 @@ router.put('/:orderId/editOrder', isAdmin, async (req, res, next) => {
         plain: true
       }
     )
-    res.json(updatedOrder)
+    res.status(201).json(updatedOrder)
   } catch (err) {
-    console.error(err)
     next(err)
   }
 })

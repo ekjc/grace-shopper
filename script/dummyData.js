@@ -847,30 +847,30 @@ const orderStatusCodes = [
 ]
 
 const orders = [
-  {
-    email: 'jjj@gmail.com',
-    phoneNumber: '555-900-3455',
-    addressId: 1,
-    orderStatusCodeId: 1,
-    products: [6, 5]
-  },
-  {
-    email: 'www@gmail.com',
-    phoneNumber: '777-220-6791',
-    addressId: 4,
-    orderStatusCodeId: 1,
-    products: [1]
-  },
-  {
-    orderStatusCodeId: 1,
-    products: [2, 3, 5],
-    customerId: 1
-  },
-  {
-    orderStatusCodeId: 1,
-    products: [4, 1],
-    customerId: 2
-  }
+  // {
+  //   email: 'jjj@gmail.com',
+  //   phoneNumber: '555-900-3455',
+  //   addressId: 1,
+  //   orderStatusCodeId: 1,
+  //   products: [6, 5]
+  // },
+  // {
+  //   email: 'www@gmail.com',
+  //   phoneNumber: '777-220-6791',
+  //   addressId: 4,
+  //   orderStatusCodeId: 1,
+  //   products: [1]
+  // },
+  // {
+  //   orderStatusCodeId: 1,
+  //   products: [2, 3, 5],
+  //   customerId: 1
+  // },
+  // {
+  //   orderStatusCodeId: 1,
+  //   products: [4, 1],
+  //   customerId: 2
+  // }
 ]
 
 module.exports = {

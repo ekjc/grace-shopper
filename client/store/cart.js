@@ -70,18 +70,17 @@ export const createCart = cart => async dispatch => {
   try {
     const { data } = await axios.post(`/api/cart`, cart)
     dispatch(createCartSuccess(data || {}))
-    // history.push(`/manage/users/${data.id}`)
   } catch (err) {
     console.error(err)
   }
 }
 
-//changed orderId to userId in args
 export const createCartItem = (userId, productId, qty) => async dispatch => {
   try {
-    const { data } = await axios.post(`/api/cart/${userId}/${productId}`, {qty})
+    const { data } = await axios.post(`/api/cart/${userId}/${productId}`, {
+      qty
+    })
     dispatch(createCartItemSuccess(data || {}))
-    // history.push('/manage/users');
   } catch (err) {
     console.error(err)
   }
@@ -109,7 +108,7 @@ export const deleteCart = orderId => async dispatch => {
 export const deleteCartItem = (orderId, productId) => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/cart/${orderId}/${productId}`)
-    console.log('DATA RETURNED FROM DELETE_CART_ITEM', data);
+    // console.log('DATA RETURNED FROM DELETE_CART_ITEM', data);
     dispatch(deleteCartItemSuccess(data))
   } catch (err) {
     console.error(err)

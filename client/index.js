@@ -8,9 +8,6 @@ import store from './store'
 import { Navbar } from './components'
 import './sass/index.scss'
 
-// establishes socket connection
-import './socket'
-
 // Using `<Route />` to display Navbar here because of update blocking.
 // See: https://reacttraining.com/react-router/core/guides/dealing-with-update-blocking
 const App = () => (

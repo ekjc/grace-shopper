@@ -17,6 +17,8 @@ const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS'
 const UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS' // ????????????
 const DELETE_ORDER_SUCCESS = 'DELETE_ORDER_SUCCESS'
 
+const PROCESS_ORDER_SUCCESS = 'PROCESS_ORDER_SUCCESS'
+
 /**
  * ACTION CREATORS
  */
@@ -45,6 +47,8 @@ const deleteOrderSuccess = orderId => ({
   orderId
 })
 
+const processOrderSuccess = order => ({ type: PROCESS_ORDER_SUCCESS, order })
+
 /**
  * THUNK CREATORS
  */
@@ -72,7 +76,6 @@ export const fetchOrderHistory = userId => async dispatch => {
   dispatch(requestOrderItems())
   try {
     const { data } = await axios.get(`/api/orders/orderhistory/${userId}`)
-    console.log('data', data)
     dispatch(receiveOrderItems(data || []))
   } catch (error) {
     console.error(error)
@@ -93,7 +96,7 @@ export const updateOrder = order => async dispatch => {
   try {
     const { data } = await axios.put(`/api/orders/${orderId}`, order)
     dispatch(updateOrderSuccess(data || {}))
-    // history.push('/manage/users');
+    history.goBack();
   } catch (error) {
     console.error(error)
   }
@@ -105,6 +108,16 @@ export const deleteOrder = orderId => async dispatch => {
     dispatch(deleteOrderSuccess(data))
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const processOrder = ({ orderId, formInfo, statusCode }) => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/orders/${orderId}/processOrder`, formInfo, statusCode)
+    dispatch(processOrderSuccess(data || {}))
+    // console.log('DATA RECEIVED FROM SERVER', data);
+  } catch (err) {
+    console.error(err)
   }
 }
 
@@ -137,7 +150,6 @@ export default (state = initialOrder, action) => {
       }
 
     case RECEIVE_ORDER_ITEMS:
-    console.log('action.items', action.items)
       return {
         ...state,
         items: [...state.items, action.items],
@@ -155,6 +167,12 @@ export default (state = initialOrder, action) => {
 
     case DELETE_ORDER_SUCCESS:
       return initialOrder
+
+    case PROCESS_ORDER_SUCCESS:
+      return {
+        ...state,
+        info: action.order
+      }
 
     default:
       return state

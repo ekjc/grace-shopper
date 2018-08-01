@@ -105,7 +105,6 @@ export const deleteReview = review => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/reviews/${review.id}`)
     dispatch(deleteReviewSuccess(data || {}))
-    history.goBack()
   } catch (error) {
     console.error(error)
   }

@@ -36,14 +36,14 @@ const ProductCard = ({ product, myId, addToCart }) => (
   </div>
 )
 
-// const mapState = state = ({
-//   myId: state.me.id
-// })
+const mapState = state => ({
+  myId: state.me.id
+})
 
 const mapDispatch = dispatch => ({
   addToCart: (orderId, productId, qty) =>
     dispatch(createCartItem(orderId, productId, qty))
 })
 
-export default connect(null, mapDispatch)(ProductCard)
+export default connect(mapState, mapDispatch)(ProductCard)
 

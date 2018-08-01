@@ -49,7 +49,6 @@ export const fetchProducts = () => async dispatch => {
     const { data } = await axios.get('/api/products')
     dispatch(receiveProducts(data || []))
   } catch (error) {
-    // return dispatch(receiveProducts({ error }))
     console.error(error)
   }
 }
@@ -60,10 +59,8 @@ export const fetchProductsByCategory = categoryId => async dispatch => {
     const { data } = await axios.get(
       `/api/products/${categoryId ? `categories/${categoryId}` : ''}`
     )
-    console.log('*** fetchProductsByCategory data', data)
     dispatch(receiveProducts(data || []))
   } catch (error) {
-    // return dispatch(receiveProducts({ error }))
     console.error(error)
   }
 }
@@ -74,7 +71,6 @@ export const fetchProduct = productId => async dispatch => {
     const { data } = await axios.get(`/api/products/${productId}`)
     dispatch(receiveProduct(data || {}))
   } catch (error) {
-    // return dispatch(receiveProduct({ error }))
     console.error(error)
   }
 }
@@ -103,7 +99,6 @@ export const deleteProduct = product => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/products/${product.id}`)
     dispatch(deleteProductSuccess(data))
-    history.goBack()
   } catch (error) {
     console.error(error)
   }
@@ -157,7 +152,6 @@ export default (state = initialState, action) => {
       }
 
     case DELETE_PRODUCT_SUCCESS:
-      console.log('delete product action', action)
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.productId)
