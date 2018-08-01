@@ -3,6 +3,15 @@ const { Order, OrderStatusCode, OrderItem, Product } = require('../db/models')
 const { isAllowed, isAdmin } = require('../utils')
 module.exports = router
 
+// Get cart instance for logged-in user :: /api/cart/getUserCart/:userId
+router.get('/getUserCart/:userId', async (req, res, next) => {
+  const orderId = await Order.findOne({
+    where: { customerId: req.params.userId, orderStatusCodeId: 1 },
+  })
+  console.log('ORDER ID^^^^^^^^^^^^^^^^^^^^^^^^', orderId);
+  res.send(orderId)
+})
+
 // Destroy cart instance (user has removed all items) :: /api/cart/:orderId
 router.delete('/:orderId', async (req, res, next) => {
   const cartId = +req.params.orderId

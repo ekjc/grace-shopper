@@ -9,19 +9,21 @@ class OrderHistory extends Component {
 
   render() {
     const orderHistory = this.props.items
+    console.log('orderHistory', orderHistory)
+    console.log('orderHistory.length', orderHistory.length)
+    console.log('typeof orderHistory', typeof orderHistory)
     return (
       <div>
         <h1 className="title is-1">Order History</h1>
-        {orderHistory.length &&
+        {orderHistory.length > 1 &&
           orderHistory.map(order => (
             <div key={order[0].id}>
-              {console.log('order', order)}
-              <h1>Created at: {order[0].createdAt}</h1>
-              <h1>Order status: {order[0].orderStatusCode.description}</h1>
+              <p>Created at: {order[0].createdAt}</p>
+              <p>Order status: {order[0].orderStatusCode.description}</p>
               <br />
             </div>
           ))}
-        {!orderHistory.length && (
+        {!orderHistory.length <= 1 && (
           <h1>You have no order history! How do you expect to get drunk?</h1>
         )}
       </div>

@@ -53,6 +53,15 @@ export const fetchCart = cartId => async dispatch => {
   }
 }
 
+// export const fetchCartByUser = userId => async dispatch => {
+//   try {
+//     const { data } = await axios.get(`/api/cart/getUserCart/${userId}`)
+//     dispatch(receiveCart(data || {}))
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
+
 export const fetchCartItems = cartId => async dispatch => {
   dispatch(requestCartItems())
   try {

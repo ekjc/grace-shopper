@@ -67,6 +67,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
         // orderStatusCodeId: {
         //   [Op.ne]: 1
         // }
+        // orderStatusCodeId: { $ne: 1 }        
       },
       include: [
         { model: OrderStatusCode, attributes: ['description'] },
@@ -105,7 +106,7 @@ router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
     if (!orderToProcess.orderNumber) {
       orderToProcess.generateOrderNumber(orderToProcess)
     }
-    orderToProcess.orderStatusCodeId = req.body.statusCode
+    orderToProcess.orderStatusCodeId = 3
     orderToProcess.date = new Date()
     orderToProcess.email = req.body.email
     orderToProcess.phoneNumber = req.body.phone
