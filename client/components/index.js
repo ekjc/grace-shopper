@@ -2,7 +2,10 @@ export { default as Navbar } from './Navbar'
 export { Login, Signup } from './AuthForm'
 
 export { default as ProductCard } from './ProductCard'
-export { default as ProductNav } from './ProductNav'
+export { default as ProductList } from './ProductList'
+export { default as ProductListBeer } from './ProductListBeer'
+export { default as ProductListWine } from './ProductListWine'
+export { default as ProductListLiquor } from './ProductListLiquor'
 
 export { default as CategoryMenu } from './CategoryMenu'
 export { default as ManageMenu } from './ManageMenu'
@@ -15,7 +18,8 @@ export {
   validateUser,
   validateCategory,
   validateProduct,
-  validateReview
+  validateReview,
+  validateCheckout
 } from './ValidateField'
 
 export { default as UserRow } from './UserRow'
@@ -25,9 +29,5 @@ export { default as ReviewRow } from './ReviewRow'
 export { default as OrderRow } from './OrderRow'
 
 export { default as PageNotFound } from './PageNotFound'
-
-export { default as BeerList } from './beerList'
-export { default as WineList } from './wineList'
-export { default as SpiritsList } from './spiritsList'
 
 // export { Search } from './Search'

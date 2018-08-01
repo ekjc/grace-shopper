@@ -4,25 +4,28 @@ import { Link } from 'react-router-dom'
 import { slugify } from '../utils'
 
 const CategoryMenu = props => {
-  const { categories, handleClick, isLoading } = props
-  if (!categories.length) return null
+  const { category, categories, handleClick, isLoading } = props
+  if (isLoading) return null
+
+  // console.log('category', category)
 
   return (
-    <div>
-      <div>
-        <h4 className="title is-5">Categories</h4>
+    <aside className="menu">
+      <p className="menu-label">Categories</p>
+      <ul className="menu-list">
+
         {!isLoading && categories.map(x => (
-          <div key={x.id}>
+          <li key={x.id}>
             <Link
               to={`/products/${slugify(x.name)}`}
               onClick={event => handleClick(event, x)}
             >
               {x.name}
             </Link>
-          </div>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </aside>
   )
 }
 

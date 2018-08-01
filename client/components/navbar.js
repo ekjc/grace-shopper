@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo'
 import { logout } from '../store'
-// import { Search } from './components'
 
 const toggleNavbarMenu = event => {
   const navbarBurger = event.target;
@@ -14,7 +13,7 @@ const toggleNavbarMenu = event => {
   navbarMenu.classList.toggle('is-active')
 }
 
-const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
+const Navbar = ({ myId, handleLogout, isLoggedIn, isAdmin }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
@@ -48,22 +47,23 @@ const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
           {isLoggedIn && (
 
             <div className="navbar-item has-dropdown is-hoverable">
-              <div className="navbar-link">
-                My Account
+
+                <NavLink className="navbar-link" to="/user-dashboard">My Account</NavLink>
                 <div className="navbar-dropdown">
                   <NavLink
-                    to="/user-dashboard"
+                    to={`/user/${myId}/profile`}
                     className="navbar-item"
                     activeClassName="is-active"
                   >
                     My Profile
                   </NavLink>
-                  <a href="#" className="navbar-item">
-                    My Orders
-                  </a>
-                  <a href="#" className="navbar-item">
-                    My Reviews
-                  </a>
+
+                  <Link to={`/user/${myId}/orders`} className="navbar-item">My Orders</Link>
+                  <Link
+                    to={`/user/${myId}/reviews`}
+                    className="navbar-item"
+                  >My Reviews</Link>
+
                   {isAdmin && (
                     <div>
                       <hr className="navbar-divider" />
@@ -81,7 +81,7 @@ const Navbar = ({ handleLogout, isLoggedIn, isAdmin }) => (
                     Logout
                   </a>
                 </div>
-              </div>
+
             </div>
           )}
 
@@ -113,7 +113,8 @@ const mapState = state => {
 
   return {
     isLoggedIn: !!state.me.id,
-    isAdmin: !!state.me.isAdmin
+    isAdmin: !!state.me.isAdmin,
+    myId: state.me.id
   }
 }
 

@@ -26,7 +26,6 @@ const ProductCard = ({ product, myId, addToCart }) => (
     </Link>
     <footer className="card-footer">
       <a
-        href="#"
         className="card-footer-item"
         onClick={() => addToCart(myId || `guest`, product.id, 1)}
       >
