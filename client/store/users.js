@@ -136,7 +136,6 @@ export const deleteUser = user => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/users/${user.id}`)
     dispatch(deleteUserSuccess(data))
-    history.goBack()
   } catch (err) {
     console.error(err)
   }

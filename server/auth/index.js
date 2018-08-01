@@ -12,7 +12,7 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(user, err => (err ? next(err) : res.json(user)))
+      req.login(user, err => (err ? next(err) : res.cookie('userType', 'user').json(user)))
     }
   } catch (err) {
     next(err)
@@ -55,17 +55,18 @@ router.post('/signup', async (req, res, next) => {
 router.post('/logout', (req, res) => {
   req.logout()
   req.session.destroy()
+  res.cookie('userType', 'guest')
   res.redirect('/')
 })
 
 router.get('/me', (req, res) => {
-  console.log(req.headers.cookie); // access cookie SID --> put on user state as guest ID?
-  res.json(req.user || req.headers.cookie)
-  //
-  // if(!req.user) {
-  //   res.sendStatus(404)
-  // }
-  // res.json(req.user)
+  // console.log(req.headers.cookie);
+  // res.json(req.user || req.headers.cookie)
+
+  if(!req.user) {
+    return res.cookie('userType', 'guest').sendStatus(404)
+  }
+  res.cookie('userType', 'user').json(req.user)
 })
 
 router.use('/google', require('./google'))

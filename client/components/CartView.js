@@ -11,8 +11,6 @@ import {
   processOrder
 } from '../store'
 
-import order from '../store/order'
-
 class CartView extends Component {
   async componentDidMount() {
     let orderId;
@@ -54,7 +52,7 @@ class CartView extends Component {
 
     return (
       <div>
-        <h1 className="title is-2">Cart</h1>
+        <h1 className="title is-1">Cart</h1>
         {!cartItems.length && (
           <p className="subtitle is-4">There are no items in your cart</p>
         )}

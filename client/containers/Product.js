@@ -9,7 +9,7 @@ class Product extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      quantityToAdd: 1
+      qtyToAdd: 1
     }
   }
 
@@ -85,7 +85,7 @@ class Product extends Component {
                     className="field-label is-normal has-text-left"
                     style={{ flexGrow: '0', marginRight: '1rem' }}
                   >
-                    <label htmlFor="quantityToAdd" className="label">
+                    <label htmlFor="qtyToAdd" className="label">
                       Qty:
                     </label>
                   </div>
@@ -96,9 +96,9 @@ class Product extends Component {
                           onChange={this.handleChange}
                           type="number"
                           className="input"
-                          value={this.state.quantityToAdd}
-                          name="quantityToAdd"
-                          id="quantityToAdd"
+                          value={this.state.qtyToAdd}
+                          name="qtyToAdd"
+                          id="qtyToAdd"
                           min={1}
                           max={product.unitsInStock}
                           style={{ width: '4rem' }}
@@ -110,10 +110,10 @@ class Product extends Component {
                         type="submit"
                         className="button is-secondary"
                         onClick={() =>
-                          this.props.createCartItem(
+                          this.props.addToCart(
                             this.props.myId || `guest`,
                             +productId,
-                            this.state.quantityToAdd
+                            this.state.qtyToAdd
                           )
                         }
                       >
@@ -158,7 +158,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   getProduct: productId => dispatch(fetchProduct(productId)),
-  createCartItem: (orderId, productId, qty) =>
+  addToCart: (orderId, productId, qty) =>
     dispatch(createCartItem(orderId, productId, qty))
 })
 

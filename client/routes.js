@@ -86,7 +86,7 @@ class Routes extends Component {
 
         <Route exact path="/review/add" component={AddReview} />
 
-        <Route path="/cart" component={CartView} />
+        <Route path="/cart/:orderId" component={CartView} />
 
         <Route path='/orderConfirmation/:orderNumber' component={Confirmation} />
 
