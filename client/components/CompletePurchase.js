@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 
 class CompletePurchase extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {} //in case we add in some kind of error handling...
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {} //in case we add in some kind of error handling...
+  // }
 
   handleSubmit = async (event) => {
     event.preventDefault()

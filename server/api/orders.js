@@ -67,17 +67,13 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
         // orderStatusCodeId: {
         //   [Op.ne]: 1
         // }
-        // orderStatusCodeId: { $ne: 1 }        
+        // orderStatusCodeId: { $ne: 1 }
       },
       include: [
         { model: OrderStatusCode, attributes: ['description'] },
         { model: User, as: 'customer' },
       ]
     })
-    // const userOrder = await OrderItem.findOne({
-    //   where: { orderId: req.params.orderId, productId: req.params.productId },
-    //   include: [ {model: Product, attributes: ['id', 'name', 'price', 'unitsInStock']}]
-    // })
     res.json(orderHistory)
   } catch(err) {
     next(err)

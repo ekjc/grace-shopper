@@ -47,7 +47,11 @@ router.get('/product/:productId', async (req, res, next) => {
 router.get('/user/:userId', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
-      where: { userId: +req.params.userId }
+      where: { userId: +req.params.userId },
+      include: [{
+        model: Product,
+        attributes: ['id', 'name']
+      }]
     })
     res.json(reviews)
   } catch (err) {

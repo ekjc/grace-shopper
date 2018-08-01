@@ -1,4 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
+import { ValidateField } from './index';
+
 import CompletePurchase from './CompletePurchase'
 import Checkout from './Checkout'
 
@@ -7,142 +11,191 @@ class BillingShipping extends Component {
     super(props)
     this.state = {
       toggleForm: false,
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      zip: ''
+      // firstName: '',
+      // lastName: '',
+      // email: '',
+      // phone: '',
+      // street1: '',
+      // street2: '',
+      // city: '',
+      // state: '',
+      // zip: ''
     }
   }
 
-  handleToggle = (event) => {
-    let show;
-    if (this.state.toggleForm === false) {
-      show = true
-    } else { show = false }
+  handleToggle = event => {
+    event.preventDefault()
+
+    let show = !this.state.toggleForm
+    // let show
+    // if (this.state.toggleForm === false) {
+    //   show = true
+    // } else {
+    //   show = false
+    // }
     this.setState({ [event.target.name]: show })
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  // handleChange = event => {
+  //   this.setState({ [event.target.name]: event.target.value })
+  // }
 
-  scrollBottom = () => {
-    window.scrollBy(0, window.innerHeight);
+  // scrollBottom = () => {
+  //   window.scrollBy(0, window.innerHeight)
+  // }
+
+  handleSubmit = values => {
+    const { firstName, lastName, email, phone, street1, street2, city, state, zip } = values
   }
 
   render() {
-   const { cart, sendOrder } = this.props
+    const { cart, sendOrder, pristine, submitting, reset } = this.props
     return (
-    <div style={{ marginTop: '2rem' }}>
-      <span>
+      <div style={{ marginTop: '2rem' }}>
+
         <button
           type="button"
-          className={this.state.toggleForm ? "button is-light" : "button is-link"}
           name="toggleForm"
-          onClick={(event) => {
-            this.handleToggle(event)
-            setTimeout(this.scrollBottom, 30)
-          }}>
-          Enter Shipping & Billing Info
+          className={
+              this.state.toggleForm ? 'button is-light' : 'button is-link'
+            }
+          onClick={event => this.handleToggle(event)}>
+          Proceed to Checkout
         </button>
-      </span>
-    {this.state.toggleForm &&
-    <div>
-    <h2 style={{ marginTop: '2rem', fontWeight: 'bold'}}>Shipping Information</h2>
-    <form style={{ marginTop: '.5rem'}}>
-      <p>
-      <label htmlFor="firstName">First Name: </label>
-      <input
-        name="firstName"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.firstName}/>
-      </p>
-      <p>
-      <label htmlFor="lastName">Last Name: </label>
-      <input
-        name="lastName"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.lastName}/>
-      </p>
-      <p>
-      <label htmlFor="email">Email Address: </label>
-      <input
-        name="email"
-        type="email"
-        onChange={this.handleChange}
-        value={this.state.email} />
-      </p>
-      <p>
-      <label htmlFor="phone">Phone: </label>
-      <input
-        name="phone"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.phone} />
-      </p>
-      <p>
-      <label htmlFor="street1">Address Line 1: </label>
-      <input
-        name="street1"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.street1}/>
-      </p>
-      <p>
-      <label htmlFor="street2">Address Line 2 (unit/apartment): </label>
-      <input
-        name="street2"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.street2}/>
-      </p>
-      <p>
-      <label htmlFor="city">City: </label>
-      <input
-        name="city"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.city}/>
-      </p>
-      <p>
-      <label htmlFor="state">State: </label>
-      <input
-        name="state"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.state}/>
-      </p>
-      <p>
-      <label htmlFor="zip">Zipcode: </label>
-      <input
-        name="zip"
-        type="text"
-        onChange={this.handleChange}
-        value={this.state.zip}
-        onBlur={this.handleComplete}/>
-      </p>
-    </form>
-    <h2 style={{ marginTop: '2rem', fontWeight: 'bold'}}>Payment Information</h2>
-    <p style={{ marginTop: '.8rem'}}>
-      <Checkout />
-      <img style={{ width: '15%', marginTop: '.8rem'}} src="https://waardex.com/wp-content/uploads/2018/04/logo-stripe-e1504674210431.png" />
-    </p>
-    <CompletePurchase
-      cart={cart}
-      sendOrder={sendOrder}
-      formInfo={this.state}
-      history={this.props.history}/>
-  </div>}
-  </div>
+
+
+
+
+
+        <span>
+          {/*<button
+            type="button"
+            className={
+              this.state.toggleForm ? 'button is-light' : 'button is-link'
+            }
+            name="toggleForm"
+            onClick={event => {
+              this.handleToggle(event)
+              setTimeout(this.scrollBottom, 30)
+            }}
+          >
+            Enter Shipping & Billing Info
+          </button>*/}
+        </span>
+        {this.state.toggleForm && (
+          <div>
+            <hr />
+            <form>
+              <h2 className="title is-4">
+                Shipping Information
+              </h2>
+              <Field
+                label="First name"
+                name="firstName"
+                type="text"
+                component={ValidateField}
+              />
+              <Field
+                label="Last name"
+                name="lastName"
+                type="text"
+                component={ValidateField}
+              />
+              <Field
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="email@example.com"
+                component={ValidateField}
+              />
+              <Field
+                label="Phone"
+                name="phone"
+                type="text"
+                component={ValidateField}
+              />
+              <Field
+                label="Street address"
+                name="street1"
+                type="text"
+                placeholder="Street and number, P.O. box, etc."
+                component={ValidateField}
+              />
+              <Field
+                label="Unit number"
+                name="street2"
+                type="text"
+                placeholder="Apartment, suite, building, etc."
+                component={ValidateField}
+              />
+              <Field
+                label="City"
+                name="city"
+                type="text"
+                component={ValidateField}
+              />
+              <Field
+                label="State"
+                name="state"
+                type="text"
+                component={ValidateField}
+              />
+              <Field
+                label="Zip"
+                name="zip"
+                type="text"
+                component={ValidateField}
+              />
+
+              <hr />
+
+              <h2 className="title is-4">
+                Payment Information
+              </h2>
+
+              <hr />
+
+              <div className="field is-grouped">
+                <div className="control">
+                  <button
+                    type="submit"
+                    className="button is-link"
+                    disabled={pristine || submitting}
+                  >
+                    Submit
+                  </button>
+                </div>
+                <div className="control">
+                  <button type="button" className="button is-light" onClick={reset}>
+                    Reset
+                  </button>
+                </div>
+                <div className="control">
+                  <button type="button" className="button is-light">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <hr />
+
+            <CompletePurchase
+              cart={cart}
+              sendOrder={sendOrder}
+              formInfo={this.state}
+              history={this.props.history}
+            />
+          </div>
+        )}
+      </div>
     )
   }
 }
 
-export default BillingShipping
+BillingShipping = reduxForm({
+  form: 'billingShipping',
+  // validate: validateCheckout
+})(BillingShipping)
+
+export default connect(null, null)(BillingShipping)

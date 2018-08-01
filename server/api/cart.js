@@ -8,7 +8,6 @@ router.get('/getUserCart/:userId', async (req, res, next) => {
   const orderId = await Order.findOne({
     where: { customerId: req.params.userId, orderStatusCodeId: 1 },
   })
-  console.log('ORDER ID^^^^^^^^^^^^^^^^^^^^^^^^', orderId);
   res.send(orderId)
 })
 
@@ -28,8 +27,6 @@ router.delete('/:orderId', async (req, res, next) => {
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
     let useThisOrderId;
-
-    console.log('req.params.userId', req.params.userId)
 
     // unauthenticated users: Create new order, send orderId with cookie
     if (req.params.userId === `guest`) {

@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { ManageMenu } from '../components'
-// import {
-//   ManageUsers,
-//   ManageProducts,
-//   ManageCategories,
-//   ManageReviews,
-//   ManageOrders
-// } from './containers'
+
 import ManageUsers from './ManageUsers'
 import ManageProducts from './ManageProducts'
 import ManageCategories from './ManageCategories'

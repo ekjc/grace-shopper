@@ -59,6 +59,28 @@ export const validateReview = values => {
   return errors;
 };
 
+export const validateCheckout = values => {
+  const errors = {};
+  if (!values.firstName) {
+    errors.firstName = 'First name is a required field.';
+  }
+  if (!values.lastName) {
+    errors.lastName = 'Last name is a required field.';
+  }
+  if (!values.firstName) {
+    errors.firstName = 'First name is a required field.';
+  }
+  if (!values.email) {
+    errors.email = 'Email is a required field.';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email format.'
+  }
+  if (!values.street1) {
+    errors.street1 = 'Street address is a required field.';
+  }
+  return errors;
+}
+
 export default props => {
   const {
     input, label, type, name, helpText,

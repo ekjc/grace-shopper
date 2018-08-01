@@ -49,13 +49,12 @@ export const removeActiveCategory = () => ({ type: REMOVE_ACTIVE_CATEGORY })
 export const fetchCategories = categoryId => async dispatch => {
   dispatch(requestCategories())
   try {
-    // const id = categoryId || 0;
     const { data } = await axios.get(
       `/api/categories/${categoryId ? `${categoryId}` : ''}`
     )
+    console.log('fetchCategories data', data)
     dispatch(receiveCategories(data || []))
   } catch (error) {
-    // return dispatch(receiveCategories({ error }))
     console.error(error)
   }
 }
@@ -68,7 +67,6 @@ export const fetchCategory = categoryId => async dispatch => {
     dispatch(receiveCategory(data || {}))
     //history.push(`/products/${data.name.toLowerCase()}`)
   } catch (error) {
-    // return dispatch(receiveCategory({ error }))
     console.error(error)
   }
 }
@@ -80,7 +78,6 @@ export const fetchCategoryChildren = categoryId => async dispatch => {
     const { data } = await axios.get(`/api/categories/${id}/children`)
     dispatch(receiveCategories(data || []))
   } catch (error) {
-    // return dispatch(receiveCategory({ error }))
     console.error(error)
   }
 }

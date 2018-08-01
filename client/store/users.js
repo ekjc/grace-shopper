@@ -47,13 +47,6 @@ export const me = () => async dispatch => {
   try {
     const { data } = await axios.get('/auth/me')
     dispatch(receiveMe(data || {}))
-    /* if data coming through is not a registered user,
-    set a cookie that specifies this session as belonging to a guest
-    When guest goes to add a product to cart for the first time, create a
-    new Order and set that orderId to another cookie key/value pair to be used
-    when updating the cart */
-    if (!data.id) document.cookie = 'userType=guest; path=/'
-    // console.log(`guest cookie OR user data:`, data);
   } catch (err) {
     console.error(err)
   }

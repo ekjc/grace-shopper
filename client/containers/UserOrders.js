@@ -9,13 +9,10 @@ class OrderHistory extends Component {
 
   render() {
     const orderHistory = this.props.items
-    console.log('orderHistory', orderHistory)
-    console.log('orderHistory.length', orderHistory.length)
-    console.log('typeof orderHistory', typeof orderHistory)
     return (
       <div>
-        <h1 className="title is-1">Order History</h1>
-        {orderHistory.length > 1 &&
+        <h1 className="title is-1">My Orders</h1>
+        {!!orderHistory.length &&
           orderHistory.map(order => (
             <div key={order[0].id}>
               <p>Created at: {order[0].createdAt}</p>
@@ -23,7 +20,7 @@ class OrderHistory extends Component {
               <br />
             </div>
           ))}
-        {!orderHistory.length <= 1 && (
+        {!orderHistory.length && (
           <h1>You have no order history! How do you expect to get drunk?</h1>
         )}
       </div>
@@ -34,12 +31,10 @@ class OrderHistory extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    items: state.orders.items,
-    userId: state.me.id
-  }
-}
+const mapState = state => ({
+  items: state.orders.items,
+  userId: state.me.id
+})
 
 const mapDispatch = dispatch => ({
   fetchOrderHistory: userId => dispatch(fetchOrderHistory(userId))

@@ -12,7 +12,10 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(user, err => (err ? next(err) : res.cookie('userType', 'user').json(user)))
+      req.login(
+        user,
+        err => (err ? next(err) : res.cookie('userType', 'user').json(user))
+      )
     }
   } catch (err) {
     next(err)
@@ -28,7 +31,7 @@ router.put('/login', async (req, res, next) => {
       }
     })
     if (user) {
-      req.login(user, (err) => err ? next(err) : res.json(user))
+      req.login(user, err => (err ? next(err) : res.json(user)))
     } else {
       const err = new Error('Incorrect email or password!')
       err.status = 401
@@ -60,10 +63,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  // console.log(req.headers.cookie);
-  // res.json(req.user || req.headers.cookie)
-
-  if(!req.user) {
+  if (!req.user) {
     return res.cookie('userType', 'guest').sendStatus(404)
   }
   res.cookie('userType', 'user').json(req.user)

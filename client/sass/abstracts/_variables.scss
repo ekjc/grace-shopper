@@ -79,12 +79,15 @@ $colors: mergeColorMaps(
 // $box-shadow: 0 1rem 3rem rgba($black, 0.175);
 // $box-padding: 1.5rem;
 
-$card-shadow: 0 .125rem .25rem rgba($black, 0.08);
-$card-shadow-hover: 0 1.5rem 4rem -0.75rem rgba($black, 0.2);
+$card-shadow: 0 .125rem .125rem rgba($black, 0.1);
+$card-shadow-hover: 0 1.75rem 4rem -0.75rem rgba($black, 0.28);
 
-$column-gap: 1.5rem;
+$column-gap: 1.25rem;
 
 // $footer-background-color: $black-ter;
+
+$menu-item-active-color: $grey-light;
+$menu-item-active-background-color: $background;
 
 // $navbar-item-color: rgba($light, 0.75);
 // $navbar-item-hover-color: rgba($light, 0.95);

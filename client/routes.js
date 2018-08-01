@@ -10,13 +10,13 @@ import {
   Confirmation,
   BeerList,
   WineList,
-  SpiritsList
+  LiquorList
 } from './components'
 import {
   Home,
   Auth,
   Product,
-  ProductList,
+  ProductListView,
   UserDashboard,
   Manage,
   ManageUsers,
@@ -24,8 +24,9 @@ import {
   ManageProducts,
   AddProduct,
   EditProduct,
+  UserProfile,
+  UserOrders,
   UserReviews,
-  OrderHistory,
   ManageCategories,
   // AddCategory,
   EditCategory,
@@ -70,19 +71,10 @@ class Routes extends Component {
     return (
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
+        <Route exact path="/" component={ProductListView} />
+        <Route path="/products" component={ProductListView} />
 
-        <Route exact path="/products" component={ProductList} />
-        <Route exact path="/" component={ProductList} />
-        {/* <Route path="/products/:categoryName" component={ProductList} /> */}
         <Route exact path="/product/:productId" component={Product} />
-        <Route path="/products/beer" component={BeerList} />
-        {/* <Route path="/products/:category" component={BeerList} /> */}
-        <Route path="/products/wine" component={WineList} />
-        <Route path="/products/liquor" component={SpiritsList} />
-
-        <Route path="/reviews/user/:userId" component={UserReviews} />
-
-        <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
 
         <Route exact path="/review/add" component={AddReview} />
 
@@ -96,16 +88,29 @@ class Routes extends Component {
           component={UserDashboard}
           {...this.props}
         />
+        <PrivateRoute
+          path="/user/:userId/profile"
+          component={UserProfile}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/user/:userId/reviews"
+          component={UserReviews}
+          {...this.props}
+        />
+        <PrivateRoute
+          path="/user/:userId/orders"
+          component={UserOrders}
+          {...this.props}
+        />
 
         {/* isAdmin-only routes */}
         <PrivateRoute path="/manage" component={Manage} {...this.props} />
-
         <PrivateRoute
           path="/products/add"
           component={AddProduct}
           {...this.props}
         />
-
         <Route path="/(login|signup)" component={Auth} />
         <Route component={PageNotFound} />
       </Switch>
