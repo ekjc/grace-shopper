@@ -16,7 +16,7 @@ export {
   validateCategory,
   validateProduct,
   validateReview
-} from './ValidateField';
+} from './ValidateField'
 
 export { default as UserRow } from './UserRow'
 export { default as ProductRow } from './ProductRow'
@@ -25,5 +25,9 @@ export { default as ReviewRow } from './ReviewRow'
 export { default as OrderRow } from './OrderRow'
 
 export { default as PageNotFound } from './PageNotFound'
+
+export { default as BeerList } from './beerList'
+export { default as WineList } from './wineList'
+export { default as SpiritsList } from './spiritsList'
 
 // export { Search } from './Search'

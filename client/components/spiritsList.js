@@ -1,61 +1,32 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { ProductCard, CategoryMenu } from './index'
 import {
-  fetchCategory,
+  fetchProductsByCategory,
   fetchCategoryChildren,
-  fetchProducts,
-  fetchProductsByCategory
+  fetchCategory
 } from '../store'
-import { ProductNav, CategoryMenu, ProductCard } from '../components'
+import { connect } from 'react-redux'
 
-const getCategoryIdFromName = name => {
-  let id
-  switch (name) {
-    case 'beer':
-      id = 1
-    case 'wine':
-      id = 2
-    case 'liquor':
-      id = 3
-    default:
-      id = 0
-  }
-  return id
-}
-
-class ProductList extends Component {
-  constructor() {
-    super()
-    this.state = {
-      categoryName: ''
-    }
-  }
-
+class SpiritsList extends Component {
   async componentDidMount() {
-    await this.props.getCategoryChildren()
-    await this.props.getProducts()
+    await this.props.getProductsByCategory(3)
+    this.props.getCategoryChildren(3)
   }
 
   handleClick = (event, category) => {
     event.preventDefault()
     this.props.getCategory(category.id)
-    this.props.getCategoryChildren(category.id)
     this.props.getProductsByCategory(category.id)
+    this.props.getCategoryChildren(3)
   }
 
   render() {
-    const {
-      category,
-      categories,
-      products,
-      isLoadingProducts,
-      isLoadingCategories
-    } = this.props
-    console.log('this.props productList', this.props)
+    const { products, categories, isLoadingCategories } = this.props
+    console.log('this is props wineList', this.props.products)
     return (
       <div>
-        <h1 className="title is-1">{category.name || 'All Products'}</h1>
+        <h1 className="title is-1">Spirits</h1>
         <div className="columns">
           <div className="column is-3">
             <CategoryMenu
@@ -66,6 +37,7 @@ class ProductList extends Component {
           </div>
         </div>
         <div className="column is-9">
+          {/* <h1>Hello from BeerList</h1> */}
           <div className="columns is-multiline">
             {!products.length && (
               <div className="content">
@@ -90,17 +62,14 @@ class ProductList extends Component {
 
 const mapState = state => ({
   products: state.products.all,
-  category: state.categories.active,
   categories: state.categories.all,
-  isLoadingProducts: !!state.products.isLoading,
   isLoadingCategories: !!state.categories.isLoading
 })
 
 const mapDispatch = dispatch => ({
-  getProducts: () => dispatch(fetchProducts()),
   getProductsByCategory: id => dispatch(fetchProductsByCategory(id)),
-  getCategory: id => dispatch(fetchCategory(id)),
-  getCategoryChildren: id => dispatch(fetchCategoryChildren(id))
+  getCategoryChildren: id => dispatch(fetchCategoryChildren(id)),
+  getCategory: id => dispatch(fetchCategory(id))
 })
 
-export default connect(mapState, mapDispatch)(ProductList)
+export default connect(mapState, mapDispatch)(SpiritsList)

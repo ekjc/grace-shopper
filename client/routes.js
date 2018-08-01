@@ -2,7 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { Login, Signup, CartView, PageNotFound, Confirmation } from './components'
+import {
+  Login,
+  Signup,
+  CartView,
+  PageNotFound,
+  Confirmation,
+  BeerList,
+  WineList,
+  SpiritsList
+} from './components'
 import {
   Home,
   Auth,
@@ -34,7 +43,7 @@ const PrivateRoute = ({
   isLoggedIn,
   ...rest
 }) => {
-  if (isLoading || !isLoggedIn) return null;
+  if (isLoading || !isLoggedIn) return null
 
   return (
     <Route
@@ -42,7 +51,7 @@ const PrivateRoute = ({
       render={
         props =>
           isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/login" />
-          // <MyComponent {...props} />
+        // <MyComponent {...props} />
       }
     />
   )
@@ -62,17 +71,20 @@ class Routes extends Component {
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
 
+        <Route exact path="/products" component={ProductList} />
         <Route exact path="/" component={ProductList} />
-        <Route path="/products/:categoryName" component={ProductList} />
+        {/* <Route path="/products/:categoryName" component={ProductList} /> */}
         <Route exact path="/product/:productId" component={Product} />
+        <Route path="/products/beer" component={BeerList} />
+        {/* <Route path="/products/:category" component={BeerList} /> */}
+        <Route path="/products/wine" component={WineList} />
+        <Route path="/products/liquor" component={SpiritsList} />
 
-        <Route path='/reviews/user/:userId' component={UserReviews} />
-
-        <Route path='/products' component={ProductList} />
+        <Route path="/reviews/user/:userId" component={UserReviews} />
 
         <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
 
-        <Route exact path="/review/add" component={AddReview}/>
+        <Route exact path="/review/add" component={AddReview} />
 
         <Route path="/cart" component={CartView} />
 
@@ -86,11 +98,7 @@ class Routes extends Component {
         />
 
         {/* isAdmin-only routes */}
-        <PrivateRoute
-          path="/manage"
-          component={Manage}
-          {...this.props}
-        />
+        <PrivateRoute path="/manage" component={Manage} {...this.props} />
 
         <PrivateRoute
           path="/products/add"
@@ -106,9 +114,9 @@ class Routes extends Component {
 }
 
 const mapState = state => ({
-    isLoading: !!state.me.isLoading,
-    isLoggedIn: !!state.me.id,
-    isAdmin: !!state.me.isAdmin
+  isLoading: !!state.me.isLoading,
+  isLoggedIn: !!state.me.id,
+  isAdmin: !!state.me.isAdmin
 })
 
 const mapDispatch = dispatch => ({
