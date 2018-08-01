@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Route, Switch, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   fetchCategory,
@@ -7,14 +7,7 @@ import {
   fetchProducts,
   fetchProductsByCategory
 } from '../store'
-import {
-  ProductNav,
-  CategoryMenu,
-  BeerList,
-  WineList,
-  SpiritsList,
-  ProductCard
-} from '../components'
+import { ProductNav, CategoryMenu, ProductCard } from '../components'
 
 const getCategoryIdFromName = name => {
   let id

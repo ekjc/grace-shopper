@@ -9,11 +9,6 @@ import {
 import { connect } from 'react-redux'
 
 class BeerList extends Component {
-  // constructor() {
-  //   super()
-  //   this.state = {}
-  // }
-
   async componentDidMount() {
     await this.props.getProductsByCategory(1)
     this.props.getCategoryChildren(1)

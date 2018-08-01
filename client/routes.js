@@ -8,7 +8,9 @@ import {
   CartView,
   PageNotFound,
   Confirmation,
-  BeerList
+  BeerList,
+  WineList,
+  SpiritsList
 } from './components'
 import {
   Home,
@@ -68,11 +70,15 @@ class Routes extends Component {
     return (
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
-        <Route path="/products/beer" component={BeerList} />
-        <Route path="/products" component={ProductList} />
+
+        <Route exact path="/products" component={ProductList} />
         <Route exact path="/" component={ProductList} />
         {/* <Route path="/products/:categoryName" component={ProductList} /> */}
         <Route exact path="/product/:productId" component={Product} />
+        <Route path="/products/beer" component={BeerList} />
+        {/* <Route path="/products/:category" component={BeerList} /> */}
+        <Route path="/products/wine" component={WineList} />
+        <Route path="/products/liquor" component={SpiritsList} />
 
         <Route path="/reviews/user/:userId" component={UserReviews} />
 

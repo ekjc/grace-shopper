@@ -66,7 +66,7 @@ export const fetchCategory = categoryId => async dispatch => {
     const { data } = await axios.get(`/api/categories/${categoryId}`)
     console.log('fetchCategory data', data)
     dispatch(receiveCategory(data || {}))
-    history.push(`${data.name}`).toLowerCase()
+    //history.push(`/products/${data.name.toLowerCase()}`)
   } catch (error) {
     // return dispatch(receiveCategory({ error }))
     console.error(error)
