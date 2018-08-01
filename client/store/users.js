@@ -52,7 +52,7 @@ export const me = () => async dispatch => {
     When guest goes to add a product to cart for the first time, create a
     new Order and set that orderId to another cookie key/value pair to be used
     when updating the cart */
-    if (!data.id) document.cookie = 'userType=guest'
+    if (!data.id) document.cookie = 'userType=guest; path=/'
     // console.log(`guest cookie OR user data:`, data);
   } catch (err) {
     console.error(err)

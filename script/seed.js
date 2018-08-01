@@ -5,9 +5,8 @@ const {
   Address,
   Category,
   Image,
-  OrderItem,
   OrderStatusCode,
-  Order,
+  // Order,
   Product,
   Review,
   User
@@ -137,18 +136,18 @@ async function seed() {
     orderStatusCodes.map(code => OrderStatusCode.create(code))
   )
 
-  const seedOrders = await Promise.all(
-    orders.map(async order => {
-      const newOrder = await Order.create(order)
-      const productFromDB = await Product.findAll({
-        where: {
-          id: { $or: order.products }
-        }
-      })
-      await newOrder.addProduct(productFromDB)
-    })
-  )
-  console.log(`seeded ${seedOrders.length} orders`)
+  // const seedOrders = await Promise.all(
+  //   orders.map(async order => {
+  //     const newOrder = await Order.create(order)
+  //     const productFromDB = await Product.findAll({
+  //       where: {
+  //         id: { $or: order.products }
+  //       }
+  //     })
+  //     await newOrder.addProduct(productFromDB)
+  //   })
+  // )
+  // console.log(`seeded ${seedOrders.length} orders`)
 
   console.log(`seeded successfully!`)
 }

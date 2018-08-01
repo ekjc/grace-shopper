@@ -21,6 +21,15 @@ module.exports = router
 //   }
 // })
 
+//Get a cart instance for a user that is logged-in :: /api/cart/getUserCart/:userId
+router.get('/getUserCart/:userId', async (req, res, next) => {
+  const orderId = await Order.findOne({
+    where: { customerId: req.params.userId, orderStatusCodeId: 1 },
+  })
+  console.log('ORDER ID^^^^^^^^^^^^^^^^^^^^^^^^', orderId);
+  res.send(orderId)
+})
+
 // Destroy cart instance (user has removed all items) :: /api/cart/:orderId
 router.delete('/:orderId', async (req, res, next) => {
   const cartId = +req.params.orderId
@@ -33,7 +42,7 @@ router.delete('/:orderId', async (req, res, next) => {
     next(err)
   }
 })
-
+/*eslint-disable*/
 // Adding item to cart :: /api/cart/:userId/:productId
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
@@ -46,12 +55,22 @@ router.post('/:userId/:productId', async (req, res, next) => {
         const guestOrder = await Order.create({
           orderStatusCodeId: 1
         })
-        res.cookie('orderId', `${guestOrder.id}`).send('cookies set') //set cookie for their orderId
+        res.cookie('orderId', `${guestOrder.id}`) //send('cookies set') //set cookie for their orderId
         useThisOrderId = guestOrder.id
-      } else{
-        console.log(`guest already has a cart, adding item to order #${req.cookies.orderId}`);
-        useThisOrderId = req.cookies.orderId
-      }
+      } else {
+          const doesOrderExist = await Order.findById(req.cookies.orderId)
+          if (!doesOrderExist) {
+            const newOrder = Order.build()
+            newOrder.orderStatusCodeId = 1
+            await newOrder.save()
+            useThisOrderId = newOrder.id
+            res.cookie('orderId', `${newOrder.id}`)
+            console.log(req.cookies)
+          } else {
+          console.log(`guest already has a cart, adding item to order #${req.cookies.orderId}`);
+          useThisOrderId = req.cookies.orderId
+          }
+        }
     }
 
     else {

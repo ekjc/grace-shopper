@@ -82,17 +82,13 @@ class Routes extends Component {
 
         <Route path="/reviews/user/:userId" component={UserReviews} />
 
-        <Route
-          exact
-          path="/orders/orderhistory/:userId"
-          component={OrderHistory}
-        />
+        <Route exact path="/orders/orderhistory/:userId" component={OrderHistory}/>
 
         <Route exact path="/review/add" component={AddReview} />
 
         <Route path="/cart" component={CartView} />
 
-        <Route path="/orderConfirmation" component={Confirmation} />
+        <Route path='/orderConfirmation/:orderNumber' component={Confirmation} />
 
         {/* isLoggedIn-only routes */}
         <PrivateRoute
