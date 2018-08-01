@@ -72,13 +72,14 @@ class Routes extends Component {
       <Switch>
         {/*<Route exact path="/" component={Home} />*/}
         <Route exact path="/" component={ProductListView} />
-        <Route path="/products" component={ProductListView} />
+        <Route path="/products" key={location.pathname} component={ProductListView} />
 
         <Route exact path="/product/:productId" component={Product} />
 
         <Route exact path="/review/add" component={AddReview} />
 
-        <Route path="/cart/:orderId" component={CartView} />
+        <Route path="/cart" component={CartView} />
+        {/*<Route path="/cart/:orderId" component={CartView} />*/}
 
         <Route path='/orderConfirmation/:orderNumber' component={Confirmation} />
 

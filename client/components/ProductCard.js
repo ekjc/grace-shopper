@@ -5,6 +5,9 @@ import { createCartItem } from '../store'
 
 const ProductCard = ({ product, myId, addToCart }) => (
   <div className="card">
+    {!!product.isFeatured && (
+      <span className="tag is-rounded is-secondary is-featured">Staff pick!</span>
+    )}
     <Link to={`/product/${product.id}`} className="card-image">
       <div className="see-details">
         <div className="button is-small">

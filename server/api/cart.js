@@ -26,6 +26,8 @@ router.delete('/:orderId', async (req, res, next) => {
 // Adding item to cart :: /api/cart/:userId/:productId
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
+    const cookieOrderId = +req.cookies.orderId
+    console.log('COOKIE ORDER ID', cookieOrderId)
     let useThisOrderId;
 
     // unauthenticated users: Create new order, send orderId with cookie
@@ -36,7 +38,6 @@ router.post('/:userId/:productId', async (req, res, next) => {
         useThisOrderId = req.cookies.orderId
       } else {
         const guestOrder = await Order.create({ orderStatusCodeId: 1 })
-        res.cookie('orderId', `${guestOrder.id}`)
         useThisOrderId = guestOrder.id
       }
     } else {
@@ -50,7 +51,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
         }
       })
 
-      console.log('existingOrder', existingOrder)
+      // console.log('existingOrder', existingOrder)
 
       if (!existingOrder) {
         const newOrder = Order.build()
@@ -91,7 +92,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
     }
 
-    res.status(201).json(item)
+    res.cookie('orderId', useThisOrderId).status(201).json(item)
   } catch (err) {
     next(err)
   }

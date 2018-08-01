@@ -1,26 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchOrderHistory } from '../store'
+import { fetchOrdersByUser } from '../store'
 
-class OrderHistory extends Component {
+class UserOrders extends Component {
   componentDidMount() {
-    this.props.fetchOrderHistory(this.props.match.params.userId)
+    this.props.getOrders(this.props.match.params.userId)
   }
 
   render() {
-    const orderHistory = this.props.items
+    const { items } = this.props
     return (
       <div>
         <h1 className="title is-1">My Orders</h1>
-        {!!orderHistory.length &&
-          orderHistory.map(order => (
-            <div key={order[0].id}>
-              <p>Created at: {order[0].createdAt}</p>
-              <p>Order status: {order[0].orderStatusCode.description}</p>
-              <br />
-            </div>
-          ))}
-        {!orderHistory.length && (
+        <p className="subtitle is-5">
+          You have no order history! How do you expect to get drunk?
+        </p>
+        {/*items.map(order => (
+          <div key={order.id}>
+            <p>Created at: {order.createdAt}</p>
+            <p>Order status: {order.orderStatusCode.description}</p>
+            <br />
+          </div>
+        ))*/}
+        {items.length === 0 && (
           <h1>You have no order history! How do you expect to get drunk?</h1>
         )}
       </div>
@@ -37,7 +39,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchOrderHistory: userId => dispatch(fetchOrderHistory(userId))
+  getOrders: userId => dispatch(fetchOrdersByUser(userId))
 })
 
-export default connect(mapState, mapDispatch)(OrderHistory)
+export default connect(mapState, mapDispatch)(UserOrders)

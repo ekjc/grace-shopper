@@ -11,14 +11,14 @@ const ReviewRow = ({ review, deleteReview }) => (
     <td>{review.userId}</td>
     <td style={{ justifyContent: 'flex-end' }}>
       <div className="field is-grouped is-pulled-right">
-        <p className="control">
+        {/*<p className="control">
           <Link
             to={`/manage/review/${review.id}`}
             className="button is-link is-small"
           >
             Edit
           </Link>
-        </p>
+        </p>*/}
         <p className="control">
           <a
             href="#"

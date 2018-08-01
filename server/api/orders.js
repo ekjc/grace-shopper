@@ -57,11 +57,11 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-// Route address /api/orders/orderhistory/:userId
-router.get('/orderhistory/:userId', async (req, res, next) => {
+// Route address /api/orders/user/:userId
+router.get('/user/:userId', async (req, res, next) => {
   try {
-    const userId = req.params.userId
-    const orderHistory = await Order.findAll({
+    const userId = +req.params.userId
+    const orders = await Order.findAll({
       where: {
         customerId: userId,
         // orderStatusCodeId: {
@@ -74,15 +74,16 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
         { model: User, as: 'customer' },
       ]
     })
-    res.json(orderHistory)
+    console.log('*********** ORDERS', orders)
+    res.json(orders)
   } catch(err) {
     next(err)
   }
 })
 
-//Process a "cart" instance into an "order" instance :: /api/orders/:orderId/processOrder
+// Turn "cart" instance into "order" instance :: /api/orders/:orderId/process
 // 1. Change status code 2. assign an order number (if not present) 3. Create date of order
-router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
+router.put('/:orderId/process', async (req, res, next) => {
   try {
     const [orderAddress, wasCreated] = await Address.findOrCreate({
       where: { street1: req.body.street1, street2: req.body.street2, },
@@ -99,6 +100,7 @@ router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
 
     // find the cart id and turn it into an "order"
     const orderToProcess = await Order.findById(req.params.orderId)
+    console.log('******** orderToProcess', orderToProcess)
     if (!orderToProcess.orderNumber) {
       orderToProcess.generateOrderNumber(orderToProcess)
     }

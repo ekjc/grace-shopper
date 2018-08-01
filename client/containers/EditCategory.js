@@ -50,14 +50,14 @@ class EditCategory extends Component {
             type="text"
             component={ValidateField}
           />
-
+{/*
           <Field
             label="TEST"
             name="test"
             type="select"
             options={TEST_CATEGORIES}
             component={ValidateField}
-          />
+          />*/}
 
           <div className="field is-grouped">
             <div className="control">

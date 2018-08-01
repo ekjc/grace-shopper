@@ -128,22 +128,16 @@ class Product extends Component {
                 </div>
               )}
               <p style={{ marginTop: '1.5rem' }}>{product.description}</p>
+              {isAdmin && (
+                <Link to={`/manage/product/${product.id}`} className="button is-link">
+                  Edit Product
+                </Link>
+              )}
             </div>
           </div>
         </div>
-
-        <Link to={`/manage/product/${product.id}`}>
-          <button type="button">Edit Product</button>
-        </Link>
-        <Link
-          to={{
-            pathname: '/review/add',
-            state: { product: product }
-          }}
-        >
-          <button type="button">Add A Review</button>
-        </Link>
-        <Reviews productId={this.props.match.params.productId} />
+        <hr />
+        <Reviews productId={+productId} />
       </div>
     )
   }

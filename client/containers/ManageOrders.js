@@ -12,7 +12,7 @@ class ManageOrders extends Component {
 
   handleDelete = (event, order) => {
     event.preventDefault()
-    // this.props.deleteOrder(category)
+    this.props.deleteOrder(category)
   }
 
   render() {
@@ -59,7 +59,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   getOrders: () => dispatch(fetchOrders()),
-  // deleteOrder: category => dispatch(deleteOrder(category))
+  deleteOrder: category => dispatch(deleteOrder(category))
 })
 
 export default connect(mapState, mapDispatch)(ManageOrders)

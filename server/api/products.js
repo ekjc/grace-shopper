@@ -46,7 +46,10 @@ router.get('/categories/:categoryId', async (req, res, next) => {
       const products = await Product.findAll({
         where: {
           id: { $or: productIds }
-        }
+        },
+        order: [
+          ['isFeatured', 'DESC']
+        ]
       })
       return res.json(products)
     } else {

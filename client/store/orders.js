@@ -72,10 +72,11 @@ export const fetchOrder = orderId => async dispatch => {
   }
 }
 
-export const fetchOrderHistory = userId => async dispatch => {
+export const fetchOrdersByUser = userId => async dispatch => {
   dispatch(requestOrderItems())
   try {
-    const { data } = await axios.get(`/api/orders/orderhistory/${userId}`)
+    const { data } = await axios.get(`/api/orders/user/${userId}`)
+    console.log('data', data)
     dispatch(receiveOrderItems(data || []))
   } catch (error) {
     console.error(error)
@@ -113,9 +114,9 @@ export const deleteOrder = orderId => async dispatch => {
 
 export const processOrder = ({ orderId, formInfo, statusCode }) => async dispatch => {
   try {
-    const { data } = await axios.put(`/api/orders/${orderId}/processOrder`, formInfo, statusCode)
+    const { data } = await axios.put(`/api/orders/${orderId}/process`, formInfo, statusCode)
     dispatch(processOrderSuccess(data || {}))
-    // console.log('DATA RECEIVED FROM SERVER', data);
+    console.log('DATA RECEIVED FROM SERVER', data);
   } catch (err) {
     console.error(err)
   }
