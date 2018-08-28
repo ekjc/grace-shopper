@@ -115,7 +115,6 @@ export const processOrder = ({ orderId, formInfo, statusCode }) => async dispatc
   try {
     const { data } = await axios.put(`/api/orders/${orderId}/processOrder`, formInfo, statusCode)
     dispatch(processOrderSuccess(data || {}))
-    // console.log('DATA RECEIVED FROM SERVER', data);
   } catch (err) {
     console.error(err)
   }

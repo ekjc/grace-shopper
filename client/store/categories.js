@@ -65,7 +65,6 @@ export const fetchCategory = categoryId => async dispatch => {
     const { data } = await axios.get(`/api/categories/${categoryId}`)
     console.log('fetchCategory data', data)
     dispatch(receiveCategory(data || {}))
-    //history.push(`/products/${data.name.toLowerCase()}`)
   } catch (error) {
     console.error(error)
   }
@@ -86,7 +85,6 @@ export const createCategory = category => async dispatch => {
   try {
     const { data } = await axios.post(`/api/categories`, category)
     dispatch(createCategorySuccess(data || {}))
-    // history.push(`/manage/users/${data.id}`)
   } catch (error) {
     console.error(error)
   }

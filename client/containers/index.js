@@ -6,7 +6,6 @@ export { default as ProductListBeer } from './ProductListBeer'
 
 export { default as Product } from './Product'
 
-// export { default as Review } from './Review'
 export { default as AddReview } from './AddReview'
 
 export { default as UserDashboard } from './UserDashboard'
@@ -23,9 +22,6 @@ export { default as UserOrders } from './UserOrders'
 export { default as UserReviews } from './UserReviews'
 
 export { default as ManageCategories } from './ManageCategories'
-// export { default as AddCategory } from './AddCategory'
 export { default as EditCategory } from './EditCategory'
 
 export { default as ManageReviews } from './ManageReviews'
-// export { default as AddReview } from './AddReview'
-// export { default as EditReview } from './EditReview'

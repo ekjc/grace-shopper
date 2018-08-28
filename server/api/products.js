@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const Op = require('sequelize').Op
 const { Product, Category, ProductCategory, Review } = require('../db/models')
 const { isAdmin } = require('../utils')
 module.exports = router
@@ -7,9 +8,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      order: [
-        ['id', 'ASC']
-      ]
+      order: [['id', 'ASC']]
     })
     res.json(products)
   } catch (err) {
@@ -39,14 +38,11 @@ router.get('/categories/:categoryId', async (req, res, next) => {
 
       // If there are no products in `ProductCategory`, return empty array.
       // Otherwise, the final `res.json()` will include every product in db.
-      // Why? Great question! IDK...
       if (!productsFromJoinTable.length) return res.json([])
 
       const productIds = productsFromJoinTable.map(p => p.productId)
       const products = await Product.findAll({
-        where: {
-          id: { $or: productIds }
-        }
+        where: { id: { [Op.or]: productIds } }
       })
       return res.json(products)
     } else {
