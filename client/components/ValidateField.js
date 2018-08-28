@@ -81,6 +81,22 @@ export const validateCheckout = values => {
   return errors;
 }
 
+export const validateQuestion = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = 'Question is a required field.';
+  }
+  return errors;
+}
+
+export const validateMessage = values => {
+  const errors = {};
+  if (!values.content) {
+    errors.content = 'Message is a required field.';
+  }
+  return errors;
+}
+
 export default props => {
   const {
     input, label, type, name, helpText,

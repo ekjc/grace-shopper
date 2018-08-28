@@ -32,7 +32,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
     if (req.params.userId === `guest`) {
 
       if (req.cookies.orderId) {
-        console.log(`guest has a cart! ID is ${req.cookies.orderId}`)
+        // console.log(`guest has a cart! ID is ${req.cookies.orderId}`)
         useThisOrderId = req.cookies.orderId
       } else {
         const guestOrder = await Order.create({ orderStatusCodeId: 1 })
@@ -50,7 +50,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
         }
       })
 
-      console.log('existingOrder', existingOrder)
+      // console.log('existingOrder', existingOrder)
 
       if (!existingOrder) {
         const newOrder = Order.build()
@@ -58,10 +58,10 @@ router.post('/:userId/:productId', async (req, res, next) => {
         newOrder.orderStatusCodeId = 1
         await newOrder.save()
         useThisOrderId = newOrder.id
-        console.log(`NEW CART CREATED! Order ID is ${useThisOrderId}`)
+        // console.log(`NEW CART CREATED! Order ID is ${useThisOrderId}`)
       } else {
         useThisOrderId = existingOrder.id
-        console.log(`CART EXISTS! Order ID is ${useThisOrderId}`)
+        // console.log(`CART EXISTS! Order ID is ${useThisOrderId}`)
       }
     }
 

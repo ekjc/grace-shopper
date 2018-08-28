@@ -3,43 +3,26 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import {
-  Login,
-  Signup,
   CartView,
   PageNotFound,
   Confirmation,
-  BeerList,
-  WineList,
-  LiquorList
 } from './components'
 import {
-  Home,
   Auth,
   Product,
   ProductListView,
   UserDashboard,
   Manage,
-  ManageUsers,
-  EditUser,
-  ManageProducts,
   AddProduct,
-  EditProduct,
   UserProfile,
   UserOrders,
   UserReviews,
-  ManageCategories,
-  // AddCategory,
-  EditCategory,
-  ManageReviews,
-  // AddReview,
-  // EditReview,
   AddReview
 } from './containers'
 import { me } from './store'
 
 const PrivateRoute = ({
   component: MyComponent,
-  isAdmin,
   isLoading,
   isLoggedIn,
   ...rest
@@ -52,7 +35,6 @@ const PrivateRoute = ({
       render={
         props =>
           isLoggedIn ? <MyComponent {...props} /> : <Redirect to="/login" />
-        // <MyComponent {...props} />
       }
     />
   )
@@ -67,19 +49,14 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin } = this.props
+    const { isLoggedIn } = this.props
     return (
       <Switch>
-        {/*<Route exact path="/" component={Home} />*/}
         <Route exact path="/" component={ProductListView} />
         <Route path="/products" component={ProductListView} />
-
         <Route exact path="/product/:productId" component={Product} />
-
         <Route exact path="/review/add" component={AddReview} />
-
         <Route path="/cart/:orderId" component={CartView} />
-
         <Route path='/orderConfirmation/:orderNumber' component={Confirmation} />
 
         {/* isLoggedIn-only routes */}

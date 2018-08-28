@@ -10,7 +10,6 @@ const {
 const { isAllowed, isAdmin } = require('../utils')
 module.exports = router
 const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 // Get all orders/cart instances :: /api/orders
 router.get('/', async (req, res, next) => {
@@ -62,13 +61,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
   try {
     const userId = req.params.userId
     const orderHistory = await Order.findAll({
-      where: {
-        customerId: userId,
-        // orderStatusCodeId: {
-        //   [Op.ne]: 1
-        // }
-        // orderStatusCodeId: { $ne: 1 }
-      },
+      where: { customerId: userId },
       include: [
         { model: OrderStatusCode, attributes: ['description'] },
         { model: User, as: 'customer' },
@@ -80,8 +73,7 @@ router.get('/orderhistory/:userId', async (req, res, next) => {
   }
 })
 
-//Process a "cart" instance into an "order" instance :: /api/orders/:orderId/processOrder
-// 1. Change status code 2. assign an order number (if not present) 3. Create date of order
+// Process "cart" instance into "order" :: /api/orders/:orderId/processOrder
 router.put('/:orderId/processOrder', isAllowed, async (req, res, next) => {
   try {
     const [orderAddress, wasCreated] = await Address.findOrCreate({

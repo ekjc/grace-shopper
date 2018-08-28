@@ -1,12 +1,12 @@
 'use strict'
 
 const db = require('../server/db')
+const Op = require('sequelize').Op
 const {
   Address,
   Category,
   Image,
   OrderStatusCode,
-  // Order,
   Product,
   Review,
   User
@@ -20,7 +20,6 @@ const {
   images,
   products,
   reviews,
-  orders,
   orderStatusCodes
 } = require('./dummyData')
 
@@ -31,8 +30,8 @@ async function seed() {
   //
   // ADDRESSES
   // =========
-  const seedAddresses = await Promise.all(addresses.map(adr => Address.create(adr)))
-  console.log(`seeded ${seedAddresses.length} addresses`)
+  const seedAdrs = await Promise.all(addresses.map(adr => Address.create(adr)))
+  console.log(`seeded ${seedAdrs.length} addresses`)
 
   //
   // USERS
@@ -107,7 +106,7 @@ async function seed() {
       const newProduct = await Product.create(product)
       const categoriesFromDB = await Category.findAll({
         where: {
-          name: { $or: product.categories }
+          name: { [Op.or]: product.categories }
         }
       })
       await newProduct.addCategory(categoriesFromDB)
@@ -122,7 +121,7 @@ async function seed() {
     const newReview = await Review.create(review)
     const product = await Product.findOne({
       where: {
-        name: { $or: review.product }
+        name: { [Op.or]: review.product }
       }
     })
     await newReview.setProduct(product)
@@ -135,19 +134,6 @@ async function seed() {
   await Promise.all(
     orderStatusCodes.map(code => OrderStatusCode.create(code))
   )
-
-  // const seedOrders = await Promise.all(
-  //   orders.map(async order => {
-  //     const newOrder = await Order.create(order)
-  //     const productFromDB = await Product.findAll({
-  //       where: {
-  //         id: { $or: order.products }
-  //       }
-  //     })
-  //     await newOrder.addProduct(productFromDB)
-  //   })
-  // )
-  // console.log(`seeded ${seedOrders.length} orders`)
 
   console.log(`seeded successfully!`)
 }

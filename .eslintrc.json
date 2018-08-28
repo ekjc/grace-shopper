@@ -2,6 +2,19 @@
   "root": true,
   "extends": ["fullstack", "prettier", "prettier/react"],
   "rules": {
+    "id-length": ["warn", { "min": 1 }],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["error", "unix"],
+    "no-confusing-arrow": 0,
+    "no-console": 0,
+    "quotes": [
+      "warn",
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
     "semi": 0
   }
 }
